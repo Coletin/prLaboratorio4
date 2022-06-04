@@ -2,6 +2,9 @@
 #include <string>
 #include <set>
 #include "tipos.h"
+#include "Notificacion.h"
+#include "IObserver.h"
+
 
 using namespace std;
 
@@ -24,7 +27,7 @@ class ColeccionesHandler {
         Reserva reserva(string email, int codigo);
         void agregarEstadia(Estadia e);
         Empleado getEmpleado(string email);
-        //IObserver getEmpleado(string email);
+        IObserver getEmpleadoObs(string email);
         Huesped getHuesped(string email);
         Hostal getReservasHostal(string nomH);
         void eliminarReserva(int codR);
@@ -34,26 +37,6 @@ class ColeccionesHandler {
         void agregarUsuario(Usuario u);
         bool existeUsuario(string email);
         Reserva devolverReserva(int codigo);
-};
-
-class Notificacion{
-    private:
-        bool visto;
-        string autor;
-        int puntaje;
-        string comentario;
-    public:
-        Notificacion();
-        Notificacion(bool visto, string autor, int puntaje, string comentario);
-        ~Notificacion();
-        void setVisto(bool);
-        void setAutor(string);
-        void setPuntaje(int);
-        void setComentario(string);
-        bool getVisto();
-        string getAutor();
-        int getPuntaje();
-        string getComentario();
 };
 
 class Habitacion{
@@ -111,7 +94,7 @@ class Huesped : public Usuario{
         void agregarEstadia(Estadia estadia);
 };
 
-class Empleado : public Usuario{
+class Empleado : public Usuario,public IObserver{
     private:
         CargoEmpleado cargo;
         set<Notificacion*> notificaciones;
