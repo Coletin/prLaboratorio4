@@ -5,6 +5,37 @@
 
 using namespace std;
 
+class ColeccionesHandler {
+    private:
+        static ColeccionesHandler * instancia;
+        ColeccionesHandler();
+        set<Usuario*> usuarios;
+        set<Hostal*> hostales;
+        set<Reserva*> reservas;
+    public:
+        static ColeccionesHandler * getInstancia();
+        void addHostal(Hostal hostalN);
+        Empleado getUsuario(string email);
+        Hostal getHostal(string nombre);
+        set<DTHostal*> getHostalCol();
+        set<DTEmpleado*> getEmpleadoNoAsigCol(string nom);
+        set<DTUsuario*> getUsuarios();
+        void agregarCalificacion(Calificacion c);
+        Reserva reserva(string email, int codigo);
+        void agregarEstadia(Estadia e);
+        Empleado getEmpleado(string email);
+        //IObserver getEmpleado(string email);
+        Huesped getHuesped(string email);
+        Hostal getReservasHostal(string nomH);
+        void eliminarReserva(int codR);
+        Reserva getReserva(int codR);
+        set<DTHuesped*> getHuespedes();
+        void agregarReserva(Reserva r);
+        void agregarUsuario(Usuario u);
+        bool existeUsuario(string email);
+        Reserva devolverReserva(int codigo);
+};
+
 class Notificacion{
     private:
         bool visto;
@@ -30,6 +61,8 @@ class Habitacion{
      int numero;
      float precio;
      int capacidad;
+     set<Reserva*> reservas;
+     Hostal* hostal;
     public:
      Habitacion();
      Habitacion(int, float, int);
@@ -70,6 +103,7 @@ class Usuario{
 class Huesped : public Usuario{
     private:
         bool esFinger;
+        Estadia* estadia;
     public:
         bool getEsFinger();
         DTHuesped getDTHuesped();
@@ -80,6 +114,8 @@ class Huesped : public Usuario{
 class Empleado : public Usuario{
     private:
         CargoEmpleado cargo;
+        set<Notificacion*> notificaciones;
+        Hostal* trabajo;
     public:
         set<DTEstadia*> getEstadias();
         DTHabitacion getHabDis(DataR datar);
@@ -96,6 +132,8 @@ class Reserva{
      DTFecha checkIn;
      DTFecha checkOut;
      EstadoReserva estado;
+     set<Estadia*> estadias;
+     set<Huesped*> huespedes;
     public:
      Reserva(int,DTFecha,DTFecha,EstadoReserva); 
      ~Reserva();
@@ -134,6 +172,8 @@ class Hostal{
         string nombre;
         string direccion;
         string telefono;
+        set<Habitacion*> habitaciones;
+        set<Calificacion*> calificaciones;
     public:
         set<DTEstadia*> getEstadiasDT();
         DTHabitacion getHabDis(DataR datar);
@@ -155,6 +195,8 @@ class Calificacion{
         string comentario;
         DTFecha fecha;
         int habitacion;
+        Estadia* estadia;
+        RespuestaCalificacion* respuesta;
     public:
         Calificacion(int,string,DTFecha,int);
         Calificacion();
@@ -190,6 +232,8 @@ class Estadia{
         string promo;
         DTFecha checkIn;
         DTFecha checkOut;
+        Huesped* huesped;
+        Calificacion* calificacion;
     public:
         Estadia(string,DTFecha checkIn, DTFecha checkOut);
         Estadia();
