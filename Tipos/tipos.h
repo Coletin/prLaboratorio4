@@ -82,17 +82,17 @@ class DTFecha{
 class DTReserva{
      private: 
         int codigo;
-        DTFecha chekIn;
+        DTFecha checkIn;
         DTFecha checkOut;
         EstadoReserva estado;
         float costo;
         int habitacion;
     public: 
-        DTReserva(int,DTFecha&,DTFecha&,enum EstadoReserva,float,int);
-        DTReserva(int,DTFecha&,DTFecha&,enum EstadoReserva,int);
+        DTReserva(int,DTFecha,DTFecha,enum EstadoReserva,float,int);
+        DTReserva(int,DTFecha,DTFecha,enum EstadoReserva,int);
         int getCodigo();
-        DTFecha getchekIn(); 
-        DTFecha getchekOut();
+        DTFecha getcheckIn(); 
+        DTFecha getcheckOut();
         EstadoReserva getEstadoReserva();
         float getCosto();
         int getHabitacion(); 
@@ -119,23 +119,20 @@ class DataR{
 };
 
 class DTReservaIndividual : public DTReserva{
- private: 
-    bool pagado;
  public: 
-    DTReservaIndividual(int,DTFecha&,DTFecha&,enum EstadoReserva,float,int,bool);
-    DTReservaIndividual(int,DTFecha&,DTFecha&,enum EstadoReserva,int,bool);
-    bool getPagado(); 
-    virtual void operacion();
+    DTReservaIndividual(int,DTFecha,DTFecha,enum EstadoReserva,float,int);
+    DTReservaIndividual(int,DTFecha,DTFecha,enum EstadoReserva,int);
+    void operacion();
 };
 
 class DTReservaGrupal : public DTReserva{
  private: 
     DTHuesped** huespedes;
  public: 
-    DTReservaGrupal(int,DTFecha& ,DTFecha& ,EstadoReserva,float,int,DTHuesped**);
-    DTReservaGrupal(int,DTFecha& ,DTFecha& ,EstadoReserva,int,DTHuesped**);
+    DTReservaGrupal(int,DTFecha ,DTFecha ,EstadoReserva,float,int,DTHuesped**);
+    DTReservaGrupal(int,DTFecha ,DTFecha ,EstadoReserva,int,DTHuesped**);
     DTHuesped** getHuespedes(); 
-    virtual void operacion();
+    void operacion();
 };
 
 class DTHostal{
@@ -146,11 +143,12 @@ class DTHostal{
         float promedioClasi;
         set<DTCalificacion*> caliHabi;
     public:
+        DTHostal();
         DTHostal(string, string, string, float, set<DTCalificacion*>);
         string getNombre();
         string getDireccion();
         string getTelefono();
-        float promedioClasi();
+        float getPromedioClasi();
         set<DTCalificacion*> getCaliHabi();
 };
 
@@ -162,7 +160,8 @@ class DTCalificacion{
         int habitacion;
         string estadia;//codigo de la estadia asociada a la calificacion
     public:
-        DTCalificacion(int, string, DTFecha, int);
+        DTCalificacion();
+        DTCalificacion(int, string, DTFecha, int, string);
         int getValor();
         string getComentario();
         DTFecha getFecha();
