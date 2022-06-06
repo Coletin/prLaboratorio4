@@ -11,27 +11,31 @@ class DTUsuario{
      string contrasena;
     public:
      DTUsuario();
-     DTUsuario(string nombre, string email, string contrasena);
+     DTUsuario(string, string, string);
      string getNombre();
      string getEmail();
-     void toString();
-     virtual void operacion() = 0;  
+     string getContrasena();
+     virtual void toString();
 };
 
 class DTHuesped : public DTUsuario{
     private:
         bool esFinger;
     public:
-        DTHuesped(string nombre, string email, string contrasena, bool esFinger);
+        DTHuesped();
+        DTHuesped(string, string, string, bool);
         bool getEsFinger();
+        void toString();
 };
 
 class DTEmpleado : public DTUsuario{
     private:
         CargoEmpleado cargo;
     public:
-        DTEmpleado(string nombre, string email, string contrasena, CargoEmpleado cargo);
+        DTEmpleado();
+        DTEmpleado(string, string, string, CargoEmpleado);
         CargoEmpleado getCargo();
+        void toString();
 };
 
 class DTHabitacion{
@@ -41,7 +45,7 @@ class DTHabitacion{
         int capacidad;
     public:
         DTHabitacion(); 
-        DTHabitacion(int&, float&, int&);
+        DTHabitacion(int, float, int);
         int getNumero();
         float getPrecio();
         int getCapacidad();
@@ -59,12 +63,14 @@ class DTFecha{
      int dia;
      int mes;
      int anio;
+     int hora;
     public:
      DTFecha();
-     DTFecha(int, int, int);
+     DTFecha(int, int, int, int);
      int getDia();
      int getMes();
      int getAnio();
+     int getHora();
      bool operator==(const DTFecha&);
      bool operator<=(const DTFecha&);
      bool operator>=(const DTFecha&);
@@ -140,7 +146,7 @@ class DTHostal{
         float promedioClasi;
         set<DTCalificacion*> caliHabi;
     public:
-        DTHostal(string nombre, string direccion, string telefono, float promedioClasi, set<DTCalificacion*> caliHabi);
+        DTHostal(string, string, string, float, set<DTCalificacion*>);
         string getNombre();
         string getDireccion();
         string getTelefono();
@@ -156,7 +162,7 @@ class DTCalificacion{
         int habitacion;
         string estadia;//codigo de la estadia asociada a la calificacion
     public:
-        DTCalificacion(int valor, string comentario, DTFecha fecha, int habitacion);
+        DTCalificacion(int, string, DTFecha, int);
         int getValor();
         string getComentario();
         DTFecha getFecha();
@@ -171,7 +177,7 @@ class DataR{
         DTFecha checkOut;
         bool esGrupal;
     public:
-        DataR(string hostal, DTFecha checkIn, DTFecha checkOut, bool esGrupal);
+        DataR(string, DTFecha, DTFecha, bool);
         string getHostal();
         DTFecha getCheckIn();
         DTFecha getCheckOut();
@@ -199,7 +205,7 @@ class DTEstadia{
         DTFecha checkIn;
         DTFecha checkOut;
     public:
-        DTEstadia(string promo, DTFecha checkIn, DTFecha checkOut);
+        DTEstadia(string, DTFecha, DTFecha);
         string getPromo();
         DTFecha getCheckIn();
         DTFecha getCheckOut();
