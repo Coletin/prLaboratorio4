@@ -154,12 +154,14 @@ class DTCalificacion{
         string comentario;
         DTFecha fecha;
         int habitacion;
+        string estadia;//codigo de la estadia asociada a la calificacion
     public:
         DTCalificacion(int valor, string comentario, DTFecha fecha, int habitacion);
         int getValor();
         string getComentario();
         DTFecha getFecha();
         int getHabitacion();
+        string getEstadia();
 };
 
 class DataR{
