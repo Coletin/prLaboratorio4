@@ -421,3 +421,52 @@ int DTCalificacion::getHabitacion(){
 string DTCalificacion::getEstadia(){
     return this->estadia;
 };
+
+DataR::DataR(string hostal, DTFecha checkIn, DTFecha checkOut, bool esGrupal){
+    this->hostal = hostal;
+    this->checkIn = checkIn;
+    this->checkOut = checkOut;
+    this->esGrupal = esGrupal;
+}
+
+string DataR::getHostal(){
+    return this->hostal;
+};
+
+DTFecha DataR::getCheckIn(){
+    return this->checkIn;
+};
+
+DTFecha DataR::getCheckOut(){
+    return this->checkOut;
+};
+
+bool DataR::getEsGrupal(){
+    return this->esGrupal;
+};
+
+DTRespuestaCalificacion::DTRespuestaCalificacion(string comentario){
+    this->comentario = comentario;
+};
+
+string DTRespuestaCalificacion::getComentario(){
+    return this->comentario;
+};
+
+DTEstadia::DTEstadia(string promo, DTFecha checkIn, DTFecha checkOut){
+    this->promo = promo;
+    this->checkIn = checkIn;
+    this->checkOut = checkOut;
+};
+
+string DTEstadia::getPromo(){
+    return this->promo;
+};
+
+DTFecha DTEstadia::getCheckIn(){
+    return this->checkIn;
+};
+
+DTFecha DTEstadia::getCheckOut(){
+    return this->checkOut;
+};

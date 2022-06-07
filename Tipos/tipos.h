@@ -87,7 +87,7 @@ class DTReserva{
         EstadoReserva estado;
         float costo;
         int habitacion;
-    public: 
+    public:
         DTReserva(int,DTFecha,DTFecha,enum EstadoReserva,float,int);
         DTReserva(int,DTFecha,DTFecha,enum EstadoReserva,int);
         int getCodigo();
@@ -112,10 +112,6 @@ class DataR{
         DTFecha getCheckIn();
         DTFecha getCheckOut();
         bool getEsGrupal();
-        void setHostal(string);
-        void setCheckIn(DTFecha);
-        void setCheckOut(DTFecha);
-        void setEsGrupal(bool);
 };
 
 class DTReservaIndividual : public DTReserva{
@@ -167,20 +163,6 @@ class DTCalificacion{
         DTFecha getFecha();
         int getHabitacion();
         string getEstadia();
-};
-
-class DataR{
-    private:
-        string hostal;
-        DTFecha checkIn;
-        DTFecha checkOut;
-        bool esGrupal;
-    public:
-        DataR(string, DTFecha, DTFecha, bool);
-        string getHostal();
-        DTFecha getCheckIn();
-        DTFecha getCheckOut();
-        bool getEsGrupal();
 };
 
 enum CargoEmpleado{
