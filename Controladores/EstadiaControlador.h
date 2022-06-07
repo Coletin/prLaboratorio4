@@ -7,6 +7,7 @@ class EstadiaControlador{
     private:
         static EstadiaControlador * instancia;
     public:
+        EstadiaControlador();
         static EstadiaControlador * getInstancia();
         set<DTHostal*> listarHostales();
         set<DTReserva*> listarReservas(string email, string hostal);

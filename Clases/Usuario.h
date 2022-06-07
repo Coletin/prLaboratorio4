@@ -10,7 +10,7 @@ class Usuario{
      string password;
     public:
      Usuario();
-     Usuario(string, string, bool);
+     Usuario(string, string, string);
      virtual ~Usuario() = 0;
      string getEmail();
      string getNombre();
