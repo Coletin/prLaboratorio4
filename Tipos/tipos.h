@@ -193,7 +193,7 @@ class DTEstadia{
 };
 
 
-
+int diasEntre(DTFecha, DTFecha);
 
 
 
