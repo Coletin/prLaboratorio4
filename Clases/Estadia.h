@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "tipos.h"
+#include "../Tipos/tipos.h"
 
 class Huesped;
 class Calificacion;
@@ -18,18 +18,21 @@ class Estadia{
         Estadia(string,DTFecha checkIn, DTFecha checkOut);
         Estadia();
         ~Estadia();
+        string getCodigo();
         string getPromo();
         DTFecha getCheckIn();
         DTFecha getCheckOut();
+        void setCodigo(string);
         void setPromo(string);
         void setCheckIn(DTFecha);
         void setCheckOut(DTFecha);
         DTEstadia getDTEstadia();
         bool existeEstadiaActiva();
-        void setReserva(int codigo);
-        void setHuesped(string email);
-        DTReserva obtenerDatosReserva();
+        void setHuesped(Huesped*);
+        //void setReserva(int codigo);
+        //void setHuesped(string email);
+        //DTReserva obtenerDatosReserva();
         DTRespuestaCalificacion obtenerDatosRespuestaCalificacion();
         DTCalificacion getDatosCalificacion();
-        void setCalificacion(Calificacion c);
+        void setCalificacion(Calificacion* c);
 };

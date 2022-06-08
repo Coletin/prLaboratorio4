@@ -1,3 +1,4 @@
+
 class IHostal;
 class IReserva;
 class IUsuario;
