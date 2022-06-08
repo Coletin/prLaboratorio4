@@ -2,6 +2,7 @@
 #include <string>
 #include <set>
 #include "tipos.h"
+#include "Reserva.h"
 
 class ReservaIndividual : public Reserva{
     private:

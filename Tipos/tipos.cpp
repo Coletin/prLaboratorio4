@@ -470,3 +470,9 @@ DTFecha DTEstadia::getCheckIn(){
 DTFecha DTEstadia::getCheckOut(){
     return this->checkOut;
 };
+
+int diasEntre(DTFecha start, DTFecha end){
+    int diascIn = start.getDia() + ((start.getMes() - 1 ) * 31) + (start.getAnio() * 372);
+    int diascOut = end.getDia() + ((end.getMes() - 1) * 31) + (end.getAnio() * 372);
+    return diascOut - diascIn + 1;
+}

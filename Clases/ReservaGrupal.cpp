@@ -6,26 +6,31 @@ ReservaGrupal::ReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,Esta
 };
 
 float ReservaGrupal::calcularCosto(){
-    int i = 0;
     int fing = 0;
-    while(this->huespedes[i] != nullptr){
-        if(this->huespedes[i]->getEsFinger())
-            fing++;
-        i++;
+    int i = 0;
+    set<Huesped*>::iterator it;
+    it = this->getHuespedes().begin();
+    while (it != this->getHuespedes().end()){
+        Huesped *current = *it;
+        ++i;
+        if(current->getEsFinger()) fing++;
+        ++it;
     }
-    float costo = 0;
-    // float costo = (this->getHabitacion()->getPrecio() * diasDeReserva(this->getCheckIn(),this->getCheckOut())) * (i);
+    float costo = (this->getHabitacion()->getPrecio() * diasEntre(this->getCheckIn(),this->getCheckOut())) * (i);
     if(fing > 1)
         costo = costo - costo*0.3;
     return costo;
 }
 
-//falta una referencia a la habitacion
 
 int ReservaGrupal::cantidadHuespedes(){
     int i = 0;
-    while(this->huespedes[i] != nullptr){
-        i++;
+    set<Huesped*>::iterator it;
+    it = this->getHuespedes().begin();
+    while (it != this->getHuespedes().end()){
+        Huesped *current = *it;
+        ++i;
+        ++it;
     }
     return i;
 }
