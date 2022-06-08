@@ -4,12 +4,12 @@ void Reserva::setCodigo(int _codigo){ codigo = _codigo; }
 void Reserva::setCheckIn(DTFecha _checkIn){ checkIn = _checkIn; }
 void Reserva::setCheckOut(DTFecha _checkOut){ checkOut = _checkOut; }
 void Reserva::setEstado(EstadoReserva _estado){ estado = _estado; }
-void Reserva::setHabitacion(Habitacion _habitacion){ habitacion = _habitacion; }
+void Reserva::setHabitacion(Habitacion _habitacion){ habitacion = &_habitacion; }
 int Reserva::getCodigo(){ return codigo; }
 DTFecha Reserva::getCheckIn(){ return checkIn; }
 DTFecha Reserva::getCheckOut(){ return checkOut; }
 EstadoReserva Reserva::getEstado(){ return estado; }
-Habitacion Reserva::getHabtiacion(){ return habitacion; }
+Habitacion* Reserva::getHabitacion(){ return habitacion; }
 
 Reserva::Reserva(){
     codigo = 0;
