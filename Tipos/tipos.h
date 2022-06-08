@@ -202,3 +202,5 @@ ostream& operator<<(ostream&, DTReservaIndividual&);
 ostream& operator<<(ostream&, DTFecha&);
 istream& operator>>(istream&, DTFecha&);
 ostream& operator<<(ostream&, DTReserva&);
+
+//hola
