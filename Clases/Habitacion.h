@@ -1,7 +1,11 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "tipos.h"
+#include "../Tipos/tipos.h"
+#include "Hostal.h"
+
+class Reserva;
+class Estadia;
 
 class Habitacion{
     private:
@@ -22,10 +26,10 @@ class Habitacion{
      bool esDeHostal(string nomH);
      bool estaLibre(DataR data); 
      DTHabitacion getDT();
-     void asociarRevHab(Habitacion hab);
+     void asociarRevHab(Reserva *r);
      set<DTEstadia*> getEstadiasDT(); 
      set<DTReserva*> getReservasFinalizadasAsociadas();
      bool existeEstadiasActivas(string email, string nombre);
      set<DTReserva*> getReservasAsociadas(string nombre, string email);
-     int getHabEstadia(Estadia est);
+     int getHabEstadia(Estadia* est);
 };
