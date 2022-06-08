@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "tipos.h"
+#include "../Tipos/tipos.h"
 #include "Usuario.h"
-#include "IObserver.h"
+#include "../Interfaces/IObserver.h"
 
 class Notificacion;
 class Hostal;
@@ -16,10 +16,13 @@ class Empleado : public Usuario,public IObserver{
         set<Notificacion*> notificaciones;
         Hostal* trabajo;
     public:
-        set<DTEstadia*> getEstadias();
-        DTHabitacion getHabDis(DataR datar);
-        Habitacion getHabNum(int numeroHab);
+        Empleado(string nombre, string email, string password,CargoEmpleado cargo);
         DTEmpleado getDTEmpleado();
+        CargoEmpleado getCargo();
+        Hostal* getTrabajo();
+        void setCargo(CargoEmpleado _cargo);
         void setTrabajo(Hostal h);
         void notificar(Notificacion n);
 };
+
+//operciones de empleado mal en el DCD

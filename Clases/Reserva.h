@@ -4,6 +4,9 @@
 #include "../Tipos/tipos.h"
 #include "../Clases/Estadia.h"
 
+class Estadia;
+class Huesped;
+
 class Reserva{
     private:
      int codigo;
