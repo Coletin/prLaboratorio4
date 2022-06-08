@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "tipos.h"
+#include "../Tipos/tipos.h"
+#include "../Interfaces/IEstadia.h"
 
 class EstadiaControlador{
     private:
