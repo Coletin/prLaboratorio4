@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "tipos.h"
+#include "../Tipos/tipos.h"
 
 class Usuario{
-    private:
+    protected:
      string nombre;
      string email;
      string password;
