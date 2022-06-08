@@ -107,6 +107,7 @@ class DataR{
         DTFecha checkOut;
         bool esGrupal;
     public:
+        DataR();
         DataR(string, DTFecha, DTFecha, bool);
         string getHostal();
         DTFecha getCheckIn();

@@ -422,12 +422,14 @@ string DTCalificacion::getEstadia(){
     return this->estadia;
 };
 
+DataR::DataR(){};
+
 DataR::DataR(string hostal, DTFecha checkIn, DTFecha checkOut, bool esGrupal){
     this->hostal = hostal;
     this->checkIn = checkIn;
     this->checkOut = checkOut;
     this->esGrupal = esGrupal;
-}
+};
 
 string DataR::getHostal(){
     return this->hostal;

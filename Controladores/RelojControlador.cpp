@@ -1,18 +1,9 @@
 #include <cstdio>
-#include "EstadiaControlador.h"
-#include "HostalControlador.h"
 #include "RelojControlador.h"
-#include "ReservaControlador.h"
-#include "UsuarioControlador.h"
+
 
 
 RelojControlador *RelojControlador::instancia = NULL;
-
-RelojControlador::RelojControlador(){
-
-// aca van definiciones del controlador
-
-}
 
 RelojControlador * RelojControlador::getInstancia(){
 	if(instancia == NULL)
@@ -21,15 +12,12 @@ RelojControlador * RelojControlador::getInstancia(){
 	return instancia;
 }
 
-void RelojControlador::setFecha(DTFecha){
-
-
+void RelojControlador::setFecha(DTFecha fecha){
+	this->fecha = fecha;
 }
 
 
 
 DTFecha RelojControlador::getFecha(){
-DTFecha retornoFecha;
-
-return retornoFecha;
+	return this->fecha;
 }

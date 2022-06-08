@@ -1,8 +1,6 @@
-#include "EstadiaControlador.h"
 #include "HostalControlador.h"
-#include "RelojControlador.h"
 #include "ReservaControlador.h"
-#include "UsuarioControlador.h"
+
 
 #include "../Clases/Reserva.h"
 #include "../Clases/ReservaIndividual.h"
@@ -13,10 +11,8 @@
 
 ReservaControlador *ReservaControlador::instancia = NULL;
 
-ReservaControlador::ReservaControlador(){
 
-// aca van definiciones del controlador
-
+ReservaControlador::ReservaControlador() {
 }
 
 ReservaControlador * ReservaControlador::getInstancia(){
