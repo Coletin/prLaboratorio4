@@ -2,16 +2,16 @@
 #include <string>
 #include <set>
 #include "tipos.h"
+#include "Empleado.h"
+#include "Usuario.h"
+#include "Huesped.h"
+#include "Hostal.h"
+#include "Reserva.h"
 
 
-class Usuario;
-class Hostal;
-class Reserva;
-class Empleado;
-class Calificacion;
+
 class Estadia;
 class IObserver;
-class Huesped;
 
 class ColeccionesHandler {
     private:
@@ -20,26 +20,23 @@ class ColeccionesHandler {
         set<Usuario*> usuarios;
         set<Hostal*> hostales;
         set<Reserva*> reservas;
+        set<Estadia*> estadias;
     public:
         static ColeccionesHandler * getInstancia();
-        void addHostal(Hostal hostalN);
-        //Empleado getUsuario(string email); Repetida
-        Hostal getHostal(string nombre);
+        void addHostal(Hostal);
+        Hostal getHostal(string);
         set<DTHostal*> getHostalCol();
-        set<DTEmpleado*> getEmpleadoNoAsigCol(string nom);
+        set<DTEmpleado*> getEmpleadoNoAsigCol(string);
         set<DTUsuario*> getUsuarios();
-        void agregarCalificacion(Calificacion c);
-        Reserva reserva(string email, int codigo);
-        void agregarEstadia(Estadia e);
-        Empleado getEmpleado(string email);
-        IObserver getEmpleadoObs(string email);
-        Huesped getHuesped(string email);
-        Hostal getReservasHostal(string nomH);
-        void eliminarReserva(int codR);
-        Reserva getReserva(int codR);
+        void agregarEstadia(Estadia);
+        Empleado getEmpleado(string);
+        IObserver getEmpleadoObs(string);
+        Huesped getHuesped(string);
+        set<DTReserva*> getReservasHostal(string);
+        void eliminarReserva(int);
+        Reserva* getReserva(int);
         set<DTHuesped*> getHuespedes();
-        void agregarReserva(Reserva r);
-        void agregarUsuario(Usuario u);
+        void agregarReserva(Reserva *);
+        void agregarUsuario(Usuario *);
         bool existeUsuario(string email);
-        Reserva devolverReserva(int codigo);
 };

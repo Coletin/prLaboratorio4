@@ -12,6 +12,7 @@ void Habitacion::setCapacidad(int _capacidad){ capacidad = _capacidad; }
 
 int Habitacion::getCapacidad(){ return capacidad; }
 
+
 Habitacion::Habitacion(){
     numero = 0;
     precio = 0.0;
