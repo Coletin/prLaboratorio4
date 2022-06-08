@@ -3,6 +3,9 @@
 #include <set>
 #include "tipos.h"
 
+class Estadia;
+class Huesped;
+
 class Reserva{
     private:
      int codigo;
