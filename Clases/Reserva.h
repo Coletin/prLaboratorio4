@@ -16,7 +16,7 @@ class Reserva{
      EstadoReserva estado;
      set<Estadia*> estadias;
      set<Huesped*> huespedes;
-     Habitacion habitacion;
+     Habitacion* habitacion;
     public:
      Reserva(int,DTFecha,DTFecha,EstadoReserva); 
      Reserva();
@@ -26,7 +26,7 @@ class Reserva{
      DTFecha getCheckIn();
      DTFecha getCheckOut();
      EstadoReserva getEstado();
-     Habitacion getHabtiacion();
+     Habitacion* getHabitacion();
      void setCodigo(int);
      void setCheckIn(DTFecha);
      void setCheckOut(DTFecha);
