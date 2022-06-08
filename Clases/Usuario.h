@@ -1,16 +1,16 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "tipos.h"
+#include "../Tipos/tipos.h"
 
 class Usuario{
-    private:
+    protected:
      string nombre;
      string email;
      string password;
     public:
      Usuario();
-     Usuario(string, string, bool);
+     Usuario(string, string, string);
      virtual ~Usuario() = 0;
      string getEmail();
      string getNombre();
