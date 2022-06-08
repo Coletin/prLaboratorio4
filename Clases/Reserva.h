@@ -3,6 +3,7 @@
 #include <set>
 #include "../Tipos/tipos.h"
 #include "../Clases/Estadia.h"
+#include "../Clases/Habitacion.h"
 
 class Estadia;
 class Huesped;
@@ -15,6 +16,7 @@ class Reserva{
      EstadoReserva estado;
      set<Estadia*> estadias;
      set<Huesped*> huespedes;
+     Habitacion habitacion;
     public:
      Reserva(int,DTFecha,DTFecha,EstadoReserva); 
      Reserva();
@@ -24,8 +26,10 @@ class Reserva{
      DTFecha getCheckIn();
      DTFecha getCheckOut();
      EstadoReserva getEstado();
+     Habitacion getHabtiacion();
      void setCodigo(int);
      void setCheckIn(DTFecha);
      void setCheckOut(DTFecha);
      void setEstado(EstadoReserva);
+     void setHabitacion(Habitacion);
 };
