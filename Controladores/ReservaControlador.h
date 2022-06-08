@@ -1,5 +1,10 @@
 #include <set>
+#include <iostream>
+#include <string>
+#include <set>
 #include "../Tipos/tipos.h"
+
+
 
 class ReservaControlador{
     private:
