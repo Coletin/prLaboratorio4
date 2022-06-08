@@ -4,7 +4,7 @@
 #include "../Tipos/tipos.h"
 #include "../Interfaces/IEstadia.h"
 
-class EstadiaControlador{
+class EstadiaControlador:public IEstadia{
     private:
         static EstadiaControlador * instancia;
     public:
