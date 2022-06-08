@@ -23,7 +23,7 @@ class ColeccionesHandler {
     public:
         static ColeccionesHandler * getInstancia();
         void addHostal(Hostal hostalN);
-        Empleado getUsuario(string email);
+        //Empleado getUsuario(string email); Repetida
         Hostal getHostal(string nombre);
         set<DTHostal*> getHostalCol();
         set<DTEmpleado*> getEmpleadoNoAsigCol(string nom);
