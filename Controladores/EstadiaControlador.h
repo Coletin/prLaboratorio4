@@ -1,12 +1,14 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "tipos.h"
+#include "../Tipos/tipos.h"
+#include "../Interfaces/IEstadia.h"
 
 class EstadiaControlador{
     private:
         static EstadiaControlador * instancia;
     public:
+        EstadiaControlador();
         static EstadiaControlador * getInstancia();
         set<DTHostal*> listarHostales();
         set<DTReserva*> listarReservas(string email, string hostal);

@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "tipos.h"
+#include "../Tipos/tipos.h"
+
+class Calificacion;
 
 class Hostal{
     private:
@@ -11,6 +13,14 @@ class Hostal{
         set<Habitacion*> habitaciones;
         set<Calificacion*> calificaciones;
     public:
+        Hostal();
+        Hostal(string _nombre, string _direccion, string _telefono);
+        void setNombre(string _nombre);
+        void setDireccion(string _direccion);
+        void setTelefono(string _telefono);
+        string getNombre();
+        string getDireccion();
+        string getTelefono();
         set<DTEstadia*> getEstadiasDT();
         DTHabitacion getHabDis(DataR datar);
         Habitacion getHabNum(int numeroHab);
