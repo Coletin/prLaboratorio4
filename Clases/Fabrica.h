@@ -7,9 +7,9 @@
 
 class Fabrica{
     public:
-        IHostal getIHostal();
-        IReserva getIReserva();
-        IUsuario getIUsuario();
-        IEstadia getIEstadia();
-        IReloj getIReloj();   
+        IHostal* getIHostal();
+        IReserva* getIReserva();
+        IUsuario* getIUsuario();
+        IEstadia* getIEstadia();
+        IReloj* getIReloj();   
 };
