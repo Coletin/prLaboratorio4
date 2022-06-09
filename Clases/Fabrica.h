@@ -1,9 +1,9 @@
-
-class IHostal;
-class IReserva;
-class IUsuario;
-class IEstadia;
-class IReloj;
+#include "../Interfaces/IHostal.h"
+#include "../Controladores/HostalControlador.h"
+#include "../Controladores/ReservaControlador.h"
+#include "../Controladores/EstadiaControlador.h"
+#include "../Controladores/RelojControlador.h"
+#include "../Controladores/UsuarioControlador.h"
 
 class Fabrica{
     public:

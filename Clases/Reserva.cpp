@@ -11,6 +11,15 @@ DTFecha Reserva::getCheckOut(){ return checkOut; }
 EstadoReserva Reserva::getEstado(){ return estado; }
 Habitacion* Reserva::getHabitacion(){ return habitacion; }
 
+Reserva::~Reserva(){
+    this->habitacion->eliminarReserva(this);
+    for(set<Estadia*>::iterator it = estadias.begin(); it != estadias.end();++it){
+        Estadia *actual = *it;
+        estadias.erase(it);
+        delete(actual);
+    }
+}
+
 Reserva::Reserva(){
     codigo = 0;
     DTFecha fechaAgregar = DTFecha(1,1,1,2000);

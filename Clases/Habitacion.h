@@ -32,4 +32,5 @@ class Habitacion{
      bool existeEstadiasActivas(string email, string nombre);
      set<DTReserva*> getReservasAsociadas(string nombre, string email);
      int getHabEstadia(Estadia* est);
+     void eliminarReserva(Reserva*);
 };

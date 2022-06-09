@@ -422,12 +422,14 @@ string DTCalificacion::getEstadia(){
     return this->estadia;
 };
 
+DataR::DataR(){};
+
 DataR::DataR(string hostal, DTFecha checkIn, DTFecha checkOut, bool esGrupal){
     this->hostal = hostal;
     this->checkIn = checkIn;
     this->checkOut = checkOut;
     this->esGrupal = esGrupal;
-}
+};
 
 string DataR::getHostal(){
     return this->hostal;
@@ -470,3 +472,9 @@ DTFecha DTEstadia::getCheckIn(){
 DTFecha DTEstadia::getCheckOut(){
     return this->checkOut;
 };
+
+int diasEntre(DTFecha start, DTFecha end){
+    int diascIn = start.getDia() + ((start.getMes() - 1 ) * 31) + (start.getAnio() * 372);
+    int diascOut = end.getDia() + ((end.getMes() - 1) * 31) + (end.getAnio() * 372);
+    return diascOut - diascIn + 1;
+}

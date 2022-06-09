@@ -4,9 +4,9 @@
 #include "../Tipos/tipos.h"
 #include "../Clases/Estadia.h"
 #include "../Clases/Habitacion.h"
+#include "../Clases/Huesped.h"
+#include "../Clases/Estadia.h"
 
-class Estadia;
-class Huesped;
 
 class Reserva{
     private:
@@ -27,9 +27,21 @@ class Reserva{
      DTFecha getCheckOut();
      EstadoReserva getEstado();
      Habitacion* getHabitacion();
+     set<Huesped*> getHuespedes();
+     set<Estadia*> getEstadias();
      void setCodigo(int);
      void setCheckIn(DTFecha);
      void setCheckOut(DTFecha);
      void setEstado(EstadoReserva);
      void setHabitacion(Habitacion);
+     bool esReservaHostal(string);
+     DTReserva* getDT();
+     bool resNoSeSuperpone(DataR);
+     void asociarHabRev(Habitacion);
+     void asociarHuespedRev(Huesped);
+     set<DTEstadia*> getEstadiasDT();
+     set<DTReserva*> getReservasFinalizadasAsociadas(string, string);
+     bool existeEstadiasActivas(string, string);
+     bool estEsta(Estadia);
+     void agregarEstadia(Estadia);
 };
