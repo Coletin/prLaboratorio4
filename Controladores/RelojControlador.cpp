@@ -12,12 +12,12 @@ RelojControlador * RelojControlador::getInstancia(){
 	return instancia;
 }
 
-void RelojControlador::setFecha(DTFecha fecha){
+void RelojControlador::setFecha(DTFecha* fecha){
 	this->fecha = fecha;
 }
 
 
 
-DTFecha RelojControlador::getFecha(){
+DTFecha* RelojControlador::getFecha(){
 	return this->fecha;
 }
