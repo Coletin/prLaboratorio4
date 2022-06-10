@@ -4,59 +4,6 @@
 
 using namespace std;
 
-class DTUsuario{
-    private:
-     string nombre;
-     string email;
-     string contrasena;
-    public:
-     DTUsuario();
-     DTUsuario(string, string, string);
-     string getNombre();
-     string getEmail();
-     string getContrasena();
-     virtual void toString();
-};
-
-class DTHuesped : public DTUsuario{
-    private:
-        bool esFinger;
-    public:
-        DTHuesped();
-        DTHuesped(string, string, string, bool);
-        bool getEsFinger();
-        void toString();
-};
-
-class DTEmpleado : public DTUsuario{
-    private:
-        CargoEmpleado cargo;
-    public:
-        DTEmpleado();
-        DTEmpleado(string, string, string, CargoEmpleado);
-        CargoEmpleado getCargo();
-        void toString();
-};
-
-class DTHabitacion{
-    private:
-        int numero;
-        float precio;
-        int capacidad;
-    public:
-        DTHabitacion(); 
-        DTHabitacion(int, float, int);
-        int getNumero();
-        float getPrecio();
-        int getCapacidad();
-        void toString();
-};
-
-enum EstadoReserva{
-    Abierta = 0,
-    Cerrada = 1,
-    Cancelada = 2
-};
 
 class DTFecha{
     private:
@@ -79,21 +26,88 @@ class DTFecha{
      bool operator>(const DTFecha&);
 };
 
+class DTCalificacion{
+    private:
+        int valor;
+        string comentario;
+        DTFecha* fecha;
+        int habitacion;
+        string estadia;//codigo de la estadia asociada a la calificacion
+    public:
+        DTCalificacion();
+        DTCalificacion(int, string, DTFecha*, int, string);
+        int getValor();
+        string getComentario();
+        DTFecha* getFecha();
+        int getHabitacion();
+        string getEstadia();
+};
+
+class DTUsuario{
+    private:
+     string nombre;
+     string email;
+     string contrasena;
+    public:
+     DTUsuario();
+     DTUsuario(string, string, string);
+     string getNombre();
+     string getEmail();
+     string getContrasena();
+     virtual void toString();
+};
+
+
+class DTHuesped : public DTUsuario{
+    private:
+        bool esFinger;
+    public:
+        DTHuesped();
+        DTHuesped(string, string, string, bool);
+        bool getEsFinger();
+        void toString();
+};
+
+class DTEmpleado : public DTUsuario{
+    private:
+        string cargo;
+    public:
+        DTEmpleado();
+        DTEmpleado(string, string, string, string);
+        string getCargo();
+        void toString();
+};
+
+class DTHabitacion{
+    private:
+        int numero;
+        float precio;
+        int capacidad;
+    public:
+        DTHabitacion(); 
+        DTHabitacion(int, float, int);
+        int getNumero();
+        float getPrecio();
+        int getCapacidad();
+        void toString();
+};
+
+
 class DTReserva{
      private: 
         int codigo;
         DTFecha checkIn;
         DTFecha checkOut;
-        EstadoReserva estado;
+        bool estado;
         float costo;
         int habitacion;
     public:
-        DTReserva(int,DTFecha,DTFecha,enum EstadoReserva,float,int);
-        DTReserva(int,DTFecha,DTFecha,enum EstadoReserva,int);
+        DTReserva(int,DTFecha,DTFecha,bool,float,int);
+        DTReserva(int,DTFecha,DTFecha,bool,int);
         int getCodigo();
         DTFecha getcheckIn(); 
         DTFecha getcheckOut();
-        EstadoReserva getEstadoReserva();
+        bool getEstadoReserva();
         float getCosto();
         int getHabitacion(); 
         //~DTReserva();
@@ -117,8 +131,8 @@ class DataR{
 
 class DTReservaIndividual : public DTReserva{
  public: 
-    DTReservaIndividual(int,DTFecha,DTFecha,enum EstadoReserva,float,int);
-    DTReservaIndividual(int,DTFecha,DTFecha,enum EstadoReserva,int);
+    DTReservaIndividual(int,DTFecha,DTFecha,bool,float,int);
+    DTReservaIndividual(int,DTFecha,DTFecha,bool,int);
     void operacion();
 };
 
@@ -126,8 +140,8 @@ class DTReservaGrupal : public DTReserva{
  private: 
     DTHuesped** huespedes;
  public: 
-    DTReservaGrupal(int,DTFecha ,DTFecha ,EstadoReserva,float,int,DTHuesped**);
-    DTReservaGrupal(int,DTFecha ,DTFecha ,EstadoReserva,int,DTHuesped**);
+    DTReservaGrupal(int,DTFecha ,DTFecha ,bool,float,int,DTHuesped**);
+    DTReservaGrupal(int,DTFecha ,DTFecha ,bool,int,DTHuesped**);
     DTHuesped** getHuespedes(); 
     void operacion();
 };
@@ -149,29 +163,7 @@ class DTHostal{
         set<DTCalificacion*> getCaliHabi();
 };
 
-class DTCalificacion{
-    private:
-        int valor;
-        string comentario;
-        DTFecha fecha;
-        int habitacion;
-        string estadia;//codigo de la estadia asociada a la calificacion
-    public:
-        DTCalificacion();
-        DTCalificacion(int, string, DTFecha, int, string);
-        int getValor();
-        string getComentario();
-        DTFecha getFecha();
-        int getHabitacion();
-        string getEstadia();
-};
 
-enum CargoEmpleado{
-    Administracion = 0,
-    Limpieza = 1,
-    Recepcion = 2,
-    Infraestructura = 3
-};
 
 class DTRespuestaCalificacion{
     private:
@@ -194,7 +186,7 @@ class DTEstadia{
 };
 
 
-int diasEntre(DTFecha, DTFecha);
+int diasEntre(DTFecha*, DTFecha*);
 
 
 

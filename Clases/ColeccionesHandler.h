@@ -1,17 +1,22 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "tipos.h"
-#include "Empleado.h"
-#include "Usuario.h"
-#include "Huesped.h"
-#include "Hostal.h"
-#include "Reserva.h"
 
-
+using namespace std;
 
 class Estadia;
 class IObserver;
+class Hostal;
+class Empleado;
+class Huesped;
+class Reserva;
+class Habitacion;
+class Usuario;
+class DTHostal;
+class DTReserva;
+class DTEmpleado;
+class DTUsuario;
+class DTHuesped;
 
 class ColeccionesHandler {
     private:
@@ -23,15 +28,16 @@ class ColeccionesHandler {
         set<Estadia*> estadias;
     public:
         static ColeccionesHandler * getInstancia();
-        void addHostal(Hostal);
-        Hostal getHostal(string);
+        void addHostal(Hostal*);
+        Hostal *getHostal(string);
         set<DTHostal*> getHostalCol();
         set<DTEmpleado*> getEmpleadoNoAsigCol(string);
         set<DTUsuario*> getUsuarios();
-        void agregarEstadia(Estadia);
-        Empleado getEmpleado(string);
-        IObserver getEmpleadoObs(string);
-        Huesped getHuesped(string);
+        void agregarEstadia(Estadia*);
+        void eliminarEstadia(Estadia*);
+        Empleado* getEmpleado(string);
+        IObserver* getEmpleadoObs(string);
+        Huesped* getHuesped(string);
         set<DTReserva*> getReservasHostal(string);
         void eliminarReserva(int);
         Reserva* getReserva(int);
