@@ -1,4 +1,9 @@
 #include "Fabrica.h"
+#include "../Controladores/HostalControlador.h"
+#include "../Controladores/ReservaControlador.h"
+#include "../Controladores/EstadiaControlador.h"
+#include "../Controladores/RelojControlador.h"
+#include "../Controladores/UsuarioControlador.h"
 
 IHostal* Fabrica::getIHostal(){
     return HostalControlador::getInstancia();
