@@ -1,6 +1,7 @@
 #include "../Tipos/tipos.h"
+#include "../Interfaces/IReloj.h"
 
-class RelojControlador{
+class RelojControlador:public IReloj{
     private:
         DTFecha fecha;
         static RelojControlador * instancia;

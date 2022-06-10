@@ -1,9 +1,5 @@
 #include <cstdio>
-#include "EstadiaControlador.h"
 #include "HostalControlador.h"
-#include "RelojControlador.h"
-#include "ReservaControlador.h"
-#include "UsuarioControlador.h"
 
 #include "../Clases/Hostal.h"
 #include "../Clases/Fabrica.h"
@@ -11,17 +7,14 @@
 
 
 
-HostalControlador *HostalControlador::instancia = NULL;
+HostalControlador * HostalControlador::instancia = NULL;
 
-HostalControlador::HostalControlador(){
-
-// aca van definiciones del controlador
-
+HostalControlador::HostalControlador() {
 }
 
-HostalControlador * HostalControlador::getInstancia(){
+HostalControlador * HostalControlador::getInstancia() {
 	if(instancia == NULL)
-		instancia = new HostalControlador;
+		instancia = new HostalControlador();
 
 	return instancia;
 }

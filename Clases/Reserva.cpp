@@ -1,24 +1,42 @@
 #include "../Clases/Reserva.h"
+#include "../Tipos/tipos.h"
+#include "Habitacion.h"
+#include "Usuario.h"
+#include "Estadia.h"
+#include "ColeccionesHandler.h"
 
 void Reserva::setCodigo(int _codigo){ codigo = _codigo; }
-void Reserva::setCheckIn(DTFecha _checkIn){ checkIn = _checkIn; }
-void Reserva::setCheckOut(DTFecha _checkOut){ checkOut = _checkOut; }
+void Reserva::setCheckIn(DTFecha* _checkIn){ checkIn = _checkIn; }
+void Reserva::setCheckOut(DTFecha* _checkOut){ checkOut = _checkOut; }
 void Reserva::setEstado(EstadoReserva _estado){ estado = _estado; }
-void Reserva::setHabitacion(Habitacion _habitacion){ habitacion = &_habitacion; }
+void Reserva::setHabitacion(Habitacion* _habitacion){ habitacion = _habitacion; }
 int Reserva::getCodigo(){ return codigo; }
-DTFecha Reserva::getCheckIn(){ return checkIn; }
-DTFecha Reserva::getCheckOut(){ return checkOut; }
+DTFecha* Reserva::getCheckIn(){ return checkIn; }
+DTFecha* Reserva::getCheckOut(){ return checkOut; }
 EstadoReserva Reserva::getEstado(){ return estado; }
 Habitacion* Reserva::getHabitacion(){ return habitacion; }
 
+Reserva::~Reserva(){
+    string hostal = this->habitacion->getNomHostal();
+    this->habitacion->eliminarReserva(this);
+    for(set<Estadia*>::iterator it = estadias.begin(); it != estadias.end();++it){
+        Estadia *actual = *it;
+        actual->elimCalHostal(hostal);
+        estadias.erase(it);
+        delete(actual);
+    }
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    col->eliminarReserva(this->getCodigo());
+}
+
 Reserva::Reserva(){
     codigo = 0;
-    DTFecha fechaAgregar = DTFecha(1,1,1,2000);
+    DTFecha* fechaAgregar = new DTFecha(1,1,1,2000);
     checkIn = fechaAgregar;
     checkOut = fechaAgregar;
 }
 
-Reserva::Reserva(int _codigo, DTFecha _checkIn, DTFecha _checkOut, EstadoReserva _estado){
+Reserva::Reserva(int _codigo, DTFecha* _checkIn, DTFecha* _checkOut, EstadoReserva _estado){
     codigo = _codigo;
     checkIn = _checkIn;
     checkOut = _checkOut;
@@ -48,3 +66,64 @@ class Reserva{
      void setEstado(EstadoReserva&);
 };
 */
+
+
+
+
+//GRUPAL
+
+
+
+ReservaGrupal::ReservaGrupal(int _codigo,DTFecha* _checkIn,DTFecha* _checkOut,EstadoReserva _estado):Reserva(_codigo, _checkIn, _checkOut, _estado){
+};
+
+float ReservaGrupal::calcularCosto(){
+    int fing = 0;
+    int i = 0;
+    set<Huesped*>::iterator it;
+    it = this->getHuespedes().begin();
+    while (it != this->getHuespedes().end()){
+        Huesped *current = *it;
+        ++i;
+        if(current->getEsFinger()) fing++;
+        ++it;
+    }
+    float costo = (this->getHabitacion()->getPrecio() * diasEntre(this->getCheckIn(),this->getCheckOut())) * (i);
+    if(fing > 1)
+        costo = costo - costo*0.3;
+    return costo;
+}
+
+
+int ReservaGrupal::cantidadHuespedes(){
+    int i = 0;
+    set<Huesped*>::iterator it;
+    it = this->getHuespedes().begin();
+    while (it != this->getHuespedes().end()){
+        Huesped *current = *it;
+        ++i;
+        ++it;
+    }
+    return i;
+}
+
+
+
+
+
+//INDIVIDUAL
+
+
+
+ReservaIndividual::ReservaIndividual(int _codigo,DTFecha* _checkIn,DTFecha* _checkOut,EstadoReserva _estado):Reserva(_codigo, _checkIn, _checkOut, _estado){
+};
+
+float ReservaIndividual::calcularCosto(){
+    int i = 0;
+    int fing = 0;
+    float costo = 0;
+    costo = (this->getHabitacion()->getPrecio() * diasEntre(this->getCheckIn(),this->getCheckOut()));
+    if(fing > 1)
+        costo = costo - costo*0.3;
+    return costo;
+}

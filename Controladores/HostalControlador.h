@@ -1,13 +1,15 @@
 #include <set>
 #include "../Tipos/tipos.h"
+#include "../Interfaces/IHostal.h"
 
-class HostalControlador{
+class HostalControlador:public IHostal{
     private:
         string emailN;
         CargoEmpleado cargoN;
         string nom;
         set<DTHostal*> t3;
         static HostalControlador * instancia;
+        HostalControlador();
     public:
         static HostalControlador * getInstancia();
         void agregarHostal(string nombre, string direccion, string telefono);

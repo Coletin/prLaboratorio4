@@ -1,10 +1,13 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "../Tipos/tipos.h"
+#include "../Interfaces/IObserver.h"
+#include "../Tipos/CargoEmpleado.h"
+
+using namespace std;
 
 class Usuario{
-    protected:
+    private:
      string nombre;
      string email;
      string password;
@@ -18,4 +21,51 @@ class Usuario{
      void setEmail(string email);
      void setNombre(string nombre);
      void setPassword(string password);
+};
+
+//HUESPED
+
+class Estadia;
+class DTHuesped;
+
+class Huesped : public Usuario{
+    private:
+        bool esFinger;
+        set<Estadia*> estadia;
+    public:
+        Huesped();
+        Huesped(string _nombre, string _email, string _password,bool _esFinger);
+        void setEsFinger(bool);
+        bool getEsFinger();
+        DTHuesped* getDTHuesped();
+        Estadia* getEstadia();
+        void agregarEstadia(Estadia* estadia);
+        void eliminarEstadia(Estadia*);
+};
+
+
+
+//EMPLEADO
+
+
+class Notificacion;
+class Habitacion;
+class Hostal;
+class DTEmpleado;
+
+
+
+class Empleado : public Usuario,public IObserver{
+    private:
+        CargoEmpleado cargo;
+        set<Notificacion*> notificaciones;
+        Hostal* trabajo;
+    public:
+        Empleado(string nombre, string email, string password,CargoEmpleado cargo);
+        DTEmpleado* getDTEmpleado();
+        CargoEmpleado getCargo();
+        Hostal* getTrabajo();
+        void setCargo(CargoEmpleado _cargo);
+        void setTrabajo(Hostal* h);
+        void notificar(Notificacion* n);
 };
