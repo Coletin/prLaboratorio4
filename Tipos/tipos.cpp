@@ -36,26 +36,26 @@ DTEmpleado::DTEmpleado(){
 
 };
 
-DTEmpleado::DTEmpleado(string nombre, string email, string contrasena, CargoEmpleado cargo):DTUsuario(nombre, email, contrasena){
+DTEmpleado::DTEmpleado(string nombre, string email, string contrasena, string cargo):DTUsuario(nombre, email, contrasena){
     this->cargo = cargo;
 };
 
-CargoEmpleado DTEmpleado::getCargo(){
+string DTEmpleado::getCargo(){
     return this->cargo;
 };
 
 void DTEmpleado::toString(){
     cout << "[nombre: " << this->getNombre() << "; email: " << this->getEmail() << "; cargo: ";
-    if(this->getCargo()==Recepcion){
+    if(this->getCargo()=="Recepcion"){
         cout << "Recepcion" << "]" << endl;
     }
-    else if(this->getCargo()==Administracion){
+    else if(this->getCargo()=="Administracion"){
         cout << "Administracion" << "]" << endl;
     }
-    else if(this->getCargo()==Limpieza){
+    else if(this->getCargo()=="Limpieza"){
         cout << "Limpieza" << "]" << endl;
     }
-    else if(this->getCargo()==Infraestructura){
+    else if(this->getCargo()=="Infraestructura"){
         cout << "Infraestructura" << "]" << endl;
     };
 };
@@ -239,7 +239,7 @@ istream& operator>>(istream& i, DTFecha& f){
     return i;
 };
 
-DTReserva::DTReserva(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion){
+DTReserva::DTReserva(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,float _costo,int _habitacion){
     this->codigo = _codigo;
     this->checkIn = _checkIn;
     this->checkOut = _checkOut;
@@ -248,7 +248,7 @@ DTReserva::DTReserva(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserv
     this->habitacion = _habitacion;
 };
 
-DTReserva::DTReserva(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion){
+DTReserva::DTReserva(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,int _habitacion){
     this->codigo = _codigo;
     this->checkIn = _checkIn;
     this->checkOut = _checkOut;
@@ -271,7 +271,7 @@ int DTReserva::getCodigo(){
     return this->codigo;
 };
 
-EstadoReserva DTReserva::getEstadoReserva(){
+bool DTReserva::getEstadoReserva(){
     return this->estado;
 };
 
@@ -283,17 +283,17 @@ int DTReserva::getHabitacion(){
     return this->habitacion;
 };
 
-DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_costo,_habitacion){
+DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,float _costo,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_costo,_habitacion){
 };
 
-DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_habitacion){
+DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_habitacion){
 };
 
-DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion,DTHuesped** _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _costo, _habitacion){
+DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,float _costo,int _habitacion,DTHuesped** _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _costo, _habitacion){
     this->huespedes= _huespedes;
 };
 
-DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion,DTHuesped** _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _habitacion){
+DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,int _habitacion,DTHuesped** _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _habitacion){
     this->huespedes= _huespedes;
 };
 
@@ -394,7 +394,7 @@ DTCalificacion::DTCalificacion(){
 
 };
 
-DTCalificacion::DTCalificacion(int valor, string comentario, DTFecha fecha, int habitacion, string estadia){
+DTCalificacion::DTCalificacion(int valor, string comentario, DTFecha* fecha, int habitacion, string estadia){
     this->valor=valor;
     this->comentario=comentario;
     this->fecha=fecha;
@@ -410,7 +410,7 @@ string DTCalificacion::getComentario(){
     return this->comentario;
 };
 
-DTFecha DTCalificacion::getFecha(){
+DTFecha* DTCalificacion::getFecha(){
     return this->fecha;
 };
 
@@ -473,8 +473,8 @@ DTFecha DTEstadia::getCheckOut(){
     return this->checkOut;
 };
 
-int diasEntre(DTFecha start, DTFecha end){
-    int diascIn = start.getDia() + ((start.getMes() - 1 ) * 31) + (start.getAnio() * 372);
-    int diascOut = end.getDia() + ((end.getMes() - 1) * 31) + (end.getAnio() * 372);
+int diasEntre(DTFecha* start, DTFecha* end){
+    int diascIn = start->getDia() + ((start->getMes() - 1 ) * 31) + (start->getAnio() * 372);
+    int diascOut = end->getDia() + ((end->getMes() - 1) * 31) + (end->getAnio() * 372);
     return diascOut - diascIn + 1;
 }

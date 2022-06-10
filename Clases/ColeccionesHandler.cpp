@@ -4,8 +4,13 @@
 #include <typeinfo>
 #include <iostream>
 
-#include "../Tipos/tipos.h"
 #include "ColeccionesHandler.h"
+#include "Hostal.h"
+#include "Estadia.h"
+#include "Calificacion.h"
+#include "Usuario.h"
+#include "Reserva.h"
+#include "../Tipos/tipos.h"
 
 ColeccionesHandler* ColeccionesHandler::instancia = NULL;
 
@@ -16,11 +21,11 @@ ColeccionesHandler* ColeccionesHandler::getInstancia(){
     return instancia;
 }
 
-void ColeccionesHandler::addHostal(Hostal hostalN){
-    hostales.insert(&hostalN);
+void ColeccionesHandler::addHostal(Hostal* hostalN){
+    hostales.insert(hostalN);
 }
 
-Hostal ColeccionesHandler::getHostal(string nombre){
+Hostal* ColeccionesHandler::getHostal(string nombre){
     set<Hostal*>::iterator it = hostales.begin();
     bool encontre = false;
     while (it != hostales.end() && !encontre){
@@ -29,15 +34,15 @@ Hostal ColeccionesHandler::getHostal(string nombre){
         if(!encontre)
             ++it;
     }
-    return **it;
+    return *it;
 }
 
 set<DTHostal*> ColeccionesHandler::getHostalCol(){
     set<DTHostal*> resu;
     for(set<Hostal*>::iterator it = hostales.begin(); it != hostales.end();++it){
         Hostal actual = **it;
-        DTHostal agregar = actual.getDT(); 
-        resu.insert(&agregar);
+        DTHostal* agregar = actual.getDT(); 
+        resu.insert(agregar);
     }
     return resu;
 }
@@ -49,8 +54,8 @@ set<DTEmpleado*> ColeccionesHandler::getEmpleadoNoAsigCol(string nom){
         if(dynamic_cast<Empleado*>(actual) != 0){    
             Empleado* empleado = dynamic_cast<Empleado*>(actual); 
             if(empleado->getTrabajo()->getNombre() == nom){
-                DTEmpleado agregar = empleado->getDTEmpleado();
-                resu.insert(&agregar);
+                DTEmpleado* agregar = empleado->getDTEmpleado();
+                resu.insert(agregar);
             }
         }
     }
@@ -63,23 +68,28 @@ set<DTUsuario*> ColeccionesHandler::getUsuarios(){
         Usuario* actual = *it;
         if(dynamic_cast<Empleado*>(actual) != 0){
             Empleado* empleado = dynamic_cast<Empleado*>(actual);
-            DTEmpleado agregar = empleado->getDTEmpleado();
-            resu.insert(&agregar);
+            DTEmpleado* agregar = empleado->getDTEmpleado();
+            resu.insert(agregar);
         }
         if(dynamic_cast<Huesped*>(actual) != 0){
             Huesped* huesped = dynamic_cast<Huesped*>(actual);
-            DTHuesped agregar = huesped->getDTHuesped();
-            resu.insert(&agregar);
+            DTHuesped* agregar = huesped->getDTHuesped();
+            resu.insert(agregar);
         }
     }
 return resu;
 }
 
-void ColeccionesHandler::agregarEstadia(Estadia e){
-    this->estadias.insert(&e);
+void ColeccionesHandler::agregarEstadia(Estadia* e){
+    this->estadias.insert(e);
 };
 
-Empleado ColeccionesHandler::getEmpleado(string email){
+void ColeccionesHandler::eliminarEstadia(Estadia* e){
+    this->estadias.erase(e);
+};
+
+
+Empleado* ColeccionesHandler::getEmpleado(string email){
     set<Usuario*>::iterator it = usuarios.begin();
     Empleado* res;
     bool encontre = false;
@@ -92,10 +102,10 @@ Empleado ColeccionesHandler::getEmpleado(string email){
             res = dynamic_cast<Empleado*>(actual);
         };
     }
-    return *res;
+    return res;
 }
 
-IObserver ColeccionesHandler::getEmpleadoObs(string email){
+IObserver* ColeccionesHandler::getEmpleadoObs(string email){
     set<Usuario*>::iterator it = usuarios.begin();
     IObserver* res;
     bool encontre = false;
@@ -108,10 +118,10 @@ IObserver ColeccionesHandler::getEmpleadoObs(string email){
             res = dynamic_cast<IObserver*>(actual);
         };
     }
-    return *res;
+    return res;
 }
 
-Huesped ColeccionesHandler::getHuesped(string email){
+Huesped* ColeccionesHandler::getHuesped(string email){
     set<Usuario*>::iterator it = usuarios.begin();
     Huesped* res;
     bool encontre = false;
@@ -124,7 +134,7 @@ Huesped ColeccionesHandler::getHuesped(string email){
             res = dynamic_cast<Huesped*>(actual);
         };
     }
-    return *res;
+    return res;
 }
 
 set<DTReserva*> ColeccionesHandler::getReservasHostal(string nomH){
@@ -166,8 +176,8 @@ set<DTHuesped*> ColeccionesHandler::getHuespedes(){
         Usuario* actual = *it;
         if(dynamic_cast<Huesped*>(actual) != 0){
             Huesped* huesped = dynamic_cast<Huesped*>(actual);
-            DTHuesped agregar = huesped->getDTHuesped();
-            resu.insert(&agregar);
+            DTHuesped* agregar = huesped->getDTHuesped();
+            resu.insert(agregar);
         }
     }
 return resu;

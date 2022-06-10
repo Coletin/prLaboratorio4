@@ -2,6 +2,10 @@
 #include <string>
 #include <set>
 
+using namespace std;
+
+class DTRespuestaCalificacion;
+
 class RespuestaCalificacion{
     private:
         string comentario;
@@ -9,7 +13,7 @@ class RespuestaCalificacion{
         RespuestaCalificacion();
         RespuestaCalificacion(string);
         ~RespuestaCalificacion();
-        DTRespuestaCalificacion getDTRespuestaCalificacion();
+        DTRespuestaCalificacion* getDTRespuestaCalificacion();
         void setComentario(string comentario);
         string getComentario();
 };

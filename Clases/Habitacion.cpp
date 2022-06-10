@@ -1,4 +1,8 @@
 #include "Habitacion.h"
+#include "Reserva.h"
+#include "Hostal.h"
+#include "../Tipos/tipos.h"
+#include "Estadia.h"
 
 void Habitacion::setNumero(int _numero){ numero = _numero; }
 
@@ -30,13 +34,13 @@ bool Habitacion::esDeHostal(string Nomh){
     return hostal != nullptr && Nomh.compare(hostal->getNombre()) == 0;
 }
 
-bool Habitacion::estaLibre(DataR data){
+bool Habitacion::estaLibre(DataR* data){
     //preguntar como a partir de un datareserva se si estoy libre
     return true;
 }
 
-DTHabitacion Habitacion::getDT(){
-    DTHabitacion respuesta = DTHabitacion(numero,precio,capacidad);
+DTHabitacion* Habitacion::getDT(){
+    DTHabitacion* respuesta = new DTHabitacion(numero,precio,capacidad);
     return respuesta;
 }
 
@@ -65,4 +69,8 @@ set<DTReserva*> Habitacion::getReservasAsociadas(string nombre, string email){
 
 int Habitacion::getHabEstadia(Estadia* est){
     return 1;
+}
+
+string Habitacion::getNomHostal(){
+    return this->hostal->getNombre();
 }
