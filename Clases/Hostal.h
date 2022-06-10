@@ -1,9 +1,18 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "../Tipos/tipos.h"
+
+using namespace std;
 
 class Calificacion;
+class DTEstadia;
+class DTHabitacion;
+class DTCalificacion;
+class DataR;
+class Estadia;
+class DTHostal;
+class DTReserva;
+class Habitacion;
 
 class Hostal{
     private:
@@ -22,15 +31,16 @@ class Hostal{
         string getDireccion();
         string getTelefono();
         set<DTEstadia*> getEstadiasDT();
-        DTHabitacion getHabDis(DataR datar);
-        Habitacion getHabNum(int numeroHab);
+        DTHabitacion* getHabDis(DataR* datar);
+        Habitacion* getHabNum(int numeroHab);
         float getPromCal();
         set<DTCalificacion*> getCalifs();
         set<DTHabitacion*> getHabitaciones();
-        DTHostal getDT();
+        DTHostal* getDT();
         bool existeEstadiasActivas(string email, string nombre);
         set<DTReserva*> getReservasFinalizadasAsociadas(string email, string nombre);
         set<DTReserva*> getReservasAsociadas(string nombre, string email);
-        void agregarCalificacion(Calificacion cal);
-        int getHabEstadia(Estadia est);
+        void agregarCalificacion(Calificacion* cal);
+        int getHabEstadia(Estadia* est);
+        void eliminarCalificacion(Calificacion* cal);
 };

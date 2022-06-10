@@ -1,7 +1,8 @@
-#include "../Clases/Hostal.h"
-#include "../Clases/Habitacion.h"
-#include "../Clases/Calificacion.h"
-#include "../Clases/Estadia.h"
+#include "Hostal.h"
+#include "Habitacion.h"
+#include "../Tipos/tipos.h"
+#include "Estadia.h"
+#include "Calificacion.h"
 
 string Hostal::getNombre(){ return nombre; }
 void Hostal::setNombre(string _nombre){ nombre = _nombre; }
@@ -26,13 +27,13 @@ set<DTEstadia*> Hostal::getEstadiasDT(){
     return respuesta;
 }
 
-DTHabitacion Hostal::getHabDis(DataR datar){
-    DTHabitacion respuesta = DTHabitacion();
+DTHabitacion* Hostal::getHabDis(DataR* datar){
+    DTHabitacion* respuesta = new DTHabitacion();
     return respuesta;
 }
 
-Habitacion Hostal::getHabNum(int numeroHab){
-    Habitacion respuesta = Habitacion();
+Habitacion* Hostal::getHabNum(int numeroHab){
+    Habitacion* respuesta = new Habitacion();
     return respuesta;
 }
 
@@ -50,10 +51,10 @@ set<DTHabitacion*> Hostal::getHabitaciones(){
     return respuesta;
 }
 
-DTHostal Hostal::getDT(){
+DTHostal* Hostal::getDT(){
     set<DTCalificacion*> califica = getCalifs();
     float prom = getPromCal();
-    DTHostal respuesta = DTHostal(nombre,direccion,telefono,prom,califica);
+    DTHostal* respuesta = new DTHostal(nombre,direccion,telefono,prom,califica);
     return respuesta;
 }
 
@@ -71,11 +72,11 @@ set<DTReserva*> Hostal::getReservasAsociadas(string _nombre, string _email){
     return respuesta;
 }
 
-void Hostal::agregarCalificacion(Calificacion cal){
-    //calificaciones.insert(cal);
+void Hostal::agregarCalificacion(Calificacion* cal){
+    calificaciones.insert(cal);
 }
 
-int Hostal::getHabEstadia(Estadia est){
+int Hostal::getHabEstadia(Estadia* est){
     return 1;
 }
 

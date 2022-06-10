@@ -18,8 +18,8 @@ string RespuestaCalificacion::getComentario(){
     return this->comentario;
 };
 
-DTRespuestaCalificacion RespuestaCalificacion::getDTRespuestaCalificacion(){
+DTRespuestaCalificacion* RespuestaCalificacion::getDTRespuestaCalificacion(){
     string comentario = getComentario();
-    DTRespuestaCalificacion dt(comentario);
+    DTRespuestaCalificacion* dt = new DTRespuestaCalificacion(comentario);
     return dt;
 }
