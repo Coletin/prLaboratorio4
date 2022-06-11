@@ -7,13 +7,15 @@
 
 
 
-HostalControlador * HostalControlador::instancia = NULL;
+HostalControlador *HostalControlador::instancia = nullptr;
 
-HostalControlador::HostalControlador() {
-}
+HostalControlador::HostalControlador(){
 
-HostalControlador * HostalControlador::getInstancia() {
-	if(instancia == NULL)
+};
+
+
+HostalControlador * HostalControlador::getInstancia(){
+	if(instancia == nullptr)
 		instancia = new HostalControlador();
 
 	return instancia;
@@ -24,11 +26,16 @@ HostalControlador * HostalControlador::getInstancia() {
 
 void HostalControlador::agregarHostal(string nombre, string direccion, string telefono){
 
+	Hostal *nuevoHostal = new Hostal(nombre,direccion,telefono);
+	hostales.insert(*nuevoHostal);
+    
 }
 
 
 
 void HostalControlador::asignarEmpleado(string nomN, string emailN, CargoEmpleado cargoN){
+    //hostales.find()
+    
 
 }
 
@@ -53,6 +60,17 @@ void HostalControlador::finalizar(){
 
 set<DTHostal*> HostalControlador::listarHostales(){
     set<DTHostal*> setListarHostales;
+    set<Hostal>::iterator itr;
+
+	for(itr = hostales.begin(); itr != hostales.end(); itr++){
+		Hostal& coso = const_cast<Hostal&>(*itr);
+        //dynamic_cast<coso.getDireccion()>;
+		DTHostal host(informacion,coso.getDireccion(),coso.getDireccion(),1,nullptr);
+		setListarHostales.insert(host);
+	}
+ 
+
+
     return setListarHostales;    
 }
 

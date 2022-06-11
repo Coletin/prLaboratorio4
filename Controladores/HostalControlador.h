@@ -1,12 +1,14 @@
 #include <set>
 #include "../Tipos/tipos.h"
+#include "../Clases/Hostal.h"
 #include "../Interfaces/IHostal.h"
 
-class HostalControlador:public IHostal{
+class HostalControlador: public IHostal{
     private:
         string emailN;
         CargoEmpleado cargoN;
         string nom;
+        set<Hostal> hostales;
         set<DTHostal*> t3;
         static HostalControlador * instancia;
         HostalControlador();
