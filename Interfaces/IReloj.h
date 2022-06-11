@@ -1,9 +1,9 @@
-
+class DTFecha;
 
 class IReloj{
     private:
-        DTFecha fecha;
+        DTFecha* fecha;
     public:
-        virtual void setFecha(DTFecha*);
-        virtual DTFecha* getFecha();
+        virtual void setFecha(DTFecha*){};
+        virtual DTFecha* getFecha() = 0;
 };

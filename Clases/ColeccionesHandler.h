@@ -21,7 +21,7 @@ class DTHuesped;
 class ColeccionesHandler {
     private:
         static ColeccionesHandler * instancia;
-        ColeccionesHandler();
+        ColeccionesHandler(){};
         set<Usuario*> usuarios;
         set<Hostal*> hostales;
         set<Reserva*> reservas;
@@ -38,6 +38,7 @@ class ColeccionesHandler {
         Empleado* getEmpleado(string);
         IObserver* getEmpleadoObs(string);
         Huesped* getHuesped(string);
+        Estadia* getEstadia(int);
         set<DTReserva*> getReservasHostal(string);
         void eliminarReserva(int);
         Reserva* getReserva(int);

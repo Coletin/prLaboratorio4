@@ -10,12 +10,14 @@
 #include "Usuario.h"
 
 
+int Estadia::contador = 0;
+
 Estadia::Estadia(){}
 
-Estadia::Estadia(string _codigo, DTFecha* _cIn, DTFecha* _cOut){
-    this->codigo = _codigo;
+Estadia::Estadia(DTFecha* _cIn){
+    Estadia::contador++;
+    this->codigo = Estadia::contador + 1;
     this->checkIn = _cIn;
-    this->checkOut = _cOut;
 }
 
 Estadia::~Estadia(){
@@ -25,7 +27,7 @@ Estadia::~Estadia(){
     this->huesped->eliminarEstadia(this);
 }
 
-string Estadia::getCodigo(){
+int Estadia::getCodigo(){
     return this->codigo;
 }
 
@@ -39,10 +41,6 @@ DTFecha* Estadia::getCheckIn(){
 
 DTFecha* Estadia::getCheckOut(){
     return this->checkOut;
-}
-
-void Estadia::setCodigo(string _codigo){
-    this->codigo = _codigo;
 }
 
 void Estadia::setPromo(string _promo){

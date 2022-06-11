@@ -2,23 +2,29 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "../Tipos/tipos.h"
 #include "../Interfaces/IReserva.h"
 
+
+class DTHostal;
+class DTHabitacion;
+class DTHuesped;
+class DTReserva;
+class DataR;
 
 
 class ReservaControlador:public IReserva{
     private:
-        DataR data;
+        DataR* data;
         int numeroHab;
         set<string> emailHue;
         int codR;
+        string nombre;
         static ReservaControlador * instancia;
         ReservaControlador();
     public:
         static ReservaControlador * getInstancia();
         set<DTHostal*> listarHostales();
-        void ingresarDatosReserva(DataR data);
+        void ingresarDatosReserva(DataR* data);
         set<DTHabitacion*> obtenerHabitacionesDisponiblesEnFecha();
         void agregarHabitacionAReserva(int numeroHab);
         set<DTHuesped*> listarHuespedes();
