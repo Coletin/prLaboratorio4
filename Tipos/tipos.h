@@ -36,15 +36,15 @@ class DTCalificacion{
         string comentario;
         DTFecha* fecha;
         int habitacion;
-        string estadia;//codigo de la estadia asociada a la calificacion
+        int estadia;//codigo de la estadia asociada a la calificacion
     public:
         DTCalificacion();
-        DTCalificacion(int, string, DTFecha*, int, string);
+        DTCalificacion(int, string, DTFecha*, int, int);
         int getValor();
         string getComentario();
         DTFecha* getFecha();
         int getHabitacion();
-        string getEstadia();
+        int getEstadia();
 };
 
 class DTUsuario{
@@ -58,7 +58,7 @@ class DTUsuario{
      string getNombre();
      string getEmail();
      string getContrasena();
-     virtual void toString();
+     virtual void toString(){};
 };
 
 

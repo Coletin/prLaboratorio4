@@ -2,5 +2,5 @@ class Notificacion;
 
 class IObserver{
     public:
-        virtual void notificar(Notificacion* n);
+        virtual void notificar(Notificacion* n){};
 };

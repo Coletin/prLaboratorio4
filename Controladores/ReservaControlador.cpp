@@ -62,11 +62,12 @@ void ReservaControlador::confirmarReserva(){
 	ColeccionesHandler* col;
 	col = ColeccionesHandler::getInstancia();
 	Reserva* r;
-	
+	DTFecha* in = new DTFecha(data->getCheckIn().getDia(),data->getCheckIn().getMes(),data->getCheckIn().getAnio(),data->getCheckIn().getHora());
+	DTFecha* out = new DTFecha(data->getCheckOut().getDia(),data->getCheckOut().getMes(),data->getCheckOut().getAnio(),data->getCheckOut().getHora());
 	if(this->data->getEsGrupal())
-		r = new ReservaGrupal(&data->getCheckIn(),&data->getCheckOut(),Abierta);
+		r = new ReservaGrupal(in,out,Abierta);
 	else
-		r = new ReservaIndividual(&data->getCheckIn(),&data->getCheckOut(),Abierta);
+		r = new ReservaIndividual(in,out,Abierta);
 	
 	Hostal* h = col->getHostal(data->getHostal());
 	Habitacion* hab = h->getHabNum(numeroHab);

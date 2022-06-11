@@ -4,6 +4,14 @@
 using namespace std;
 
 
+DTUsuario::DTUsuario(){};
+
+DTUsuario::DTUsuario(string nombre, string email, string contrasena){
+    this->email = email;
+    this->nombre = nombre;
+    this->contrasena = contrasena;
+}
+
 string DTUsuario::getEmail(){
     return this->email;
 };
@@ -394,7 +402,7 @@ DTCalificacion::DTCalificacion(){
 
 };
 
-DTCalificacion::DTCalificacion(int valor, string comentario, DTFecha* fecha, int habitacion, string estadia){
+DTCalificacion::DTCalificacion(int valor, string comentario, DTFecha* fecha, int habitacion, int estadia){
     this->valor=valor;
     this->comentario=comentario;
     this->fecha=fecha;
@@ -418,7 +426,7 @@ int DTCalificacion::getHabitacion(){
     return this->habitacion;
 };
 
-string DTCalificacion::getEstadia(){
+int DTCalificacion::getEstadia(){
     return this->estadia;
 };
 

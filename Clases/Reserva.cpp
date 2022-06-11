@@ -30,6 +30,11 @@ Reserva::~Reserva(){
     col->eliminarReserva(this->getCodigo());
 }
 
+bool Reserva::esReservaHostal(string nom){
+    return false;
+}
+
+
 Reserva::Reserva(){
     codigo = 0;
     DTFecha* fechaAgregar = new DTFecha(1,1,1,2000);
@@ -45,6 +50,28 @@ Reserva::Reserva(DTFecha* _checkIn, DTFecha* _checkOut, EstadoReserva _estado){
     estado = _estado;
 }
 
+DTReserva* Reserva::getDT(){
+    DTReserva* res;
+    return res;
+}
+
+
+set<Huesped*> Reserva::getHuespedes(){
+    return huespedes;
+}
+
+
+void Reserva::agregarEstadia(Estadia*){
+
+}
+
+void Reserva::asociarHabRev(Habitacion*){
+
+}
+
+void Reserva::asociarHuespedRev(Huesped*){
+    
+}
 /*
 class Reserva{
     private:

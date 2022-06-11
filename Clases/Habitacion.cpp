@@ -74,3 +74,7 @@ int Habitacion::getHabEstadia(Estadia* est){
 string Habitacion::getNomHostal(){
     return this->hostal->getNombre();
 }
+
+void Habitacion::eliminarReserva(Reserva* r){
+    
+}

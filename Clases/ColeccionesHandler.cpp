@@ -74,6 +74,8 @@ set<DTEmpleado*> ColeccionesHandler::getEmpleadoNoAsigCol(string nom){
 return resu;
 }
 
+
+
 set<DTUsuario*> ColeccionesHandler::getUsuarios(){
     set<DTUsuario*> resu;
     for(set<Usuario*>::iterator it = usuarios.begin(); it != usuarios.end();++it){

@@ -14,17 +14,17 @@ class DTCalificacion;
 
 class IUsuario{
     public:
-        virtual void cargarDatosUsuario(string nombre, string contrasenia);
-        virtual void crearHuesped(bool esFinger);
-        virtual void crearEmpleado(CargoEmpleado cargo);
-        virtual bool indicarEmail(string email);
-        virtual bool persistirUsuario();
-        virtual void cancelarCreacionUsuario();
-        virtual set<DTUsuario*> listarUsuarios();
-        virtual DTEmpleado* datosEmpleado(string email);
-        virtual DTHuesped* datosHuesped(string email);
-        virtual set<DTCalificacion*> listarCalificacion(string mail);
-        virtual void seleccionarCalificacion(string codigo);//codigo = Codigo de la estadia
-        virtual void responderComentario(string comentario);
+        virtual void cargarDatosUsuario(string nombre, string contrasenia) = 0;
+        virtual void crearHuesped(bool esFinger) = 0;
+        virtual void crearEmpleado(CargoEmpleado cargo) = 0;
+        virtual bool indicarEmail(string email) = 0;
+        virtual void persistirUsuario() = 0;
+        virtual void cancelarCreacionUsuario() = 0;
+        virtual set<DTUsuario*> listarUsuarios() = 0;
+        virtual DTEmpleado* datosEmpleado(string email) = 0;
+        virtual DTHuesped* datosHuesped(string email) = 0;
+        virtual set<DTCalificacion*> listarCalificacion(string mail) = 0;
+        virtual void seleccionarCalificacion(string codigo) = 0;//codigo = Codigo de la estadia
+        virtual void responderComentario(string comentario){};
 };
 #endif

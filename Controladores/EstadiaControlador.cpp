@@ -156,6 +156,6 @@ void EstadiaControlador::crearCalificacion(string email, string hostal_, string 
     int numHab = hostal->getHabEstadia(est);
     est->setCalificacion(cal);
     Notificacion* n = new Notificacion(false, nombre, valor, comentario);
-    Notificador* not = Notificador::getInstancia();
-    not->modificar(n);
+    Notificador* notif = Notificador::getInstancia();
+    notif->modificar(n);
 }

@@ -28,6 +28,8 @@ set<DTEstadia*> Hostal::getEstadiasDT(){
 }
 
 set<DTHabitacion*> Hostal::getHabDis(DataR* datar){
+    set<DTHabitacion*> resu;
+    return resu;
 }
 
 Habitacion* Hostal::getHabNum(int numeroHab){
@@ -47,6 +49,10 @@ set<DTCalificacion*> Hostal::getCalifs(){
 set<DTHabitacion*> Hostal::getHabitaciones(){
     set<DTHabitacion*> respuesta;
     return respuesta;
+}
+
+void Hostal::agregarHabitacion(int numero, float precio, int capacidad){
+    
 }
 
 DTHostal* Hostal::getDT(){
@@ -86,6 +92,10 @@ void Hostal::agregarCalificacion(Calificacion* cal){
 
 int Hostal::getHabEstadia(Estadia* est){
     return 1;
+}
+
+void Hostal::eliminarCalificacion(Calificacion* cal){
+
 }
 
 

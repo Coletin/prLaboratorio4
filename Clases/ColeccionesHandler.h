@@ -21,7 +21,7 @@ class DTHuesped;
 class ColeccionesHandler {
     private:
         static ColeccionesHandler * instancia;
-        ColeccionesHandler();
+        ColeccionesHandler(){};
         set<Usuario*> usuarios;
         set<Hostal*> hostales;
         set<Reserva*> reservas;

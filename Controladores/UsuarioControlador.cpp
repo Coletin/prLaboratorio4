@@ -14,13 +14,6 @@
 
 UsuarioControlador * UsuarioControlador::instancia = NULL;
 
-UsuarioControlador::UsuarioControlador(){
-    // aca van definiciones del controlador
-    nombreACrear = "";
-    contraseniaACrear = "";
-    usuarioACrear = NULL;
-}
-
 UsuarioControlador * UsuarioControlador::getInstancia(){
 	if(instancia == NULL)
 		instancia = new UsuarioControlador;
@@ -47,7 +40,7 @@ bool UsuarioControlador::indicarEmail(string email){
     ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
     set<DTUsuario*> listaUsuarios = colecciones->getUsuarios();
 
-    for(auto& actual = listaUsuarios.cbegin(); actual != listaUsuarios.cend() && !encontre; actual ++){
+    for(set<DTUsuario*>::iterator actual = listaUsuarios.begin(); actual != listaUsuarios.end() && !encontre; ++actual){
         DTUsuario *elemento = *actual;
         encontre = email.compare(elemento->getEmail()) == 0;
     }
@@ -59,7 +52,7 @@ bool UsuarioControlador::indicarEmail(string email){
 }
 
 
-bool UsuarioControlador::persistirUsuario(){
+void UsuarioControlador::persistirUsuario(){
     Usuario* persistir = NULL;
     if(dynamic_cast<DTEmpleado*>(usuarioACrear)){
         DTEmpleado *dataEmpleado = dynamic_cast<DTEmpleado*>(usuarioACrear);

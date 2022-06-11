@@ -21,7 +21,7 @@ class UsuarioControlador:public IUsuario{
         void crearHuesped(bool esFinger);
         void crearEmpleado(CargoEmpleado cargo);
         bool indicarEmail(string email);
-        bool persistirUsuario();
+        void persistirUsuario();
         void cancelarCreacionUsuario();
         set<DTUsuario*> listarUsuarios();
         DTEmpleado* datosEmpleado(string email);
