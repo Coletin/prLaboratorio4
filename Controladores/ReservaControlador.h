@@ -9,10 +9,11 @@
 
 class ReservaControlador:public IReserva{
     private:
-        DataR data;
+        DataR* data;
         int numeroHab;
         set<string> emailHue;
         int codR;
+        string nombre;
         static ReservaControlador * instancia;
         ReservaControlador();
     public:
