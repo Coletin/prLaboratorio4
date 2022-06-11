@@ -9,6 +9,7 @@
 
 #include "../Clases/Estadia.h"
 #include "../Clases/Fabrica.h"
+#include "../Clases/Hostal.h"
 #include "../Clases/ColeccionesHandler.h"
 
 
@@ -27,34 +28,18 @@ EstadiaControlador * EstadiaControlador::getInstancia(){
 }
 
 set<DTHostal*> EstadiaControlador::listarHostales(){
-    ColeccionesHandler * col = ColeccionesHandler.getInstancia();
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
     return col->getHostalCol();
 }
 
 set<DTReserva*> EstadiaControlador::listarReservas(string email, string hostal){
-    ColeccionesHandler * col = ColeccionesHandler.getInstancia();
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
     Hostal * h = col->getHostal(hostal);
-    set<DTReserva*> setListaReservas = h->getReservasAsociadas(h->getHabitaciones(), email); //cambiar en Hostal.h el metodo de getReservasAsociadas(set<Habitacion*> habs,string email)
+    set<DTReserva*> setListaReservas = h->getReservasAsociadas(email); //cambiar en Hostal.h el metodo de getReservasAsociadas(set<Habitacion*> habs,string email)
 
 
 
-    // for(set<Habitacion*>::iterator it = habs.begin(); it != habs.end();++it){ 
-    //     Habitacion* habActual = *it;
-    //     for(set<Reserva*>::iterator it2 = habActual->reservas.begin(); it2 != habActual->reservas.end();++it){ 
-    //         Reserva* actual = *it2;
-    //         set<Huesped*>::iterator it3 = actual->huespedes.begin();
-    //         bool encontre = false;
-    //         while (it3 != actual->huespedes.end() && !encontre){
-    //             Huesped* hue = *it3;
-    //             encontre = hue->getEmail() == email;
-    //             if(!encontre) ++it;
-    //         };
-    //         if(encontre){
-    //             DTReserva* dt = actual->getDT();
-    //             setListaReservas.insert(dt);
-    //         }
-    //     }
-    // }   
+     
 
     return setListaReservas;
 }
@@ -76,7 +61,7 @@ void EstadiaControlador::registrarEstadia(string email, int codigo){
 
 
 bool EstadiaControlador::existenEstadiasActivas(string email, string hostal){
-    ColeccionesHandler * col = ColeccionesHandler.getInstancia();
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
     Hostal * h = col->getHostal(hostal);
     bool existe = h->existeEstadiasActivas(email, h->getHabitaciones()); //cambiar en Hostal.h el metodo existeEstadiasActivas(string email, set<Habitacion*> habs)
 

@@ -39,8 +39,8 @@ class Hostal{
         set<DTHabitacion*> getHabitaciones();
         DTHostal* getDT();
         bool existeEstadiasActivas(string email, string nombre);
-        set<DTReserva*> getReservasFinalizadasAsociadas(string email, string nombre);
-        set<DTReserva*> getReservasAsociadas(string nombre, string email);
+        set<DTEstadia*> getReservasFinalizadasAsociadas(string email);
+        set<DTReserva*> getReservasAsociadas(string email);
         void agregarCalificacion(Calificacion* cal);
         int getHabEstadia(Estadia* est);
         void eliminarCalificacion(Calificacion* cal);

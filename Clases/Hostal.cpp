@@ -60,14 +60,24 @@ bool Hostal::existeEstadiasActivas(string _email, string _nombre){
     return false;
 }
 
-set<DTReserva*> Hostal::getReservasFinalizadasAsociadas(string _email, string _nombre){
-    set<DTReserva*> respuesta;
-    return respuesta;
+set<DTEstadia*> Hostal::getReservasFinalizadasAsociadas(string _email){
+    set<DTEstadia*> resu;
+    for(set<Habitacion*>::iterator it = habitaciones.begin(); it != habitaciones.end();++it){ 
+        Habitacion* habActual = *it;
+        set<DTEstadia*> resActuales = habActual->getReservasFinalizadasAsociadas(_email);
+        for(set<DTEstadia*>::iterator it1 = resActuales.begin(); it1 != resActuales.end();++it1) resu.insert(*it1);
+    }
+    return resu;
 }
 
-set<DTReserva*> Hostal::getReservasAsociadas(string _nombre, string _email){
-    set<DTReserva*> respuesta;
-    return respuesta;
+set<DTReserva*> Hostal::getReservasAsociadas(string _email){
+    set<DTReserva*> resu;
+    for(set<Habitacion*>::iterator it = habitaciones.begin(); it != habitaciones.end();++it){ 
+        Habitacion* habActual = *it;
+        set<DTReserva*> resActuales = habActual->getReservasAsociadas(_email);
+        for(set<DTReserva*>::iterator it1 = resActuales.begin(); it1 != resActuales.end();++it1) resu.insert(*it1);
+    } 
+    return resu;
 }
 
 void Hostal::agregarCalificacion(Calificacion* cal){
