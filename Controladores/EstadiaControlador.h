@@ -1,8 +1,13 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "../Tipos/tipos.h"
 #include "../Interfaces/IEstadia.h"
+
+using namespace std;
+
+class DTHostal;
+class DTReserva;
+class DTEstadia;
 
 class EstadiaControlador:public IEstadia{
     private:

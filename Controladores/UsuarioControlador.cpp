@@ -6,11 +6,10 @@
 #include "UsuarioControlador.h"
     
 #include "../Clases/Usuario.h"
-#include "../Clases/Empleado.h"
-#include "../Clases/Huesped.h"
 #include "../Clases/Fabrica.h"
 #include "../Clases/ColeccionesHandler.h"
 #include "../Clases/Hostal.h"
+#include "../Tipos/tipos.h"
 
 
 UsuarioControlador * UsuarioControlador::instancia = NULL;
@@ -85,7 +84,7 @@ set<DTUsuario*> UsuarioControlador::listarUsuarios(){
    return setListaUsuarios;
 }
 
-DTEmpleado UsuarioControlador::datosEmpleado(string email){
+DTEmpleado* UsuarioControlador::datosEmpleado(string email){
     DTEmpleado *devolver = NULL;
     ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
     set<DTUsuario*> listaUsuarios = colecciones->getUsuarios();
@@ -94,10 +93,10 @@ DTEmpleado UsuarioControlador::datosEmpleado(string email){
         if(email.compare(actual->getEmail()) == 0 && dynamic_cast<DTEmpleado*>(actual))
             devolver = dynamic_cast<DTEmpleado*>(actual);
     }
-    return *devolver;
+    return devolver;
 }
 
-DTHuesped UsuarioControlador::datosHuesped(string email){
+DTHuesped* UsuarioControlador::datosHuesped(string email){
     DTHuesped *devolver = NULL;
     ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
     set<DTUsuario*> listaUsuarios = colecciones->getUsuarios();
@@ -106,7 +105,7 @@ DTHuesped UsuarioControlador::datosHuesped(string email){
         if(email.compare(actual->getEmail()) == 0 && dynamic_cast<DTHuesped*>(actual))
             devolver = dynamic_cast<DTHuesped*>(actual);
     }
-    return *devolver;
+    return devolver;
 }
 
 
@@ -115,8 +114,8 @@ set<DTCalificacion*> UsuarioControlador::listarCalificacion(string mail){
     
     ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
 
-    Empleado empleado = colecciones->getEmpleado(mail);
-    Hostal *hostal = empleado.getTrabajo();
+    Empleado* empleado = colecciones->getEmpleado(mail);
+    Hostal *hostal = empleado->getTrabajo();
     respuesta = hostal->getCalifs();
 
     return respuesta;

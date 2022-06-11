@@ -1,6 +1,11 @@
 #include <set>
-#include "../Tipos/tipos.h"
 #include "../Interfaces/IUsuario.h"
+
+class DTUsuario;
+class DTEmpleado;
+class DTHuesped;
+class DTCalificacion;
+
 
 class UsuarioControlador:public IUsuario{
     private:
@@ -19,8 +24,8 @@ class UsuarioControlador:public IUsuario{
         bool persistirUsuario();
         void cancelarCreacionUsuario();
         set<DTUsuario*> listarUsuarios();
-        DTEmpleado datosEmpleado(string email);
-        DTHuesped datosHuesped(string email);
+        DTEmpleado* datosEmpleado(string email);
+        DTHuesped* datosHuesped(string email);
         set<DTCalificacion*> listarCalificacion(string mail);
         void seleccionarCalificacion(string codigo);//codigo = Codigo de la estadia
         void responderComentario(string comentario);

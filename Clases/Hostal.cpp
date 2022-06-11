@@ -27,9 +27,7 @@ set<DTEstadia*> Hostal::getEstadiasDT(){
     return respuesta;
 }
 
-DTHabitacion* Hostal::getHabDis(DataR* datar){
-    DTHabitacion* respuesta = new DTHabitacion();
-    return respuesta;
+set<DTHabitacion*> Hostal::getHabDis(DataR* datar){
 }
 
 Habitacion* Hostal::getHabNum(int numeroHab){

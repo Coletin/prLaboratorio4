@@ -9,6 +9,7 @@
 #include "../Clases/Fabrica.h"
 #include "../Clases/Habitacion.h"
 #include "../Clases/Hostal.h"
+#include "../Tipos/tipos.h"
 
 ReservaControlador *ReservaControlador::instancia = NULL;
 
@@ -32,15 +33,15 @@ set<DTHostal*> ReservaControlador::listarHostales(){
 	return col->getHostalCol();
 }
 
-void ReservaControlador::ingresarDatosReserva(DataR data){
-	this->data = &data;
+void ReservaControlador::ingresarDatosReserva(DataR* data){
+	this->data = data;
 }
 
 set<DTHabitacion*> ReservaControlador::obtenerHabitacionesDisponiblesEnFecha(){
 	ColeccionesHandler* col;
 	col = ColeccionesHandler::getInstancia();
-	Hostal* h = col->getHostal(data->getHostal());
-	return h->getHabDis(data*);
+	Hostal* h = col->getHostal(this->data->getHostal());
+	return h->getHabDis(data);
 }
 
 void ReservaControlador::agregarHabitacionAReserva(int numeroHab){

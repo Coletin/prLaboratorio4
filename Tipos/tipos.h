@@ -4,6 +4,10 @@
 
 using namespace std;
 
+#ifndef CargoEmpleado
+#include "../Tipos/CargoEmpleado.h"
+#endif
+
 
 class DTFecha{
     private:
@@ -70,11 +74,11 @@ class DTHuesped : public DTUsuario{
 
 class DTEmpleado : public DTUsuario{
     private:
-        string cargo;
+        CargoEmpleado cargo;
     public:
         DTEmpleado();
-        DTEmpleado(string, string, string, string);
-        string getCargo();
+        DTEmpleado(string, string, string, CargoEmpleado);
+        CargoEmpleado getCargo();
         void toString();
 };
 
