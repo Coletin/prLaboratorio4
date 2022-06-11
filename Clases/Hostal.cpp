@@ -56,7 +56,7 @@ DTHostal* Hostal::getDT(){
     return respuesta;
 }
 
-bool Hostal::existeEstadiasActivas(string _email, string _nombre){
+bool Hostal::existeEstadiasActivas(string _email){
     return false;
 }
 

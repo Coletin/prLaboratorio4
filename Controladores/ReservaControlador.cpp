@@ -64,9 +64,9 @@ void ReservaControlador::confirmarReserva(){
 	Reserva* r;
 	
 	if(this->data->getEsGrupal())
-		r = new ReservaGrupal(17,&data->getCheckIn(),&data->getCheckOut(),Abierta);
+		r = new ReservaGrupal(&data->getCheckIn(),&data->getCheckOut(),Abierta);
 	else
-		r = new ReservaIndividual(17,&data->getCheckIn(),&data->getCheckOut(),Abierta);
+		r = new ReservaIndividual(&data->getCheckIn(),&data->getCheckOut(),Abierta);
 	
 	Hostal* h = col->getHostal(data->getHostal());
 	Habitacion* hab = h->getHabNum(numeroHab);

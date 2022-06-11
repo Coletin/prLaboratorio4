@@ -1,5 +1,6 @@
 #include <set>
 #include <string>
+
 #include "../Tipos/CargoEmpleado.h"
 
 using namespace std;

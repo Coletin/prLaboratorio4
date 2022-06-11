@@ -38,6 +38,7 @@ class ColeccionesHandler {
         Empleado* getEmpleado(string);
         IObserver* getEmpleadoObs(string);
         Huesped* getHuesped(string);
+        Estadia* getEstadia(int);
         set<DTReserva*> getReservasHostal(string);
         void eliminarReserva(int);
         Reserva* getReserva(int);

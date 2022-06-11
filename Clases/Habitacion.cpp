@@ -58,7 +58,7 @@ set<DTEstadia*> Habitacion::getReservasFinalizadasAsociadas(string email){
     return respuesta;
 }
 
-bool Habitacion::existeEstadiasActivas(string email, string nombre){
+bool Habitacion::existeEstadiasActivas(string email){
     return false;
 }
 

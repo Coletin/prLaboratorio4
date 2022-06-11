@@ -19,7 +19,7 @@ class EstadiaControlador:public IEstadia{
         set<DTReserva*> listarReservas(string email, string hostal);
         void registrarEstadia(string email, int codigo);
         bool existenEstadiasActivas(string email, string hostal);
-        void finalizarEstadia(string codigo);
+        void finalizarEstadia(int codigo);
         set<DTEstadia*> obtenerEstadiasFinalizadas(string email, string hostal);
         void crearCalificacion(string email, string hostal, string comentario, int valor);
 };

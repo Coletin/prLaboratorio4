@@ -11,6 +11,11 @@
 #include "../Clases/Fabrica.h"
 #include "../Clases/Hostal.h"
 #include "../Clases/ColeccionesHandler.h"
+#include "../Clases/Reserva.h"
+#include "../Clases/Usuario.h"
+#include "../Clases/Calificacion.h"
+#include "../Clases/Notificacion.h"
+#include "../Clases/Notificador.h"
 
 
 EstadiaControlador * EstadiaControlador::instancia = NULL;
@@ -35,24 +40,19 @@ set<DTHostal*> EstadiaControlador::listarHostales(){
 set<DTReserva*> EstadiaControlador::listarReservas(string email, string hostal){
     ColeccionesHandler * col = ColeccionesHandler::getInstancia();
     Hostal * h = col->getHostal(hostal);
-    set<DTReserva*> setListaReservas = h->getReservasAsociadas(email); //cambiar en Hostal.h el metodo de getReservasAsociadas(set<Habitacion*> habs,string email)
-
-
-
-     
-
+    set<DTReserva*> setListaReservas = h->getReservasAsociadas(email);
     return setListaReservas;
 }
 
 
 
 void EstadiaControlador::registrarEstadia(string email, int codigo){
-    ColeccionesHandler * col = ColeccionesHandler.getInstancia();
-    RelojControlador * reloj = RelojControlador.getInstancia();
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    RelojControlador * reloj = RelojControlador::getInstancia();
     DTFecha* fecha = reloj->getFecha();
-    Reserva* reserva = col->getReserva();
-    Estadia est = new Estadia();
-    est.setCheckIn(fecha);
+    Reserva* reserva = col->getReserva(codigo);
+    Estadia* est = new Estadia();
+    est->setCheckIn(fecha);
     col->agregarEstadia(est);
     reserva->agregarEstadia(est);
     Huesped* huesped = col->getHuesped(email);
@@ -63,7 +63,7 @@ void EstadiaControlador::registrarEstadia(string email, int codigo){
 bool EstadiaControlador::existenEstadiasActivas(string email, string hostal){
     ColeccionesHandler * col = ColeccionesHandler::getInstancia();
     Hostal * h = col->getHostal(hostal);
-    bool existe = h->existeEstadiasActivas(email, h->getHabitaciones()); //cambiar en Hostal.h el metodo existeEstadiasActivas(string email, set<Habitacion*> habs)
+    bool existe = h->existeEstadiasActivas(email);
 
 
 
@@ -95,10 +95,10 @@ bool EstadiaControlador::existenEstadiasActivas(string email, string hostal){
 
 
 /* Se busca la estadia para setearle hora de checkOut*/
-void EstadiaControlador::finalizarEstadia(string codigo){
+void EstadiaControlador::finalizarEstadia(int codigo){
     bool existe = false;
-    ColeccionesHandler * col = ColeccionesHandler.getInstancia();
-    RelojControlador * reloj = RelojControlador.getInstancia();
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    RelojControlador * reloj = RelojControlador::getInstancia();
     Estadia* est = col->getEstadia(codigo);
     est->setCheckOut(reloj->getFecha());
 }
@@ -108,11 +108,9 @@ void EstadiaControlador::finalizarEstadia(string codigo){
 
 set<DTEstadia*> EstadiaControlador::obtenerEstadiasFinalizadas(string email, string hostal){
     
-    ColeccionesHandler * col = ColeccionesHandler.getInstancia();
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
     Hostal * h = col->getHostal(hostal);
-    set<DTEstadia*> setEstadiasFinalizadas = h->getReservasFinalizadasAsociadas(email, h->getHabitaciones()); //cambiar en Hostal.h el metodo getReservasFinalizadasAsociadas(string email, set<Habitacion*> habs)
-
-
+    set<DTEstadia*> setEstadiasFinalizadas = h->getReservasFinalizadasAsociadas(email);
     // set<Habitacion*>::iterator it = habs.begin(); 
     // while (it != habs.end() && !existe){
     //     Habitacion* hab = *it;
@@ -140,23 +138,24 @@ set<DTEstadia*> EstadiaControlador::obtenerEstadiasFinalizadas(string email, str
 
 
 
-void EstadiaControlador::crearCalificacion(string email, string hostal, string comentario, int valor){
-    RelojControlador * reloj = RelojControlador.getInstancia();
+void EstadiaControlador::crearCalificacion(string email, string hostal_, string comentario, int valor){
+    RelojControlador * reloj = RelojControlador::getInstancia();
     DTFecha * fecha = reloj->getFecha();
-    Calificacion cal = new Calificacion();
-    cal.setComentario(comentario);
-    cal.setValor(valor);
-    cal.setFecha(fecha);
+    Calificacion* cal = new Calificacion();
+    cal->setComentario(comentario);
+    cal->setValor(valor);
+    cal->setFecha(fecha);
 
-    ColeccionesHandler * col = ColeccionesHandler.getInstancia();
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
     Huesped* huesped = col->getHuesped(email);
-    Hostal* hostal = col->getHostal(hostal);
+    Hostal* hostal = col->getHostal(hostal_);
 
-    String nombre = huesped->getNombre();
+    string nombre = huesped->getNombre();
     Estadia* est = huesped->getEstadia();
     hostal->agregarCalificacion(cal);
     int numHab = hostal->getHabEstadia(est);
     est->setCalificacion(cal);
-    Notificacion n = new Notificacion(nombre, valor, comentario);
-    // donde esta el notificador?
+    Notificacion* n = new Notificacion(false, nombre, valor, comentario);
+    Notificador* not = Notificador::getInstancia();
+    not->modificar(n);
 }

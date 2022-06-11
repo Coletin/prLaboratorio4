@@ -24,8 +24,9 @@ class Reserva{
      set<Estadia*> estadias;
      set<Huesped*> huespedes;
      Habitacion* habitacion;
+     static int contador;
     public:
-     Reserva(int,DTFecha*,DTFecha*,EstadoReserva); 
+     Reserva(DTFecha*,DTFecha*,EstadoReserva); 
      Reserva();
      ~Reserva();
      virtual float calcularCosto() = 0;
@@ -36,7 +37,6 @@ class Reserva{
      Habitacion* getHabitacion();
      set<Huesped*> getHuespedes();
      set<Estadia*> getEstadias();
-     void setCodigo(int);
      void setCheckIn(DTFecha*);
      void setCheckOut(DTFecha*);
      void setEstado(EstadoReserva);
@@ -47,8 +47,8 @@ class Reserva{
      void asociarHabRev(Habitacion*);
      void asociarHuespedRev(Huesped*);
      set<DTEstadia*> getEstadiasDT();
-     set<DTReserva*> getReservasFinalizadasAsociadas(string, string);
-     bool existeEstadiasActivas(string, string);
+     set<DTEstadia*> getReservasFinalizadasAsociadas(string);
+     bool existeEstadiasActivas(string);
      bool estEsta(Estadia*);
      void agregarEstadia(Estadia*);
 };
@@ -61,7 +61,7 @@ class ReservaGrupal : public Reserva{
     private:
 
     public:
-     ReservaGrupal(int,DTFecha*,DTFecha*,EstadoReserva); 
+     ReservaGrupal(DTFecha*,DTFecha*,EstadoReserva); 
      ~ReservaGrupal(); 
      virtual float calcularCosto();
      virtual int cantidadHuespedes();
@@ -77,7 +77,7 @@ class ReservaIndividual : public Reserva{
     private:
 
     public:
-     ReservaIndividual(int,DTFecha*,DTFecha*,EstadoReserva);
+     ReservaIndividual(DTFecha*,DTFecha*,EstadoReserva);
      ~ReservaIndividual();
      virtual float calcularCosto();
 };

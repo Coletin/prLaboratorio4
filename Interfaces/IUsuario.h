@@ -3,7 +3,6 @@
 
 #ifndef CargoEmpleado
 #include "../Tipos/CargoEmpleado.h"
-#endif
 
 using namespace std;
 
@@ -28,3 +27,4 @@ class IUsuario{
         virtual void seleccionarCalificacion(string codigo);//codigo = Codigo de la estadia
         virtual void responderComentario(string comentario);
 };
+#endif

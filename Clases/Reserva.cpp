@@ -5,7 +5,8 @@
 #include "Estadia.h"
 #include "ColeccionesHandler.h"
 
-void Reserva::setCodigo(int _codigo){ codigo = _codigo; }
+int Reserva::contador = 0;
+
 void Reserva::setCheckIn(DTFecha* _checkIn){ checkIn = _checkIn; }
 void Reserva::setCheckOut(DTFecha* _checkOut){ checkOut = _checkOut; }
 void Reserva::setEstado(EstadoReserva _estado){ estado = _estado; }
@@ -36,8 +37,9 @@ Reserva::Reserva(){
     checkOut = fechaAgregar;
 }
 
-Reserva::Reserva(int _codigo, DTFecha* _checkIn, DTFecha* _checkOut, EstadoReserva _estado){
-    codigo = _codigo;
+Reserva::Reserva(DTFecha* _checkIn, DTFecha* _checkOut, EstadoReserva _estado){
+    this->contador++;
+    codigo = this->contador;
     checkIn = _checkIn;
     checkOut = _checkOut;
     estado = _estado;
@@ -74,7 +76,7 @@ class Reserva{
 
 
 
-ReservaGrupal::ReservaGrupal(int _codigo,DTFecha* _checkIn,DTFecha* _checkOut,EstadoReserva _estado):Reserva(_codigo, _checkIn, _checkOut, _estado){
+ReservaGrupal::ReservaGrupal(DTFecha* _checkIn,DTFecha* _checkOut,EstadoReserva _estado):Reserva(_checkIn, _checkOut, _estado){
 };
 
 float ReservaGrupal::calcularCosto(){
@@ -115,7 +117,7 @@ int ReservaGrupal::cantidadHuespedes(){
 
 
 
-ReservaIndividual::ReservaIndividual(int _codigo,DTFecha* _checkIn,DTFecha* _checkOut,EstadoReserva _estado):Reserva(_codigo, _checkIn, _checkOut, _estado){
+ReservaIndividual::ReservaIndividual(DTFecha* _checkIn,DTFecha* _checkOut,EstadoReserva _estado):Reserva(_checkIn, _checkOut, _estado){
 };
 
 float ReservaIndividual::calcularCosto(){

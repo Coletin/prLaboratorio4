@@ -36,7 +36,7 @@ class Habitacion{
      void asociarRevHab(Reserva *r);
      set<DTEstadia*> getEstadiasDT(); 
      set<DTEstadia*> getReservasFinalizadasAsociadas(string);
-     bool existeEstadiasActivas(string email, string nombre);
+     bool existeEstadiasActivas(string email);
      set<DTReserva*> getReservasAsociadas(string email);
      int getHabEstadia(Estadia* est);
      void eliminarReserva(Reserva*);
