@@ -11,6 +11,7 @@ class HostalControlador: public IHostal{
         set<Hostal> hostales;
         set<DTHostal*> t3;
         static HostalControlador * instancia;
+        HostalControlador();
     public:
         static HostalControlador * getInstancia();
         void agregarHostal(string nombre, string direccion, string telefono);

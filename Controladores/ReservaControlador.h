@@ -3,16 +3,19 @@
 #include <string>
 #include <set>
 #include "../Tipos/tipos.h"
+#include "../Interfaces/IReserva.h"
 
 
 
-class ReservaControlador{
+class ReservaControlador:public IReserva{
     private:
-        DataR data;
+        DataR* data;
         int numeroHab;
         set<string> emailHue;
         int codR;
+        string nombre;
         static ReservaControlador * instancia;
+        ReservaControlador();
     public:
         static ReservaControlador * getInstancia();
         set<DTHostal*> listarHostales();

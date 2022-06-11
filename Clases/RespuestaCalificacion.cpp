@@ -6,20 +6,20 @@
 RespuestaCalificacion::RespuestaCalificacion(){
 };
 
-RespuestaCalificacion::RespuestaCalificacion(String _comentario){
+RespuestaCalificacion::RespuestaCalificacion(string _comentario){
     this->comentario = _comentario;
 };
 
-void RespuestaCalificacion::setComentario(String _comentario){
+void RespuestaCalificacion::setComentario(string _comentario){
     this->comentario = _comentario;
 }
 
-String RespuestaCalificacion::getComentario(){
+string RespuestaCalificacion::getComentario(){
     return this->comentario;
 };
 
-DTRespuestaCalificacion RespuestaCalificacion::getDTRespuestaCalificacion(){
-    String comentario = getComentario();
-    DTRespuestaCalificacion dt = new DTRespuestaCalificacion(comentario);
+DTRespuestaCalificacion* RespuestaCalificacion::getDTRespuestaCalificacion(){
+    string comentario = getComentario();
+    DTRespuestaCalificacion* dt = new DTRespuestaCalificacion(comentario);
     return dt;
 }
