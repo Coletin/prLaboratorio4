@@ -6,8 +6,10 @@ class UsuarioControlador:public IUsuario{
     private:
         DTUsuario * usuarioACrear;
         string nombreACrear;
+        string emailACrear;
         string contraseniaACrear;
         static UsuarioControlador * instancia;
+        void limpiarMemoria();
     public:
         static UsuarioControlador * getInstancia();
         void cargarDatosUsuario(string nombre, string contrasenia);
