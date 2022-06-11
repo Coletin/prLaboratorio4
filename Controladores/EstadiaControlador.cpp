@@ -34,25 +34,27 @@ set<DTHostal*> EstadiaControlador::listarHostales(){
 set<DTReserva*> EstadiaControlador::listarReservas(string email, string hostal){
     ColeccionesHandler * col = ColeccionesHandler.getInstancia();
     Hostal * h = col->getHostal(hostal);
-    set<DTReserva*> setListaReservas;
+    set<DTReserva*> setListaReservas = h->getReservasAsociadas(h->getHabitaciones(), email); //cambiar en Hostal.h el metodo de getReservasAsociadas(set<Habitacion*> habs,string email)
 
-    for(set<Habitacion*>::iterator it = h->habitaciones.begin(); it != h->habitaciones.end();++it){ // el primer for equivale getReservasAsociadas de hostal, pero le tengo que pasar como parametro el hostal y string email
-        Habitacion* habActual = *it;
-        for(set<Reserva*>::iterator it2 = habActual->reservas.begin(); it2 != habActual->reservas.end();++it){ // el segundo for equivale getReservasAsociadas de habitacion, pero le tengo que pasar como parametro solo el string email
-            Reserva* actual = *it2;
-            set<Huesped*>::iterator it3 = actual->huespedes.begin();
-            bool encontre = false;
-            while (it3 != actual->huespedes.end() && !encontre){
-                Huesped* hue = *it3;
-                encontre = hue->getEmail() == email;
-                if(!encontre) ++it;
-            };
-            if(encontre){
-                DTReserva* dt = actual->getDT();
-                setListaReservas.insert(dt);
-            }
-        }
-    }   
+
+
+    // for(set<Habitacion*>::iterator it = habs.begin(); it != habs.end();++it){ 
+    //     Habitacion* habActual = *it;
+    //     for(set<Reserva*>::iterator it2 = habActual->reservas.begin(); it2 != habActual->reservas.end();++it){ 
+    //         Reserva* actual = *it2;
+    //         set<Huesped*>::iterator it3 = actual->huespedes.begin();
+    //         bool encontre = false;
+    //         while (it3 != actual->huespedes.end() && !encontre){
+    //             Huesped* hue = *it3;
+    //             encontre = hue->getEmail() == email;
+    //             if(!encontre) ++it;
+    //         };
+    //         if(encontre){
+    //             DTReserva* dt = actual->getDT();
+    //             setListaReservas.insert(dt);
+    //         }
+    //     }
+    // }   
 
     return setListaReservas;
 }
@@ -74,31 +76,32 @@ void EstadiaControlador::registrarEstadia(string email, int codigo){
 
 
 bool EstadiaControlador::existenEstadiasActivas(string email, string hostal){
-    bool existe = false;
     ColeccionesHandler * col = ColeccionesHandler.getInstancia();
     Hostal * h = col->getHostal(hostal);
+    bool existe = h->existeEstadiasActivas(email, h->getHabitaciones()); //cambiar en Hostal.h el metodo existeEstadiasActivas(string email, set<Habitacion*> habs)
 
-//estos 3 while anidados equivalen a existeEstadiasActivas de hostal, habitacion, reserva cambiandole los parametros cambiando el string por Hostal*, Habitacion* y Reserva* respectivamente, siempre mateniendo string email
-    set<Habitacion*>::iterator it = h->habitaciones.begin(); 
-    while (it != h->habitaciones.end() && !existe){
-        Habitacion* hab = *it;
-        set<Reserva*>::iterator it2 = hab->reservas.begin(); 
-        while (it2 != hab->reservas.end() && !existe){
-            Reserva* rev = *it2;
-            set<Estadia*>::iterator it3 = rev->estadias.begin();
-            while (it3 != rev->estadias.end() && !existe){
-                Estadia* est = *it3;
-                if(est->checkOut == nullptr){
-                    Huesped* hue = est->huesped;
-                    if(hue.getEmail == email) 
-                        existe = true;
-                }
-                it3++;                
-            };
-            it2++;
-        };
-        it++;
-    };
+
+
+    // set<Habitacion*>::iterator it = habs.begin(); 
+    // while (it != habs.end() && !existe){
+    //     Habitacion* hab = *it;
+    //     set<Reserva*>::iterator it2 = hab->reservas.begin(); 
+    //     while (it2 != hab->reservas.end() && !existe){
+    //         Reserva* rev = *it2;
+    //         set<Estadia*>::iterator it3 = rev->estadias.begin();
+    //         while (it3 != rev->estadias.end() && !existe){
+    //             Estadia* est = *it3;
+    //             if(est->checkOut == nullptr){
+    //                 Huesped* hue = est->huesped;
+    //                 if(hue.getEmail == email) 
+    //                     existe = true;
+    //             }
+    //             it3++;                
+    //         };
+    //         it2++;
+    //     };
+    //     it++;
+    // };
 
     return existe;
 }
@@ -119,32 +122,33 @@ void EstadiaControlador::finalizarEstadia(string codigo){
 
 
 set<DTEstadia*> EstadiaControlador::obtenerEstadiasFinalizadas(string email, string hostal){
-    set<DTEstadia*> setEstadiasFinalizadas;
+    
     ColeccionesHandler * col = ColeccionesHandler.getInstancia();
     Hostal * h = col->getHostal(hostal);
+    set<DTEstadia*> setEstadiasFinalizadas = h->getReservasFinalizadasAsociadas(email, h->getHabitaciones()); //cambiar en Hostal.h el metodo getReservasFinalizadasAsociadas(string email, set<Habitacion*> habs)
 
-//estos 3 while anidados equivalen a existeEstadiasActivas de hostal, habitacion, reserva cambiandole los parametros cambiando el string por Hostal*, Habitacion* y Reserva* respectivamente, siempre mateniendo string email
-    set<Habitacion*>::iterator it = h->habitaciones.begin(); 
-    while (it != h->habitaciones.end() && !existe){
-        Habitacion* hab = *it;
-        set<Reserva*>::iterator it2 = hab->reservas.begin(); 
-        while (it2 != hab->reservas.end() && !existe){
-            Reserva* rev = *it2;
-            set<Estadia*>::iterator it3 = rev->estadias.begin();
-            while (it3 != rev->estadias.end() && !existe){
-                Estadia* est = *it3;
-                if(est->checkOut != nullptr){
-                    Huesped* hue = est->huesped;
-                    if(hue.getEmail == email)
-                        DTEstadia* dt = est->getDTEstadia();
-                        setListaReservas.insert(dt);
-                }
-                it3++;                
-            };
-            it2++;
-        };
-        it++;
-    };
+
+    // set<Habitacion*>::iterator it = habs.begin(); 
+    // while (it != habs.end() && !existe){
+    //     Habitacion* hab = *it;
+    //     set<Reserva*>::iterator it2 = hab->reservas.begin(); 
+    //     while (it2 != hab->reservas.end() && !existe){
+    //         Reserva* rev = *it2;
+    //         set<Estadia*>::iterator it3 = rev->estadias.begin();
+    //         while (it3 != rev->estadias.end() && !existe){
+    //             Estadia* est = *it3;
+    //             if(est->checkOut != nullptr){
+    //                 Huesped* hue = est->huesped;
+    //                 if(hue.getEmail == email)
+    //                     DTEstadia* dt = est->getDTEstadia();
+    //                     setListaReservas.insert(dt);
+    //             }
+    //             it3++;                
+    //         };
+    //         it2++;
+    //     };
+    //     it++;
+    // };
    
     return setEstadiasFinalizadas;
 }
