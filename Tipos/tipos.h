@@ -4,6 +4,10 @@
 
 using namespace std;
 
+#ifndef CargoEmpleado
+#include "../Tipos/CargoEmpleado.h"
+#endif
+
 
 class DTFecha{
     private:
@@ -32,15 +36,15 @@ class DTCalificacion{
         string comentario;
         DTFecha* fecha;
         int habitacion;
-        string estadia;//codigo de la estadia asociada a la calificacion
+        int estadia;//codigo de la estadia asociada a la calificacion
     public:
         DTCalificacion();
-        DTCalificacion(int, string, DTFecha*, int, string);
+        DTCalificacion(int, string, DTFecha*, int, int);
         int getValor();
         string getComentario();
         DTFecha* getFecha();
         int getHabitacion();
-        string getEstadia();
+        int getEstadia();
 };
 
 class DTUsuario{
@@ -54,7 +58,7 @@ class DTUsuario{
      string getNombre();
      string getEmail();
      string getContrasena();
-     virtual void toString();
+     virtual void toString(){};
 };
 
 
@@ -70,11 +74,11 @@ class DTHuesped : public DTUsuario{
 
 class DTEmpleado : public DTUsuario{
     private:
-        string cargo;
+        CargoEmpleado cargo;
     public:
         DTEmpleado();
-        DTEmpleado(string, string, string, string);
-        string getCargo();
+        DTEmpleado(string, string, string, CargoEmpleado);
+        CargoEmpleado getCargo();
         void toString();
 };
 

@@ -95,19 +95,7 @@ DTEmpleado* Empleado::getDTEmpleado(){
     string _nombre = getNombre();
     string _email = getEmail();
     string _password = getPassword();
-    string _cargo;
-    if(this->getCargo()==Recepcion){
-        _cargo = "Recepcion";
-    }
-    else if(this->getCargo()==Administracion){
-         _cargo = "Administracion";
-    }
-    else if(this->getCargo()==Limpieza){
-         _cargo = "Limpieza";
-    }
-    else if(this->getCargo()==Infraestructura){
-         _cargo = "Infraestructura";
-    };
+    CargoEmpleado _cargo = getCargo();
     DTEmpleado* res = new DTEmpleado(_nombre,_email,_password,_cargo);
     return res;
 }

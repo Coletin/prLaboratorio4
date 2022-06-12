@@ -83,7 +83,7 @@ int main(){
             break;
             case 19:
             break;
-            case 20:
+            case 20: {
 
             //E1
 
@@ -141,13 +141,17 @@ int main(){
             
 
             //AsignarEmpleados
-            controladorHostal->asignarEmpleado("La posada finger", "emilia@mail.com", CargoEmpleado::Recepcion);
+            controladorHostal->seleccionarHostalVar("La posada finger");
+            controladorHostal->asignarEmpleado("emilia@mail.com", CargoEmpleado::Recepcion);
             controladorHostal->confirmarAsigncacion();
-            controladorHostal->asignarEmpleado("Mochileros", "leo@mail.com", CargoEmpleado::Recepcion);
+            controladorHostal->seleccionarHostalVar("Mochileros");
+            controladorHostal->asignarEmpleado("leo@mail.com", CargoEmpleado::Recepcion);
             controladorHostal->confirmarAsigncacion();
-            controladorHostal->asignarEmpleado("Mochileros", "alina@mail.com", CargoEmpleado::Administracion);
+            controladorHostal->seleccionarHostalVar("Mochileros");
+            controladorHostal->asignarEmpleado("alina@mail.com", CargoEmpleado::Administracion);
             controladorHostal->confirmarAsigncacion();
-            controladorHostal->asignarEmpleado("El Pony Pisador", "barli@mail.com", CargoEmpleado::Recepcion);
+            controladorHostal->seleccionarHostalVar("El Pony Pisador");
+            controladorHostal->asignarEmpleado("barli@mail.com", CargoEmpleado::Recepcion);
             controladorHostal->confirmarAsigncacion();
 
 
@@ -222,8 +226,8 @@ int main(){
             controladorReloj->setFecha(fechaSistema);
             //agregar comentario C2
             controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
-
             break;
+            }
             case 21:
             break;
             default:

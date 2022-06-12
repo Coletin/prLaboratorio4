@@ -14,7 +14,7 @@ class Usuario{
     public:
      Usuario();
      Usuario(string, string, string);
-     virtual ~Usuario() = 0;
+     virtual ~Usuario(){};
      string getEmail();
      string getNombre();
      string getPassword();

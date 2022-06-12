@@ -53,16 +53,16 @@ set<DTEstadia*> Habitacion::getEstadiasDT(){
     return respuesta;
 }
 
-set<DTReserva*> Habitacion::getReservasFinalizadasAsociadas(){
-    set<DTReserva*> respuesta;
+set<DTEstadia*> Habitacion::getReservasFinalizadasAsociadas(string email){
+    set<DTEstadia*> respuesta;
     return respuesta;
 }
 
-bool Habitacion::existeEstadiasActivas(string email, string nombre){
+bool Habitacion::existeEstadiasActivas(string email){
     return false;
 }
 
-set<DTReserva*> Habitacion::getReservasAsociadas(string nombre, string email){
+set<DTReserva*> Habitacion::getReservasAsociadas(string email){
     set<DTReserva*> respuesta;
     return respuesta;
 }
@@ -73,4 +73,8 @@ int Habitacion::getHabEstadia(Estadia* est){
 
 string Habitacion::getNomHostal(){
     return this->hostal->getNombre();
+}
+
+void Habitacion::eliminarReserva(Reserva* r){
+    
 }
