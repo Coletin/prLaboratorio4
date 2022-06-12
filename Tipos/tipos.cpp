@@ -247,7 +247,7 @@ istream& operator>>(istream& i, DTFecha& f){
     return i;
 };
 
-DTReserva::DTReserva(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,float _costo,int _habitacion){
+DTReserva::DTReserva(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion){
     this->codigo = _codigo;
     this->checkIn = _checkIn;
     this->checkOut = _checkOut;
@@ -256,7 +256,7 @@ DTReserva::DTReserva(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado
     this->habitacion = _habitacion;
 };
 
-DTReserva::DTReserva(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,int _habitacion){
+DTReserva::DTReserva(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion){
     this->codigo = _codigo;
     this->checkIn = _checkIn;
     this->checkOut = _checkOut;
@@ -279,7 +279,7 @@ int DTReserva::getCodigo(){
     return this->codigo;
 };
 
-bool DTReserva::getEstadoReserva(){
+EstadoReserva DTReserva::getEstadoReserva(){
     return this->estado;
 };
 
@@ -291,21 +291,21 @@ int DTReserva::getHabitacion(){
     return this->habitacion;
 };
 
-DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,float _costo,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_costo,_habitacion){
+DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_costo,_habitacion){
 };
 
-DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_habitacion){
+DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_habitacion){
 };
 
-DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,float _costo,int _habitacion,DTHuesped** _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _costo, _habitacion){
+DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion,set<DTHuesped*> _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _costo, _habitacion){
     this->huespedes= _huespedes;
 };
 
-DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,bool _estado,int _habitacion,DTHuesped** _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _habitacion){
+DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion,set<DTHuesped*> _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _habitacion){
     this->huespedes= _huespedes;
 };
 
-DTHuesped** DTReservaGrupal::getHuespedes(){
+set<DTHuesped*> DTReservaGrupal::getHuespedes(){
     return huespedes;
 };
 
@@ -338,15 +338,16 @@ ostream& operator<<(ostream& o, DTReservaGrupal& rg){
     o << "Habitacion: " << rg.getHabitacion() << endl;
     o << "Costo: $" << rg.getCosto() << endl;
     o << "Huespedes: ";
-    int i = 0;
-    while(rg.getHuespedes()[i]!=nullptr){
-        o << rg.getHuespedes()[i]->getNombre() << " - " << rg.getHuespedes()[i]->getEmail();
-        if(rg.getHuespedes()[i]->getEsFinger()) 
+    set<DTHuesped*>::iterator it = rg.getHuespedes().begin();
+    while(it != rg.getHuespedes().end()){
+        DTHuesped* actual = *it;
+        o << actual->getNombre() << " - " << actual->getEmail();
+        if(actual->getEsFinger()) 
             o << " - es Finger";
         else 
             o << " - no es Finger";
         o << "," << endl << "           ";
-        i++;
+        ++it;
     }
     o << endl;
     return o;
@@ -463,14 +464,19 @@ string DTRespuestaCalificacion::getComentario(){
     return this->comentario;
 };
 
-DTEstadia::DTEstadia(string promo, DTFecha checkIn, DTFecha checkOut){
+DTEstadia::DTEstadia(string promo, DTFecha checkIn, DTFecha checkOut, int codigo){
     this->promo = promo;
     this->checkIn = checkIn;
     this->checkOut = checkOut;
+    this->codigo = codigo;
 };
 
 string DTEstadia::getPromo(){
     return this->promo;
+};
+
+int DTEstadia::getCodigo(){
+    return this->codigo;
 };
 
 DTFecha DTEstadia::getCheckIn(){

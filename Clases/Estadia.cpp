@@ -12,12 +12,16 @@
 
 int Estadia::contador = 0;
 
-Estadia::Estadia(){}
+Estadia::Estadia(){
+    this->checkIn = nullptr;
+    this->checkOut = nullptr;
+}
 
 Estadia::Estadia(DTFecha* _cIn){
     Estadia::contador++;
     this->codigo = Estadia::contador + 1;
     this->checkIn = _cIn;
+    this->checkOut = nullptr;
 }
 
 Estadia::~Estadia(){
@@ -57,6 +61,10 @@ void Estadia::setCheckOut(DTFecha* _cOut){
 
 void Estadia::setHuesped(Huesped* _huesped){
     this->huesped = _huesped;
+}
+
+Huesped* Estadia::getHuesped(){
+    return this->huesped;
 }
 
 DTRespuestaCalificacion* Estadia::obtenerDatosRespuestaCalificacion(){

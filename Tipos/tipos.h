@@ -4,9 +4,8 @@
 
 using namespace std;
 
-#ifndef CargoEmpleado
 #include "../Tipos/CargoEmpleado.h"
-#endif
+#include "../Tipos/EstadoReserva.h"
 
 
 class DTFecha{
@@ -102,16 +101,16 @@ class DTReserva{
         int codigo;
         DTFecha checkIn;
         DTFecha checkOut;
-        bool estado;
+        EstadoReserva estado;
         float costo;
         int habitacion;
     public:
-        DTReserva(int,DTFecha,DTFecha,bool,float,int);
-        DTReserva(int,DTFecha,DTFecha,bool,int);
+        DTReserva(int,DTFecha,DTFecha,EstadoReserva,float,int);
+        DTReserva(int,DTFecha,DTFecha,EstadoReserva,int);
         int getCodigo();
         DTFecha getcheckIn(); 
         DTFecha getcheckOut();
-        bool getEstadoReserva();
+        EstadoReserva getEstadoReserva();
         float getCosto();
         int getHabitacion(); 
         //~DTReserva();
@@ -135,18 +134,18 @@ class DataR{
 
 class DTReservaIndividual : public DTReserva{
  public: 
-    DTReservaIndividual(int,DTFecha,DTFecha,bool,float,int);
-    DTReservaIndividual(int,DTFecha,DTFecha,bool,int);
+    DTReservaIndividual(int,DTFecha,DTFecha,EstadoReserva,float,int);
+    DTReservaIndividual(int,DTFecha,DTFecha,EstadoReserva,int);
     void operacion();
 };
 
 class DTReservaGrupal : public DTReserva{
  private: 
-    DTHuesped** huespedes;
+    set<DTHuesped*> huespedes;
  public: 
-    DTReservaGrupal(int,DTFecha ,DTFecha ,bool,float,int,DTHuesped**);
-    DTReservaGrupal(int,DTFecha ,DTFecha ,bool,int,DTHuesped**);
-    DTHuesped** getHuespedes(); 
+    DTReservaGrupal(int,DTFecha ,DTFecha ,EstadoReserva,float,int,set<DTHuesped*>);
+    DTReservaGrupal(int,DTFecha ,DTFecha ,EstadoReserva,int,set<DTHuesped*>);
+    set<DTHuesped*> getHuespedes(); 
     void operacion();
 };
 
@@ -182,11 +181,13 @@ class DTEstadia{
         string promo;
         DTFecha checkIn;
         DTFecha checkOut;
+        int codigo;
     public:
-        DTEstadia(string, DTFecha, DTFecha);
+        DTEstadia(string, DTFecha, DTFecha, int);
         string getPromo();
         DTFecha getCheckIn();
         DTFecha getCheckOut();
+        int getCodigo();
 };
 
 
