@@ -2,10 +2,23 @@
 #include <string>
 #include <set>
 #include "Tipos/tipos.h"
+#include "Clases/Fabrica.h"
+#include "Interfaces/IHostal.h"
+#include "Interfaces/IEstadia.h"
+#include "Interfaces/IReserva.h"
+#include "Interfaces/IObserver.h"
+#include "Interfaces/IReloj.h"
+#include "Interfaces/Iusuario.h"
 
 using namespace std;
 
 int main(){
+    Fabrica* f = new Fabrica();
+    IHostal* controladorHostal = f->getIHostal();
+    IReloj* controladorReloj = f->getIReloj();
+    IReserva* controladorReserva = f->getIReserva();
+    IEstadia* controladorEstadia = f->getIEstadia();
+    IUsuario* controladorUsuario = f->getIUsuario();
     int i = 0;
     while(i!=21){
         cout << "1-Alta de Usuario" << "\n";
@@ -70,8 +83,151 @@ int main(){
             break;
             case 19:
             break;
-            case 20:
+            case 20: {
+
+            //E1
+
+            //E2
+
+            //E3
+
+            //E4
+
+            //E5
+
+
+            //H1
+
+            //H2
+
+            //H3
+
+            //H4
+
+            //H5
+
+            //H6
+
+
+            //HO1
+            controladorHostal->agregarHostal("La posada finger", "Av de la playa 123, Maldonado", "099111111");
+
+            //HO2
+            controladorHostal->agregarHostal("Mochileros", "Rambla Costanera 333, Rocha", "42579512");
+
+            //HO3
+            controladorHostal->agregarHostal("El Pony Pisador", "Bree (preguntar por Gandalf)", "000");
+
+            //HO4
+            controladorHostal->agregarHostal("Altos de Fing", "Av del Toro 1424", "099892992");
+
+            //HO5
+            controladorHostal->agregarHostal("Caverna Lujuriosa", "Amaya 2515", "233233235");
+
+
+            //Habitaciones
+
+            //HA1
+
+            //HA2
+
+            //HA3
+
+            //HA4
+
+            //HA5
+
+            //HA6
+            
+
+            //AsignarEmpleados
+            controladorHostal->seleccionarHostalVar("La posada finger");
+            controladorHostal->asignarEmpleado("emilia@mail.com", CargoEmpleado::Recepcion);
+            controladorHostal->confirmarAsigncacion();
+            controladorHostal->seleccionarHostalVar("Mochileros");
+            controladorHostal->asignarEmpleado("leo@mail.com", CargoEmpleado::Recepcion);
+            controladorHostal->confirmarAsigncacion();
+            controladorHostal->seleccionarHostalVar("Mochileros");
+            controladorHostal->asignarEmpleado("alina@mail.com", CargoEmpleado::Administracion);
+            controladorHostal->confirmarAsigncacion();
+            controladorHostal->seleccionarHostalVar("El Pony Pisador");
+            controladorHostal->asignarEmpleado("barli@mail.com", CargoEmpleado::Recepcion);
+            controladorHostal->confirmarAsigncacion();
+
+
+            //Reservas
+
+            //R1
+
+            //R2
+
+            //R3
+
+            //R4
+
+
+            //Crear Estadias
+            DTFecha* fechaSistema = new DTFecha(1,5,2022,18);//Dia,Mes,Año,Hora(0-23)
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES1
+
+            fechaSistema = new DTFecha(4,1,2001,21);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES2
+
+            fechaSistema = new DTFecha(4,1,2001,21);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES3
+
+            fechaSistema = new DTFecha(4,1,2001,21);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES4
+
+            fechaSistema = new DTFecha(4,1,2001,21);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES5
+
+            fechaSistema = new DTFecha(7,6,2022,18);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES6
+
+
+            //Finalizar Estadias
+            fechaSistema = new DTFecha(10,5,2022,9);
+            controladorReloj->setFecha(fechaSistema);
+            //finalizar ES1
+
+            fechaSistema = new DTFecha(5,1,2001,2);
+            controladorReloj->setFecha(fechaSistema);
+            //finalizar ES2
+
+            fechaSistema = new DTFecha(15,6,2022,22);
+            controladorReloj->setFecha(fechaSistema);
+            //finalizar ES6
+
+
+
+            //Calificar Estadias
+            fechaSistema = new DTFecha(11,5,2022,18);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar C1
+
+            fechaSistema = new DTFecha(5,1,2001,3);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar C2
+
+            fechaSistema = new DTFecha(15,6,2022,23);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar C3
+
+
+            //Comentar Calificaciones
+            fechaSistema = new DTFecha(6,1,2001,15);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar comentario C2
+            controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
             break;
+            }
             case 21:
             break;
             default:

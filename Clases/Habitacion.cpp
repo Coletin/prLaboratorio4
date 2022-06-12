@@ -1,4 +1,8 @@
 #include "Habitacion.h"
+#include "Reserva.h"
+#include "Hostal.h"
+#include "../Tipos/tipos.h"
+#include "Estadia.h"
 
 void Habitacion::setNumero(int _numero){ numero = _numero; }
 
@@ -11,6 +15,7 @@ float Habitacion::getPrecio(){ return precio; }
 void Habitacion::setCapacidad(int _capacidad){ capacidad = _capacidad; }
 
 int Habitacion::getCapacidad(){ return capacidad; }
+
 
 Habitacion::Habitacion(){
     numero = 0;
@@ -29,13 +34,13 @@ bool Habitacion::esDeHostal(string Nomh){
     return hostal != nullptr && Nomh.compare(hostal->getNombre()) == 0;
 }
 
-bool Habitacion::estaLibre(DataR data){
+bool Habitacion::estaLibre(DataR* data){
     //preguntar como a partir de un datareserva se si estoy libre
     return true;
 }
 
-DTHabitacion Habitacion::getDT(){
-    DTHabitacion respuesta = DTHabitacion(numero,precio,capacidad);
+DTHabitacion* Habitacion::getDT(){
+    DTHabitacion* respuesta = new DTHabitacion(numero,precio,capacidad);
     return respuesta;
 }
 
@@ -48,20 +53,28 @@ set<DTEstadia*> Habitacion::getEstadiasDT(){
     return respuesta;
 }
 
-set<DTReserva*> Habitacion::getReservasFinalizadasAsociadas(){
-    set<DTReserva*> respuesta;
+set<DTEstadia*> Habitacion::getReservasFinalizadasAsociadas(string email){
+    set<DTEstadia*> respuesta;
     return respuesta;
 }
 
-bool Habitacion::existeEstadiasActivas(string email, string nombre){
+bool Habitacion::existeEstadiasActivas(string email){
     return false;
 }
 
-set<DTReserva*> Habitacion::getReservasAsociadas(string nombre, string email){
+set<DTReserva*> Habitacion::getReservasAsociadas(string email){
     set<DTReserva*> respuesta;
     return respuesta;
 }
 
 int Habitacion::getHabEstadia(Estadia* est){
     return 1;
+}
+
+string Habitacion::getNomHostal(){
+    return this->hostal->getNombre();
+}
+
+void Habitacion::eliminarReserva(Reserva* r){
+    
 }

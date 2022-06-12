@@ -1,11 +1,18 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "../Tipos/tipos.h"
-#include "Hostal.h"
 
+using namespace std;
+
+class Hostal;
 class Reserva;
+class DTReserva;
+class DTHabitacion;
+class DataR;
+class DTEstadia;
 class Estadia;
+class Huesped;
+
 
 class Habitacion{
     private:
@@ -24,12 +31,14 @@ class Habitacion{
      int getCapacidad();
      void setCapacidad(int _capacidad);
      bool esDeHostal(string nomH);
-     bool estaLibre(DataR data); 
-     DTHabitacion getDT();
+     bool estaLibre(DataR* data); 
+     DTHabitacion* getDT();
      void asociarRevHab(Reserva *r);
      set<DTEstadia*> getEstadiasDT(); 
-     set<DTReserva*> getReservasFinalizadasAsociadas();
-     bool existeEstadiasActivas(string email, string nombre);
-     set<DTReserva*> getReservasAsociadas(string nombre, string email);
+     set<DTEstadia*> getReservasFinalizadasAsociadas(string);
+     bool existeEstadiasActivas(string email);
+     set<DTReserva*> getReservasAsociadas(string email);
      int getHabEstadia(Estadia* est);
+     void eliminarReserva(Reserva*);
+     string getNomHostal();
 };

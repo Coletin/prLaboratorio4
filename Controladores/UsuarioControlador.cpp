@@ -6,21 +6,13 @@
 #include "UsuarioControlador.h"
     
 #include "../Clases/Usuario.h"
-#include "../Clases/Empleado.h"
-#include "../Clases/Huesped.h"
 #include "../Clases/Fabrica.h"
 #include "../Clases/ColeccionesHandler.h"
 #include "../Clases/Hostal.h"
+#include "../Tipos/tipos.h"
 
 
 UsuarioControlador * UsuarioControlador::instancia = NULL;
-
-UsuarioControlador::UsuarioControlador(){
-    // aca van definiciones del controlador
-    nombreACrear = "";
-    contraseniaACrear = "";
-    usuarioACrear = NULL;
-}
 
 UsuarioControlador * UsuarioControlador::getInstancia(){
 	if(instancia == NULL)
@@ -48,7 +40,7 @@ bool UsuarioControlador::indicarEmail(string email){
     ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
     set<DTUsuario*> listaUsuarios = colecciones->getUsuarios();
 
-    for(auto& actual = listaUsuarios.cbegin(); actual != listaUsuarios.cend() && !encontre; actual ++){
+    for(set<DTUsuario*>::iterator actual = listaUsuarios.begin(); actual != listaUsuarios.end() && !encontre; ++actual){
         DTUsuario *elemento = *actual;
         encontre = email.compare(elemento->getEmail()) == 0;
     }
@@ -60,7 +52,7 @@ bool UsuarioControlador::indicarEmail(string email){
 }
 
 
-bool UsuarioControlador::persistirUsuario(){
+void UsuarioControlador::persistirUsuario(){
     Usuario* persistir = NULL;
     if(dynamic_cast<DTEmpleado*>(usuarioACrear)){
         DTEmpleado *dataEmpleado = dynamic_cast<DTEmpleado*>(usuarioACrear);
@@ -85,7 +77,7 @@ set<DTUsuario*> UsuarioControlador::listarUsuarios(){
    return setListaUsuarios;
 }
 
-DTEmpleado UsuarioControlador::datosEmpleado(string email){
+DTEmpleado* UsuarioControlador::datosEmpleado(string email){
     DTEmpleado *devolver = NULL;
     ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
     set<DTUsuario*> listaUsuarios = colecciones->getUsuarios();
@@ -94,10 +86,10 @@ DTEmpleado UsuarioControlador::datosEmpleado(string email){
         if(email.compare(actual->getEmail()) == 0 && dynamic_cast<DTEmpleado*>(actual))
             devolver = dynamic_cast<DTEmpleado*>(actual);
     }
-    return *devolver;
+    return devolver;
 }
 
-DTHuesped UsuarioControlador::datosHuesped(string email){
+DTHuesped* UsuarioControlador::datosHuesped(string email){
     DTHuesped *devolver = NULL;
     ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
     set<DTUsuario*> listaUsuarios = colecciones->getUsuarios();
@@ -106,7 +98,7 @@ DTHuesped UsuarioControlador::datosHuesped(string email){
         if(email.compare(actual->getEmail()) == 0 && dynamic_cast<DTHuesped*>(actual))
             devolver = dynamic_cast<DTHuesped*>(actual);
     }
-    return *devolver;
+    return devolver;
 }
 
 
@@ -115,8 +107,8 @@ set<DTCalificacion*> UsuarioControlador::listarCalificacion(string mail){
     
     ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
 
-    Empleado empleado = colecciones->getEmpleado(mail);
-    Hostal *hostal = empleado.getTrabajo();
+    Empleado* empleado = colecciones->getEmpleado(mail);
+    Hostal *hostal = empleado->getTrabajo();
     respuesta = hostal->getCalifs();
 
     return respuesta;

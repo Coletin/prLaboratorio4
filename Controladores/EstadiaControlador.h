@@ -1,10 +1,15 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "../Tipos/tipos.h"
 #include "../Interfaces/IEstadia.h"
 
-class EstadiaControlador{
+using namespace std;
+
+class DTHostal;
+class DTReserva;
+class DTEstadia;
+
+class EstadiaControlador:public IEstadia{
     private:
         static EstadiaControlador * instancia;
     public:
@@ -14,7 +19,7 @@ class EstadiaControlador{
         set<DTReserva*> listarReservas(string email, string hostal);
         void registrarEstadia(string email, int codigo);
         bool existenEstadiasActivas(string email, string hostal);
-        void finalizarEstadia(string email);
+        void finalizarEstadia(int codigo);
         set<DTEstadia*> obtenerEstadiasFinalizadas(string email, string hostal);
         void crearCalificacion(string email, string hostal, string comentario, int valor);
 };

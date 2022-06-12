@@ -1,7 +1,13 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "../Tipos/tipos.h"
+
+using namespace std;
+
+class DTFecha;
+class DTEstadia;
+class DTRespuestaCalificacion;
+class DTCalificacion;
 
 class Huesped;
 class Calificacion;
@@ -9,30 +15,31 @@ class Calificacion;
 class Estadia{
     private:
         string promo;
-        string codigo;//Identificador
-        DTFecha checkIn;
-        DTFecha checkOut;
+        int codigo;//Identificador
+        DTFecha *checkIn;
+        DTFecha *checkOut;
         Huesped* huesped;
         Calificacion* calificacion;
+        static int contador;
     public:
-        Estadia(string,DTFecha checkIn, DTFecha checkOut);
+        Estadia(DTFecha *checkIn);
         Estadia();
         ~Estadia();
-        string getCodigo();
+        int getCodigo();
         string getPromo();
-        DTFecha getCheckIn();
-        DTFecha getCheckOut();
-        void setCodigo(string);
+        DTFecha* getCheckIn();
+        DTFecha* getCheckOut();
         void setPromo(string);
-        void setCheckIn(DTFecha);
-        void setCheckOut(DTFecha);
-        DTEstadia getDTEstadia();
+        void setCheckIn(DTFecha*);
+        void setCheckOut(DTFecha*);
+        DTEstadia* getDTEstadia();
         bool existeEstadiaActiva();
         void setHuesped(Huesped*);
         //void setReserva(int codigo);
         //void setHuesped(string email);
         //DTReserva obtenerDatosReserva();
-        DTRespuestaCalificacion obtenerDatosRespuestaCalificacion();
-        DTCalificacion getDatosCalificacion();
-        void setCalificacion(Calificacion* c);
+        DTRespuestaCalificacion* obtenerDatosRespuestaCalificacion();
+        DTCalificacion* getDatosCalificacion();
+        void setCalificacion(Calificacion*);
+        void elimCalHostal(string);
 };
