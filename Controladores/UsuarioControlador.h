@@ -15,6 +15,7 @@ class UsuarioControlador:public IUsuario{
         string contraseniaACrear;
         static UsuarioControlador * instancia;
         void limpiarMemoria();
+        UsuarioControlador();
     public:
         static UsuarioControlador * getInstancia();
         void cargarDatosUsuario(string nombre, string contrasenia);

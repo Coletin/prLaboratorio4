@@ -14,6 +14,12 @@
 
 UsuarioControlador * UsuarioControlador::instancia = NULL;
 
+UsuarioControlador::UsuarioControlador(){
+    nombreACrear = "";
+    contraseniaACrear = "";
+    usuarioACrear = NULL;
+}
+
 UsuarioControlador * UsuarioControlador::getInstancia(){
 	if(instancia == NULL)
 		instancia = new UsuarioControlador;
@@ -116,7 +122,7 @@ set<DTCalificacion*> UsuarioControlador::listarCalificacion(string mail){
 
 void UsuarioControlador::seleccionarCalificacion(string codigo){
 
-}//codigo = Codigo de la estadia
+}
 
 
 void UsuarioControlador::responderComentario(string comentario){
