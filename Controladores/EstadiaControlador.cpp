@@ -65,29 +65,6 @@ bool EstadiaControlador::existenEstadiasActivas(string email, string hostal){
     Hostal * h = col->getHostal(hostal);
     bool existe = h->existeEstadiasActivas(email);
 
-
-
-    // set<Habitacion*>::iterator it = habs.begin(); 
-    // while (it != habs.end() && !existe){
-    //     Habitacion* hab = *it;
-    //     set<Reserva*>::iterator it2 = hab->reservas.begin(); 
-    //     while (it2 != hab->reservas.end() && !existe){
-    //         Reserva* rev = *it2;
-    //         set<Estadia*>::iterator it3 = rev->estadias.begin();
-    //         while (it3 != rev->estadias.end() && !existe){
-    //             Estadia* est = *it3;
-    //             if(est->checkOut == nullptr){
-    //                 Huesped* hue = est->huesped;
-    //                 if(hue.getEmail == email) 
-    //                     existe = true;
-    //             }
-    //             it3++;                
-    //         };
-    //         it2++;
-    //     };
-    //     it++;
-    // };
-
     return existe;
 }
 
@@ -111,27 +88,6 @@ set<DTEstadia*> EstadiaControlador::obtenerEstadiasFinalizadas(string email, str
     ColeccionesHandler * col = ColeccionesHandler::getInstancia();
     Hostal * h = col->getHostal(hostal);
     set<DTEstadia*> setEstadiasFinalizadas = h->getReservasFinalizadasAsociadas(email);
-    // set<Habitacion*>::iterator it = habs.begin(); 
-    // while (it != habs.end() && !existe){
-    //     Habitacion* hab = *it;
-    //     set<Reserva*>::iterator it2 = hab->reservas.begin(); 
-    //     while (it2 != hab->reservas.end() && !existe){
-    //         Reserva* rev = *it2;
-    //         set<Estadia*>::iterator it3 = rev->estadias.begin();
-    //         while (it3 != rev->estadias.end() && !existe){
-    //             Estadia* est = *it3;
-    //             if(est->checkOut != nullptr){
-    //                 Huesped* hue = est->huesped;
-    //                 if(hue.getEmail == email)
-    //                     DTEstadia* dt = est->getDTEstadia();
-    //                     setListaReservas.insert(dt);
-    //             }
-    //             it3++;                
-    //         };
-    //         it2++;
-    //     };
-    //     it++;
-    // };
    
     return setEstadiasFinalizadas;
 }
