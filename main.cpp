@@ -66,6 +66,16 @@ int main(){
             case 10:
             break;
             case 11:
+            limpiarPantalla();
+                usuarios = controladorUsuario->listarUsuarios();
+                for(itDTUsu = usuarios.begin(); itDTUsu != usuarios.end(); ++itDTUsu){
+                    DTUsuario* actual = *itDTUsu;
+                    actual->toString();
+                }
+                cout << "Ingrese email del usuario a seleccionar: ";
+                cin >> emailUsuario;
+
+                getch();//esperamos que ingrese cualquier caracter
             break;
             case 12:
             break;

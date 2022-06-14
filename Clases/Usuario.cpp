@@ -98,8 +98,9 @@ DTEmpleado* Empleado::getDTEmpleado(){
     string _nombre = getNombre();
     string _email = getEmail();
     string _password = getPassword();
+    string _trabajo = this->getTrabajo()->getNombre();
     CargoEmpleado _cargo = getCargo();
-    DTEmpleado* res = new DTEmpleado(_nombre,_email,_password,_cargo);
+    DTEmpleado* res = new DTEmpleado(_nombre,_email,_password,_trabajo,_cargo);
     return res;
 }
 

@@ -44,28 +44,34 @@ DTEmpleado::DTEmpleado(){
 
 };
 
-DTEmpleado::DTEmpleado(string nombre, string email, string contrasena, CargoEmpleado cargo):DTUsuario(nombre, email, contrasena){
+DTEmpleado::DTEmpleado(string nombre, string email, string contrasena, string trabajo, CargoEmpleado cargo):DTUsuario(nombre, email, contrasena){
     this->cargo = cargo;
+    this->trabajo = trabajo;
 };
 
 CargoEmpleado DTEmpleado::getCargo(){
     return this->cargo;
 };
 
+string DTEmpleado::getTrabajo(){
+    return this->trabajo;
+};
+
 void DTEmpleado::toString(){
     cout << "[nombre: " << this->getNombre() << "; email: " << this->getEmail() << "; cargo: ";
     if(this->getCargo()==CargoEmpleado::Recepcion){
-        cout << "Recepcion" << "]" << endl;
+        cout << "Recepcion" << " en ";
     }
     else if(this->getCargo()==CargoEmpleado::Administracion){
-        cout << "Administracion" << "]" << endl;
+        cout << "Administracion" << " en ";
     }
     else if(this->getCargo()==CargoEmpleado::Limpieza){
-        cout << "Limpieza" << "]" << endl;
+        cout << "Limpieza" << " en ";
     }
     else if(this->getCargo()==CargoEmpleado::Infraestructura){
-        cout << "Infraestructura" << "]" << endl;
+        cout << "Infraestructura" << " en ";
     };
+    cout << this->getTrabajo() << "]";
 };
 
 DTHabitacion::DTHabitacion(){};

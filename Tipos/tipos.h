@@ -74,10 +74,12 @@ class DTHuesped : public DTUsuario{
 class DTEmpleado : public DTUsuario{
     private:
         CargoEmpleado cargo;
+        string trabajo;
     public:
         DTEmpleado();
-        DTEmpleado(string, string, string, CargoEmpleado);
+        DTEmpleado(string, string, string, string, CargoEmpleado);
         CargoEmpleado getCargo();
+        string getTrabajo();
         void toString();
 };
 
