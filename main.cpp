@@ -142,75 +142,7 @@ int main(){
             break;
             case 4:
             break;
-            case 5:{
-/*****************************************************************************************/
-/******************************  5 - REALIZAR RESERVA  ********************************/
-/*****************************************************************************************/ 
-            std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
-            set<DTHostal*> hostales = controladorReserva->listarHostales();
-            DTFecha fechaNula(0,0,0,0);
-            
-            if(hostales.size() == 0) std:cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;
-            else{
-            std::cout<<"****************  5 - REALIZAR RESERVA  ************"<<endl;
-            
-            std::cout<<" \n \n \n Seleccione Hostal: \n" <<endl;
-            //lista hostales
-            auto it= hostales.begin();
-            int hostalNumero = 0;
-            while (it != hostales.end()){
-                DTHostal* actual = *it;
-                hostalNumero++;
-                std::cout<<"-----------------------------------------"<<endl;
-                std::cout<<hostalNumero<<".-Nombre Hostal: "<<actual->getNombre()<<endl;
-                std::cout<<hostalNumero<<" Direccion: "<<actual->getDireccion()<<endl;
-                std::cout<<hostalNumero<<" Promedio de calificacion: "<<actual->getPromedioClasi()<<endl;
-                ++it;
-            }
-            //selecciona hostal
-            bool valido = false;
-                while(!valido){
-                    std::cout<<"Digite Hostal Seleccionado: "<<endl;
-                    std::cin>>hostalNumero;
-                    if (hostalNumero>0 && hostalNumero<=hostales.size()) {
-                        valido=true;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
-                }
-            //selecciona fecha
-            DTFecha desde = fechaNula;  
-            DTFecha hasta = fechaNula;
-            valido = false;
-            while (!valido){
-                desde = fechaNula;
-                hasta = fechaNula;
-                while (desde == fechaNula){
-                    std::cout<<"Ingrese fecha de entrada (DD/MM/AA-HH@m): " <<endl;
-                    std::cin>>desde;  
-                }
-                while (hasta == fechaNula){
-                    std::cout<<"Ingrese fecha de salida (DD/MM/AA-HH@m): " <<endl;
-                    std::cin>>hasta;  
-                }
-                valido = desde < hasta;
-                
-                if(!valido) std::cout<<"Fechas no validad, endrada tiene que ser anterior a salida: " <<endl;
-            }
-            //seleccina el tipo de reserva
-            int tipoReserva = pedirEntero("1-Grupal\n2-Individual\nIndique el tipo de reserva: ","Opcion incorrecta ",2);
-            
-            //armo el dataR
-            it = hostales.begin();
-            int i = 0;
-            while(it != hostales.end() && i < hostalNumero){
-                i++;
-                ++it;
-            }
-            DTHostal* hostalSelecionado = *it;
-            string nomHostal = hostalSelecionado->getNombre();
-            bool esGrupal = tipoReserva == 1;
-            DataR* data = new DataR(nomHostal,desde,hasta,esGrupal);
-            controladorReserva->ingresarDatosReserva(data);
-            }
-            }
+            case 5:
             break;
             case 6:
             break;
