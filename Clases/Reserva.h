@@ -51,6 +51,7 @@ class Reserva{
      bool existeEstadiasActivas(string);
      bool estEsta(Estadia*);
      void agregarEstadia(Estadia*);
+     bool huespedPertenece(string);
 };
 
 
