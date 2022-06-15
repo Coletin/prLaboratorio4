@@ -211,6 +211,32 @@ int main(){
             }
             break;
             case 10:{
+                limpiarPantalla();
+                cout << "Ingrese email del empleado: ";
+                cin >> emailUsuarioCrear;
+                set<DTCalificacion*> calis = controladorUsuario->listarCalificacion(emailUsuarioCrear);
+            if(calis.size()==0){ std::cout<<"No existen comentarios"<<endl;}
+            else{ 
+                int numero=0; 
+                set<DTCalificacion*>::iterator it = calis.begin();
+                while (it != calis.end())
+                {
+                    DTCalificacion* actual = *it;
+                    ++numero;
+                    std::cout<<numero<<".: "<<actual->getComentario()<<endl;
+                    ++it;
+                }
+                tipoUsuarioCrear = pedirEntero("Seleccione un comentario: ","Opcion incorrecta ",numero);
+                it = calis.begin();
+                for(int i = 0; i < tipoUsuarioCrear; i++) ++it;
+                DTCalificacion* cali = *it;
+                controladorUsuario->seleccionarCalificacion(cali->getEstadia());
+                emailUsuarioCrear = "";
+                cout << "Ingrese la respuesta al comentario seleccionado: ";
+                cin >> emailUsuarioCrear;
+                controladorUsuario->responderComentario(emailUsuarioCrear);
+            }
+            getch();
             }
             break;
             case 11:{

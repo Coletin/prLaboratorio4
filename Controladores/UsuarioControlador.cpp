@@ -118,7 +118,7 @@ set<DTCalificacion*> UsuarioControlador::listarCalificacion(string mail){
 
     Empleado* empleado = colecciones->getEmpleado(mail);
     Hostal *hostal = empleado->getTrabajo();
-    respuesta = hostal->getCalifs();
+    if(hostal != nullptr) respuesta = hostal->getCalifs();
     return respuesta;
 }
 
