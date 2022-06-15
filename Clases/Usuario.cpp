@@ -119,3 +119,5 @@ void Empleado::setTrabajo(Hostal* h){
 void Empleado::notificar(Notificacion* n){
     this->notificaciones.insert(n);
 }
+
+set<Notificacion*> Empleado::getNotificaciones(){return this->notificaciones;}

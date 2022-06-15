@@ -67,4 +67,5 @@ class Empleado : public Usuario,public IObserver{
         void setCargo(CargoEmpleado _cargo);
         void setTrabajo(Hostal* h);
         void notificar(Notificacion* n);
+        set<Notificacion*> getNotificaciones();
 };

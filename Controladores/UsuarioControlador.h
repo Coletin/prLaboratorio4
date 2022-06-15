@@ -31,4 +31,9 @@ class UsuarioControlador:public IUsuario{
         set<DTCalificacion*> listarCalificacion(string mail);
         void seleccionarCalificacion(int codigo);//codigo = Codigo de la estadia
         void responderComentario(string comentario);
+        set<DTEmpleado*> obtenerEmpleados();
+        void subscribirseANotificaciones(string);
+        void desubscribirseDeNotificaciones(string);
+        set<Notificacion*> listarNotificaciones(string);
+
 };

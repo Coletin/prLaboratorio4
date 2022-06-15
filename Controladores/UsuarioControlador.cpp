@@ -11,6 +11,7 @@
 #include "../Clases/Hostal.h"
 #include "../Clases/Estadia.h"
 #include "../Clases/Calificacion.h"
+#include "../Clases/Notificador.h"
 #include "../Tipos/tipos.h"
 
 
@@ -37,6 +38,11 @@ void UsuarioControlador::crearHuesped(bool esFinger){
     usuarioACrear = new DTHuesped(nombreACrear,emailACrear,contraseniaACrear,esFinger);
 }
 
+set<DTEmpleado*> UsuarioControlador::obtenerEmpleados(){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    set<DTEmpleado*> listaEmpleados = colecciones->getEmpleados();
+    return listaEmpleados;
+}
 
 void UsuarioControlador::crearEmpleado(CargoEmpleado cargo){
     usuarioACrear = new DTEmpleado(nombreACrear,emailACrear,contraseniaACrear,"",cargo);
@@ -138,4 +144,24 @@ void UsuarioControlador::limpiarMemoria(){
     contraseniaACrear = "";
     delete usuarioACrear;
     usuarioACrear = NULL;
+}
+
+void UsuarioControlador::subscribirseANotificaciones(string email){
+    Notificador* notificador = Notificador::getInstancia();
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    IObserver* empleado = colecciones->getEmpleado(email);
+    notificador->agregar(empleado);
+}
+
+void UsuarioControlador::desubscribirseDeNotificaciones(string email){
+    Notificador* notificador = Notificador::getInstancia();
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    IObserver* empleado = colecciones->getEmpleado(email);
+    notificador->eliminar(empleado);
+}
+
+set<Notificacion*> UsuarioControlador::listarNotificaciones(string email){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Empleado* empleado = colecciones->getEmpleado(email);
+    return empleado->getNotificaciones();
 }
