@@ -31,7 +31,7 @@ class Hostal{
         string getDireccion();
         string getTelefono();
         set<DTEstadia*> getEstadiasDT();
-        set<DTHabitacion*> getHabDis(DataR* datar);
+        set<DTHabitacion*> getHabDis(DataR* data);
         void agregarHabitacion(int, float, int);
         Habitacion* getHabNum(int numeroHab);
         float getPromCal();
