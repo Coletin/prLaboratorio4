@@ -9,6 +9,8 @@
 #include "../Clases/Fabrica.h"
 #include "../Clases/ColeccionesHandler.h"
 #include "../Clases/Hostal.h"
+#include "../Clases/Estadia.h"
+#include "../Clases/Calificacion.h"
 #include "../Tipos/tipos.h"
 
 
@@ -117,16 +119,18 @@ set<DTCalificacion*> UsuarioControlador::listarCalificacion(string mail){
     Empleado* empleado = colecciones->getEmpleado(mail);
     Hostal *hostal = empleado->getTrabajo();
     respuesta = hostal->getCalifs();
-
     return respuesta;
 }
 
-void UsuarioControlador::seleccionarCalificacion(string codigo){
-
+void UsuarioControlador::seleccionarCalificacion(int codigo){
+    estadiaMem = codigo;
 }
 
 
 void UsuarioControlador::responderComentario(string comentario){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Estadia* est = colecciones->getEstadia(estadiaMem);
+    est->getCalificacion()->responderCalificacion(comentario);
 }
 
 void UsuarioControlador::limpiarMemoria(){
