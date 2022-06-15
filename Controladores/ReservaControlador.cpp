@@ -9,6 +9,7 @@
 #include "../Clases/Fabrica.h"
 #include "../Clases/Habitacion.h"
 #include "../Clases/Hostal.h"
+#include "../Tipos/tipos.h"
 
 ReservaControlador *ReservaControlador::instancia = NULL;
 
@@ -32,15 +33,15 @@ set<DTHostal*> ReservaControlador::listarHostales(){
 	return col->getHostalCol();
 }
 
-void ReservaControlador::ingresarDatosReserva(DataR data){
-	this->data = &data;
+void ReservaControlador::ingresarDatosReserva(DataR* data){
+	this->data = data;
 }
 
 set<DTHabitacion*> ReservaControlador::obtenerHabitacionesDisponiblesEnFecha(){
 	ColeccionesHandler* col;
 	col = ColeccionesHandler::getInstancia();
-	Hostal* h = col->getHostal(data->getHostal());
-	return h->getHabDis(data*);
+	Hostal* h = col->getHostal(this->data->getHostal());
+	return h->getHabDis(data);
 }
 
 void ReservaControlador::agregarHabitacionAReserva(int numeroHab){
@@ -61,11 +62,12 @@ void ReservaControlador::confirmarReserva(){
 	ColeccionesHandler* col;
 	col = ColeccionesHandler::getInstancia();
 	Reserva* r;
-	
+	DTFecha* in = new DTFecha(data->getCheckIn().getDia(),data->getCheckIn().getMes(),data->getCheckIn().getAnio(),data->getCheckIn().getHora());
+	DTFecha* out = new DTFecha(data->getCheckOut().getDia(),data->getCheckOut().getMes(),data->getCheckOut().getAnio(),data->getCheckOut().getHora());
 	if(this->data->getEsGrupal())
-		r = new ReservaGrupal(17,&data->getCheckIn(),&data->getCheckOut(),Abierta);
+		r = new ReservaGrupal(in,out,Abierta);
 	else
-		r = new ReservaIndividual(17,&data->getCheckIn(),&data->getCheckOut(),Abierta);
+		r = new ReservaIndividual(in,out,Abierta);
 	
 	Hostal* h = col->getHostal(data->getHostal());
 	Habitacion* hab = h->getHabNum(numeroHab);

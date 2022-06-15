@@ -1,4 +1,4 @@
-#include "../Tipos/tipos.h"
+
 #include "../Interfaces/IReloj.h"
 
 class RelojControlador:public IReloj{

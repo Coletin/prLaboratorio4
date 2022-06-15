@@ -1,0 +1,7 @@
+CFLAGS=-c
+CC = g++ # gcc -x c 
+
+all: main.cpp
+	$(CC) main.cpp Tipos/*.cpp Clases/*.cpp Controladores/*.cpp -std=gnu++0x -o Reservatelo # -DNDEBUG
+
+# g++ main.cpp Tipos/*.cpp Clases/*.cpp Controladores/*.cpp -std=gnu++0x -o Reservatelo # -DNDEBUG

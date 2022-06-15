@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <set>
+#include <conio.h>
 #include "Tipos/tipos.h"
 #include "Clases/Fabrica.h"
 #include "Interfaces/IHostal.h"
@@ -14,9 +15,36 @@
 
 using namespace std;
 
-
 void visualizarUsuarios();
 
+//esta magia chequea si el string contiene solo numeros enteros no negativos. Agregarla a una funcion del sistema?
+bool checkNumero(const string s){
+  return s.find_first_not_of("0123456789") == string::npos; 
+}
+
+//cambiar por su version en linux al subir el codigo
+void limpiarPantalla(){
+    system("cls");
+}
+
+//pide un entero entre 1 y tope. mensajePedir es el mensaje que se muestra siempre mientras que mensajeError se muestra solamente cada vez que ingrese un numero mal.
+int pedirEntero(string mensajePedir, string mensajeError, int tope){
+    int respuesta = 0;
+    bool primerMensaje = true;
+    string lectura = "";
+    while(respuesta > tope || respuesta < 1){
+        limpiarPantalla();
+        if(primerMensaje)
+            primerMensaje = false;
+        else
+            cout << mensajeError << "\n";
+        cout << mensajePedir;
+        cin >> lectura;
+        if(checkNumero(lectura))
+            respuesta = std::stoi(lectura); //stoi convierte un string a un entero
+    }
+    return respuesta;
+}
 
 int main(){
     Fabrica* f = new Fabrica();
@@ -26,7 +54,15 @@ int main(){
     IEstadia* controladorEstadia = f->getIEstadia();
     IUsuario* controladorUsuario = f->getIUsuario();
     int i = 0;
+
+    //variables para creacion de empleado
+    string nombreUsuarioCrear = "", claveUsuarioCrear = "", emailUsuarioCrear = "";
+    bool emailDisponible = true, esFinger = false;
+    CargoEmpleado cargoCrear = Administracion;
+    int tipoUsuarioCrear = 0;
+
     while(i!=21){
+        limpiarPantalla();
         cout << "1-Alta de Usuario" << "\n";
         cout << "2-Alta de Hostal" << "\n";
         cout << "3-Alta de Habitacion"<< "\n";
@@ -51,7 +87,54 @@ int main(){
         cin >> i;
         switch(i){
             case 1:
+                limpiarPantalla();
+                cout << "Ingrese nombre: ";
+                cin >> nombreUsuarioCrear;
+                cout << "Ingrese clave: ";
+                cin >> claveUsuarioCrear;
+                controladorUsuario->cargarDatosUsuario(nombreUsuarioCrear,claveUsuarioCrear);
+                nombreUsuarioCrear = "";
+                claveUsuarioCrear = "";
+                
+                do{
+                    limpiarPantalla();
+                    if(!emailDisponible)
+                        cout << "El email indicado ya se encuentra en uso.\n";
+                    cout << "Ingrese email: ";
+                    cin >> emailUsuarioCrear;
+                    emailDisponible = controladorUsuario->indicarEmail(emailUsuarioCrear);
+                }while(!emailDisponible);
+                emailUsuarioCrear = "";
 
+                tipoUsuarioCrear = pedirEntero("1-Empleado\n2-Huesped\nIndique el tipo de usuario: ","Opcion incorrecta ",2);
+
+                if(tipoUsuarioCrear == 1){
+                    tipoUsuarioCrear = pedirEntero("1-Administracion \n2-Limpieza \n3-Recepcion \n4-Infraestructura \nIndique el cargo del empleado: ","Opcion incorrecta ",4);
+                    if(tipoUsuarioCrear == 1)
+                        cargoCrear = Administracion;
+                    else if(tipoUsuarioCrear == 2)
+                        cargoCrear = Limpieza;
+                    else if(tipoUsuarioCrear == 3)
+                        cargoCrear = Recepcion;
+                    else
+                        cargoCrear = Infraestructura;                    
+                    controladorUsuario->crearEmpleado(cargoCrear);
+                }else{
+                    tipoUsuarioCrear = pedirEntero("1-Si \n2-No \nEl huesped a crear, es finger? ","Opcion incorrecta ",2);
+                    esFinger = tipoUsuarioCrear == 1;
+                    controladorUsuario->crearHuesped(esFinger);
+                }
+
+                tipoUsuarioCrear = pedirEntero("1-Si \n2-No \nDesea persistir el usuario? ","Opcion incorrecta ",2);
+                if(tipoUsuarioCrear == 1){
+                    controladorUsuario->persistirUsuario();
+                    cout << "Usuario persistido. Presione cualquier tecla para continuar.";
+                }
+                else{
+                    controladorUsuario->cancelarCreacionUsuario();
+                    cout << "Operacion cancelada. Presione cualquier tecla para continuar.";
+                }
+                getch();//esperamos que ingrese cualquier caracter
             break;
             case 2:
             break;
@@ -391,16 +474,16 @@ int main(){
             //AsignarEmpleados
             controladorHostal->seleccionarHostalVar("La posada finger");
             controladorHostal->asignarEmpleado("emilia@mail.com", CargoEmpleado::Recepcion);
-           // controladorHostal->confirmarAsigncacion();
+            controladorHostal->confirmarAsigncacion();
             controladorHostal->seleccionarHostalVar("Mochileros");
             controladorHostal->asignarEmpleado("leo@mail.com", CargoEmpleado::Recepcion);
-           // controladorHostal->confirmarAsigncacion();
+            controladorHostal->confirmarAsigncacion();
             controladorHostal->seleccionarHostalVar("Mochileros");
             controladorHostal->asignarEmpleado("alina@mail.com", CargoEmpleado::Administracion);
-            //controladorHostal->confirmarAsigncacion();
+            controladorHostal->confirmarAsigncacion();
             controladorHostal->seleccionarHostalVar("El Pony Pisador");
             controladorHostal->asignarEmpleado("barli@mail.com", CargoEmpleado::Recepcion);
-          //  controladorHostal->confirmarAsigncacion();
+            controladorHostal->confirmarAsigncacion();
 
 
             //Reservas

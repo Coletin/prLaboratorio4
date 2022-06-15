@@ -15,26 +15,27 @@ class Calificacion;
 class Estadia{
     private:
         string promo;
-        string codigo;//Identificador
+        int codigo;//Identificador
         DTFecha *checkIn;
         DTFecha *checkOut;
         Huesped* huesped;
         Calificacion* calificacion;
+        static int contador;
     public:
-        Estadia(string,DTFecha *checkIn, DTFecha *checkOut);
+        Estadia(DTFecha *checkIn);
         Estadia();
         ~Estadia();
-        string getCodigo();
+        int getCodigo();
         string getPromo();
         DTFecha* getCheckIn();
         DTFecha* getCheckOut();
-        void setCodigo(string);
         void setPromo(string);
         void setCheckIn(DTFecha*);
         void setCheckOut(DTFecha*);
         DTEstadia* getDTEstadia();
         bool existeEstadiaActiva();
         void setHuesped(Huesped*);
+        Huesped* getHuesped();
         //void setReserva(int codigo);
         //void setHuesped(string email);
         //DTReserva obtenerDatosReserva();

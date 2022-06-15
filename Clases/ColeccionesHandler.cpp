@@ -47,6 +47,18 @@ set<DTHostal*> ColeccionesHandler::getHostalCol(){
     return resu;
 }
 
+Estadia* ColeccionesHandler::getEstadia(int codigo){
+    set<Estadia*>::iterator it = estadias.begin();
+    bool encontre = false;
+    while (it != estadias.end() && !encontre){
+        Estadia actual = **it;
+        encontre = actual.getCodigo() == codigo;
+        if(!encontre)
+            ++it;
+    }
+    return *it;
+}
+
 set<DTEmpleado*> ColeccionesHandler::getEmpleadoNoAsigCol(string nom){
     set<DTEmpleado*> resu;
     for(set<Usuario*>::iterator it = usuarios.begin(); it != usuarios.end();++it){
@@ -61,6 +73,8 @@ set<DTEmpleado*> ColeccionesHandler::getEmpleadoNoAsigCol(string nom){
     }
 return resu;
 }
+
+
 
 set<DTUsuario*> ColeccionesHandler::getUsuarios(){
     set<DTUsuario*> resu;

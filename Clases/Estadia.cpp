@@ -10,12 +10,18 @@
 #include "Usuario.h"
 
 
-Estadia::Estadia(){}
+int Estadia::contador = 0;
 
-Estadia::Estadia(string _codigo, DTFecha* _cIn, DTFecha* _cOut){
-    this->codigo = _codigo;
+Estadia::Estadia(){
+    this->checkIn = nullptr;
+    this->checkOut = nullptr;
+}
+
+Estadia::Estadia(DTFecha* _cIn){
+    Estadia::contador++;
+    this->codigo = Estadia::contador + 1;
     this->checkIn = _cIn;
-    this->checkOut = _cOut;
+    this->checkOut = nullptr;
 }
 
 Estadia::~Estadia(){
@@ -25,7 +31,7 @@ Estadia::~Estadia(){
     this->huesped->eliminarEstadia(this);
 }
 
-string Estadia::getCodigo(){
+int Estadia::getCodigo(){
     return this->codigo;
 }
 
@@ -39,10 +45,6 @@ DTFecha* Estadia::getCheckIn(){
 
 DTFecha* Estadia::getCheckOut(){
     return this->checkOut;
-}
-
-void Estadia::setCodigo(string _codigo){
-    this->codigo = _codigo;
 }
 
 void Estadia::setPromo(string _promo){
@@ -59,6 +61,10 @@ void Estadia::setCheckOut(DTFecha* _cOut){
 
 void Estadia::setHuesped(Huesped* _huesped){
     this->huesped = _huesped;
+}
+
+Huesped* Estadia::getHuesped(){
+    return this->huesped;
 }
 
 DTRespuestaCalificacion* Estadia::obtenerDatosRespuestaCalificacion(){
@@ -88,3 +94,15 @@ DTReserva Estadia::obtenerDatosReserva(){
     return reserva->getDT()
 }
 */
+
+DTEstadia* getDTEstadia(){ //no tenemos un DTEstadia en el diagrama
+    string promo = this->promo;
+    // int codigo = this->codigo; //falta agregar codigo al dt
+    DTFecha* checkin = new DTFecha(this->checkIn->getDia(), this->checkIn->getMes(), this->checkIn->getAnio(), this->checkIn->getHora());
+    DTFecha* checkout = new DTFecha(this->checkOut->getDia(), this->checkOut->getMes(), this->checkOut->getAnio(), this->checkOut->getHora());
+    DTEstadia* dt = new DTEstadia(promo, checkin, checkout);
+    return dt;
+}
+bool existeEstadiaActiva(){
+    return this->checkOut != null; //se usa en el diagrama 8.2, duda de si deberia llevar como parametro el email del usted o eso se hace en la operacion que esta en reserva
+}

@@ -1,8 +1,13 @@
+#include <iostream>
 #include <string>
+#include <set>
 
 #include "Calificacion.h"
 #include "Estadia.h"
 #include "RespuestaCalificacion.h"
+#include "ColeccionesHandler.h"
+#include "Hostal.h"
+#include "Hbaitacion.h"
 #include "../Tipos/tipos.h"
 
 Calificacion::Calificacion(){};
@@ -41,9 +46,9 @@ void Calificacion::setHabitacion(int habitacion){
 DTCalificacion* Calificacion::getDT(){
     int _valor = this->valor;
     string _comentario = this->comentario;
-    DTFecha* _fecha = this->fecha;
+    DTFecha* _fecha = new DTFecha(this->fecha->getDia(), this->fecha->getMes(), this->fecha->getAnio(), this->fecha->getHora());
     int _habitacion = this->habitacion;
-    string _estadia = getEstadia()->getCodigo(); 
+    int _estadia = getEstadia()->getCodigo(); 
     DTCalificacion* resu = new DTCalificacion( _valor, _comentario, _fecha, _habitacion, _estadia);
     return resu;
 }
@@ -76,11 +81,33 @@ DTRespuestaCalificacion* Calificacion::obtenerRespuestaCalificacion(){
     return respuesta->getDTRespuestaCalificacion();
 }
 
-//void Calificacion::setEstadia(string _codigo){};
+void Calificacion::setEstadia(string _codigo){
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    this->estadia = col->getEstadia(_codigo);
+}
 
 //void setHostal(string nombre){}; no existe asociacion clasificacion hostal
 
+Calificacion::~Calificacion(){
+    delete(this->respuesta);
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    bool encontre;
+    Hostal* hostal;
 
+    set<Hostal*>::iterator it = col->getHostales().begin(); //necesito un getHostales para buscar el hostal que pertenece esta calificacion
+    while (it != col->getHostales().end() && !encontre){
+        Hostal* host = *it;
+        set<Habitacion*>::iterator it2 = host->getHabitaciones().begin(); // necesito un getHabitaciones que devuelva un set<Habitaciones*>
+        while (it2 != host->getHabitaciones().end() && !encontre){
+            Habitacion* hab = *it2;
+            if(hab->getNumero() == this->habitacion){
+                encontre = true;
+                hostal = host;
+            }
+            it2++;
+        };
+        it++;
+    };
 
-
-
+    hostal->eliminarCalificacion(this);
+}
