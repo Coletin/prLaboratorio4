@@ -37,7 +37,7 @@ void UsuarioControlador::crearHuesped(bool esFinger){
 
 
 void UsuarioControlador::crearEmpleado(CargoEmpleado cargo){
-    usuarioACrear = new DTEmpleado(nombreACrear,emailACrear,contraseniaACrear,cargo);
+    usuarioACrear = new DTEmpleado(nombreACrear,emailACrear,contraseniaACrear,"",cargo);
 }
 
 
