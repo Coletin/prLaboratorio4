@@ -2,10 +2,29 @@
 #include <string>
 #include <set>
 #include "Tipos/tipos.h"
+#include "Clases/Fabrica.h"
+#include "Interfaces/IHostal.h"
+#include "Interfaces/IEstadia.h"
+#include "Interfaces/IReserva.h"
+#include "Interfaces/IObserver.h"
+#include "Interfaces/IReloj.h"
+#include "Interfaces/Iusuario.h"
+
+
 
 using namespace std;
 
+
+void visualizarUsuarios();
+
+
 int main(){
+    Fabrica* f = new Fabrica();
+    IHostal* controladorHostal = f->getIHostal();
+    IReloj* controladorReloj = f->getIReloj();
+    IReserva* controladorReserva = f->getIReserva();
+    IEstadia* controladorEstadia = f->getIEstadia();
+    IUsuario* controladorUsuario = f->getIUsuario();
     int i = 0;
     while(i!=21){
         cout << "1-Alta de Usuario" << "\n";
@@ -48,15 +67,257 @@ int main(){
             break;
             case 8:
             break;
-            case 9:
+            case 9:{
+
+/*****************************************************************************************/
+/******************************  9 - CALIFICAR ESTADIA  ******************************/
+/*****************************************************************************************/ 
+            std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
+            int numero=0;
+            string email;
+            set<DTHostal*> hostales= controladorHostal->listarHostales();
+            if(hostales.size()==0){ std::cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;}
+            else{ 
+            std::cout<<"****************  9 - CALIFICAR ESTADIA  ************"<<endl;
+
+            std::cout<<" \n \n \n Seleccione Hostal: \n"<<endl;   
+        
+            std::cout<<" \n == HOSTALES: == \n"<<endl;
+           //std::cout<<"Digite Hostal Seleccionado: "<<endl;
+            auto it= hostales.begin();
+                while (it != hostales.end())
+                {
+                    DTHostal* actual = *it;
+                    ++numero;
+                    std::cout<<numero<<".-Nombre Hostal: "<<actual->getNombre()<<endl;
+                    ++it;
+                }
+            bool valido=true;
+                while(valido){
+                    std::cout<<"Digite Hostal Seleccionado: "<<endl;
+                    std::cin>>numero;
+                    if (numero>0 && numero<=hostales.size()) {
+                        valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
+                }
+            DTHostal* nuevo = *it;
+            it= hostales.begin();
+            int valor=0;
+                while ((valor)!=numero)
+                {
+                    nuevo = *it;
+                    valor++;
+                    ++it;
+                }
+
+               std::cout<<"Hostal Seleccionado:"<<nuevo->getNombre()<<endl; 
+               std::cout<<"Indique MAIL del empleado "<<endl;
+               std::cin>>email;
+               set<DTEstadia*> _estadiaH=controladorEstadia->obtenerEstadiasFinalizadas(email,nuevo->getNombre());
+               auto its= _estadiaH.begin();
+                while (its != _estadiaH.end())
+                {
+                    DTEstadia* actual_estadia = *its;
+               
+                    std::cout<<numero<<".-Estadia Finalizada: "<< actual_estadia->getPromo()<<endl;
+                    ++its;
+                }
+           
+            }
+             system("pause");
+            
+            }
             break;
-            case 10:
+            case 10:{
+            }
             break;
-            case 11:
-            break;
-            case 12:
+            case 11:{
+/*****************************************************************************************/
+/******************************  11 - CONSULTA DE USUARIO ********************************/
+/*****************************************************************************************/ 
+            std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
+            std::cout<<"****************  11 - CONSULTA DE USUARIO  ************"<<endl; 
+            int numero=0; 
+            set<DTUsuario*> usuarios= controladorUsuario->listarUsuarios();
+            if(usuarios.size()==0){ std::cout<<"NO HAY USUARIOS EN EL SISTEMA"<<endl;}
+            else{ 
+            auto it= usuarios.begin();
+                while (it != usuarios.end())
+                {
+                    DTUsuario* actual = *it;
+                    ++numero;
+                    std::cout<<numero<<".-Usuario: "<<actual->getNombre()<<endl;
+                    ++it;
+                }
+            bool valido=true;
+                while(valido){
+                    std::cout<<"Seleccione Usuario"<<endl;
+                    std::cin>>numero;
+                    if (numero>0 && numero<=usuarios.size()) {
+                        valido=false;} else { std::cout<<"Elija un numero de usuario valido por favor!"<<endl;};
+                }
+            DTUsuario* nuevo = *it;
+            it= usuarios.begin();
+            int valor=0;
+                while ((valor)!=numero)
+                {
+                    nuevo = *it;
+                    valor++;
+                    ++it;
+                }
+            
+        DTEmpleado * actual_e =controladorUsuario->datosEmpleado( nuevo->getEmail());
+        if(dynamic_cast<DTEmpleado*>(actual_e) != 0){
+            std::cout<<"Empleado : "<<actual_e->getNombre()<<endl;
+            std::cout<<"Email : "<<actual_e->getEmail()<<endl;
+            std::cout<<"Cargo : "<<actual_e->getCargo()<<endl;
+           // NECESITRAIA UNA FUNCION GET HOSTAL
+            system("pause");
+            } ;
+        
+        DTHuesped * actual_h =controladorUsuario->datosHuesped( nuevo->getEmail());
+        if(dynamic_cast<DTHuesped*>(actual_h) != 0){ 
+            std::cout<<"Huesped : "<<actual_h->getNombre()<<endl;
+            std::cout<<"Email : "<<actual_h->getEmail()<<endl;
+            string resultado="";
+            if(actual_h->getEsFinger()){resultado="SI";} else{resultado="NO";};
+            std::cout<<"Finger : "<<actual_h->getEsFinger()<<endl;
+           // NECESITRAIA UNA FUNCION GET HOSTAL
+        }  
+     }
+     system("pause");
+     }
+    break;
+
+
+
+
+            case 12:{
+/*****************************************************************************************/
+/******************************  12 - CONSULTA DE HOSTAL ********************************/
+/*****************************************************************************************/ 
+            std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
+            std::cout<<"****************  12 - CONSULTA DE HOSTAL  ************"<<endl;
+
+                int numero=0;
+               
+            set<DTHostal*> hostales= controladorHostal->listarHostales();
+            if(hostales.size()==0){ std::cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;}
+            else{ 
+            auto it= hostales.begin();
+            std::cout<<" \n == HOSTALES: == \n"<<endl;
+            std::cout<<"Digite Hostal Seleccionado: "<<endl;
+                while (it != hostales.end())
+                {
+                    DTHostal* actual = *it;
+                    ++numero;
+                    std::cout<<numero<<".-Nombre Hostal: "<<actual->getNombre()<<endl;
+                    ++it;
+                }
+            bool valido=true;
+
+                while(valido){
+                    std::cout<<"Seleccione el Hostal"<<endl;
+                    std::cin>>numero;
+                    if (numero>0 && numero<=hostales.size()) {
+                        valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
+                }
+            DTHostal* nuevo = *it;
+            it= hostales.begin();
+            int valor=0;
+                while ((valor)!=numero)
+                {
+                    nuevo = *it;
+                    valor++;
+                    ++it;
+                }
+            std::cout<<"Tengo el hostal pero no puedo listar hanitaciones y reservas"<<nuevo->getNombre()<<endl;
+            controladorReserva->listarReservasHostal(nuevo->getNombre());
+            }
+            system("pause");
+
+
+            }
             break;
             case 13:
+/*****************************************************************************************/
+/******************************  13 - CONSULTA DE RESERVA  ******************************/
+/*****************************************************************************************/ 
+                {
+            std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
+            std::cout<<"****************  13 - CONSULTA DE RESERVA  ************"<<endl; 
+
+                int numero=0;
+               
+            set<DTHostal*> hostales= controladorHostal->listarHostales();
+            if(hostales.size()==0){ std::cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;}
+
+            else{ 
+            auto it= hostales.begin();
+            std::cout<<" \n == HOSTALES: == \n"<<endl;
+            std::cout<<"Digite Hostal Seleccionado: "<<endl;
+                while (it != hostales.end())
+                {
+                    DTHostal* actual = *it;
+                    ++numero;
+                    std::cout<<numero<<".-Nombre Hostal: "<<actual->getNombre()<<endl;
+                    ++it;
+                }
+            bool valido=true;
+
+                while(valido){
+                    std::cout<<"Seleccione el Hostal"<<endl;
+                    std::cin>>numero;
+                    if (numero>0 && numero<=hostales.size()) {
+                        valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
+                } 
+            DTHostal* nuevo = *it;
+
+           
+            it= hostales.begin();
+            int valor=0;
+                while ((valor)!=numero)
+                {
+                    nuevo = *it;
+                    valor++;
+                    ++it;
+                }
+            set<DTReserva*> reservas=   controladorReserva->listarReservasHostal(nuevo->getNombre());
+            
+
+
+           /* DTReservaGrupal * actual_h =controladorReserva->listarReservasHostal( nuevo->getNombre());
+            if(dynamic_cast<DTReservaGrupal*>() != 0){
+                
+            }
+            */
+
+
+            if(reservas.size()==0){ std::cout<<"NO HAY RESERVAS EN EL SISTEMA"<<endl;}
+            else{ 
+            std::cout<<" \n == RESERVAS: == \n"<<endl;
+            std::cout<<"Digite Reserva Seleccionada: "<<endl;
+            auto it= reservas.begin();
+            int iteranumero=0;
+                while (it != reservas.end())
+                {
+                    DTReserva* _reserva = *it;
+                    ++numero;
+                    std::cout<<iteranumero<<".-Nombre Hostal: "<<_reserva->getHabitacion()<<endl;
+                    std::cout<<iteranumero<<".-Nombre Hostal: "<<_reserva->getCodigo()<<endl;
+                    controladorReserva->listarHuespedes();
+                    
+
+                    ++it;
+                }
+            }
+            
+            }
+            system("pause");
+            
+            
+            
+            }
+
             break;
             case 14:
             break;
@@ -70,13 +331,169 @@ int main(){
             break;
             case 19:
             break;
-            case 20:
+            case 20: {
+
+            //E1
+
+            //E2
+
+            //E3
+
+            //E4
+
+            //E5
+
+
+            //H1
+
+            //H2
+
+            //H3
+
+            //H4
+
+            //H5
+
+            //H6
+
+
+            //HO1
+            controladorHostal->agregarHostal("La posada finger", "Av de la playa 123, Maldonado", "099111111");
+
+            //HO2
+            controladorHostal->agregarHostal("Mochileros", "Rambla Costanera 333, Rocha", "42579512");
+
+            //HO3
+            controladorHostal->agregarHostal("El Pony Pisador", "Bree (preguntar por Gandalf)", "000");
+
+            //HO4
+            controladorHostal->agregarHostal("Altos de Fing", "Av del Toro 1424", "099892992");
+
+            //HO5
+            controladorHostal->agregarHostal("Caverna Lujuriosa", "Amaya 2515", "233233235");
+
+
+            //Habitaciones
+
+            //HA1
+
+            //HA2
+
+            //HA3
+
+            //HA4
+
+            //HA5
+
+            //HA6
+            
+
+            //AsignarEmpleados
+            controladorHostal->seleccionarHostalVar("La posada finger");
+            controladorHostal->asignarEmpleado("emilia@mail.com", CargoEmpleado::Recepcion);
+           // controladorHostal->confirmarAsigncacion();
+            controladorHostal->seleccionarHostalVar("Mochileros");
+            controladorHostal->asignarEmpleado("leo@mail.com", CargoEmpleado::Recepcion);
+           // controladorHostal->confirmarAsigncacion();
+            controladorHostal->seleccionarHostalVar("Mochileros");
+            controladorHostal->asignarEmpleado("alina@mail.com", CargoEmpleado::Administracion);
+            //controladorHostal->confirmarAsigncacion();
+            controladorHostal->seleccionarHostalVar("El Pony Pisador");
+            controladorHostal->asignarEmpleado("barli@mail.com", CargoEmpleado::Recepcion);
+          //  controladorHostal->confirmarAsigncacion();
+
+
+            //Reservas
+
+            //R1
+
+            //R2
+
+            //R3
+
+            //R4
+
+
+            //Crear Estadias
+            DTFecha* fechaSistema = new DTFecha(1,5,2022,18);//Dia,Mes,Año,Hora(0-23)
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES1
+
+            fechaSistema = new DTFecha(4,1,2001,21);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES2
+
+            fechaSistema = new DTFecha(4,1,2001,21);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES3
+
+            fechaSistema = new DTFecha(4,1,2001,21);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES4
+
+            fechaSistema = new DTFecha(4,1,2001,21);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES5
+
+            fechaSistema = new DTFecha(7,6,2022,18);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar ES6
+
+
+            //Finalizar Estadias
+            fechaSistema = new DTFecha(10,5,2022,9);
+            controladorReloj->setFecha(fechaSistema);
+            //finalizar ES1
+
+            fechaSistema = new DTFecha(5,1,2001,2);
+            controladorReloj->setFecha(fechaSistema);
+            //finalizar ES2
+
+            fechaSistema = new DTFecha(15,6,2022,22);
+            controladorReloj->setFecha(fechaSistema);
+            //finalizar ES6
+
+
+
+            //Calificar Estadias
+            fechaSistema = new DTFecha(11,5,2022,18);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar C1
+
+            fechaSistema = new DTFecha(5,1,2001,3);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar C2
+
+            fechaSistema = new DTFecha(15,6,2022,23);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar C3
+
+
+            //Comentar Calificaciones
+            fechaSistema = new DTFecha(6,1,2001,15);
+            controladorReloj->setFecha(fechaSistema);
+            //agregar comentario C2
+            controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
             break;
+            }
             case 21:
             break;
             default:
             cout << "La opcion seleccionada no es valida \n";
         };
+
     }
+
+
+
+
+
+
     return 0;
+}
+
+
+void visualizarUsuarios(){
+
+
 }
