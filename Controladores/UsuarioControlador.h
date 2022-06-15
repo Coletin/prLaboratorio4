@@ -13,6 +13,7 @@ class UsuarioControlador:public IUsuario{
         string nombreACrear;
         string emailACrear;
         string contraseniaACrear;
+        int estadiaMem;
         static UsuarioControlador * instancia;
         void limpiarMemoria();
         UsuarioControlador();
@@ -28,6 +29,6 @@ class UsuarioControlador:public IUsuario{
         DTEmpleado* datosEmpleado(string email);
         DTHuesped* datosHuesped(string email);
         set<DTCalificacion*> listarCalificacion(string mail);
-        void seleccionarCalificacion(string codigo);//codigo = Codigo de la estadia
+        void seleccionarCalificacion(int codigo);//codigo = Codigo de la estadia
         void responderComentario(string comentario);
 };

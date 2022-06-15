@@ -91,3 +91,8 @@ Calificacion::~Calificacion(){
         host->eliminarCalificacion(this);
     };
 }
+
+void Calificacion::responderCalificacion(string comentario){
+    RespuestaCalificacion* resp = new RespuestaCalificacion(comentario);
+    this->respuesta = resp;
+}
