@@ -84,23 +84,10 @@ DTRespuestaCalificacion* Calificacion::obtenerRespuestaCalificacion(){
 Calificacion::~Calificacion(){
     delete(this->respuesta);
     ColeccionesHandler * col = ColeccionesHandler::getInstancia();
-    bool encontre;
-    Hostal* hostal;
 
-    // set<Hostal*>::iterator it = col->getHostales().begin(); //necesito un getHostales para buscar el hostal que pertenece esta calificacion
-    // while (it != col->getHostales().end() && !encontre){
-    //     Hostal* host = *it;
-    //     set<Habitacion*>::iterator it2 = host->getHabitaciones().begin(); // necesito un getHabitaciones que devuelva un set<Habitaciones*>
-    //     while (it2 != host->getHabitaciones().end() && !encontre){
-    //         Habitacion* hab = *it2;
-    //         if(hab->getNumero() == this->habitacion){
-    //             encontre = true;
-    //             hostal = host;
-    //         }
-    //         it2++;
-    //     };
-    //     it++;
-    // };
-
-    hostal->eliminarCalificacion(this);
+    set<Hostal*>::iterator it = col->getHostales().begin(); 
+    while (it != col->getHostales().end()){
+        Hostal* host = *it;
+        host->eliminarCalificacion(this);
+    };
 }
