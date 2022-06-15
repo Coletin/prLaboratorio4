@@ -38,11 +38,10 @@ class Huesped : public Usuario{
         void setEsFinger(bool);
         bool getEsFinger();
         DTHuesped* getDTHuesped();
-        Estadia* getEstadia();
+        Estadia* getEstadia(int);
         void agregarEstadia(Estadia* estadia);
         void eliminarEstadia(Estadia*);
 };
-
 
 
 //EMPLEADO
