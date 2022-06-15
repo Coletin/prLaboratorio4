@@ -89,7 +89,7 @@ int main(){
             case 1:
                 limpiarPantalla();
                 cout << "Ingrese nombre: ";
-                cin >> nombreUsuarioCrear;
+                getline(cin,nombreUsuarioCrear);
                 cout << "Ingrese clave: ";
                 cin >> claveUsuarioCrear;
                 controladorUsuario->cargarDatosUsuario(nombreUsuarioCrear,claveUsuarioCrear);
@@ -211,6 +211,8 @@ int main(){
             }
             break;
             case 10:{
+                //Responder calificacion
+                //+++++++++++++++++++++++
                 limpiarPantalla();
                 cout << "Ingrese email del empleado: ";
                 cin >> emailUsuarioCrear;
@@ -233,7 +235,7 @@ int main(){
                 controladorUsuario->seleccionarCalificacion(cali->getEstadia());
                 emailUsuarioCrear = "";
                 cout << "Ingrese la respuesta al comentario seleccionado: ";
-                cin >> emailUsuarioCrear;
+                getline(cin,emailUsuarioCrear);
                 controladorUsuario->responderComentario(emailUsuarioCrear);
             }
             getch();
