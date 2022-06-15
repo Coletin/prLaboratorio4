@@ -79,8 +79,9 @@ void UsuarioControlador::cancelarCreacionUsuario(){
 }
 
 set<DTUsuario*> UsuarioControlador::listarUsuarios(){
-   set<DTUsuario*> setListaUsuarios;
-   return setListaUsuarios;
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    set<DTUsuario*> listaUsuarios = colecciones->getUsuarios();
+    return listaUsuarios;
 }
 
 DTEmpleado* UsuarioControlador::datosEmpleado(string email){
