@@ -95,14 +95,15 @@ DTReserva Estadia::obtenerDatosReserva(){
 }
 */
 
-DTEstadia* Estadia::getDTEstadia(){ //no tenemos un DTEstadia en el diagrama
+DTEstadia* Estadia::getDTEstadia(){
     string promo = this->promo;
-    // int codigo = this->codigo; //falta agregar codigo al dt
     DTFecha* checkin = new DTFecha(this->checkIn->getDia(), this->checkIn->getMes(), this->checkIn->getAnio(), this->checkIn->getHora());
     DTFecha* checkout = new DTFecha(this->checkOut->getDia(), this->checkOut->getMes(), this->checkOut->getAnio(), this->checkOut->getHora());
     DTEstadia* dt = new DTEstadia(promo, *checkin, *checkout,this->codigo);
     return dt;
 }
 bool Estadia::existeEstadiaActiva(){
-    return this->checkOut != NULL; //se usa en el diagrama 8.2, duda de si deberia llevar como parametro el email del usted o eso se hace en la operacion que esta en reserva
+    return this->checkOut != nullptr; 
 }
+
+Calificacion* Estadia::getCalificacion(){ return this->calificacion;}
