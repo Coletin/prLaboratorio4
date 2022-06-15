@@ -37,6 +37,17 @@ bool Reserva::esReservaHostal(string nom){
 }
 
 
+bool Reserva::huespedPertenece(string email){
+    set<Huesped*>::iterator it;
+    it = this->getHuespedes().begin();
+    Huesped *current = *it;
+    while (current->getEmail() != email){
+        current = *it;
+        ++it;
+    }
+    return it != this->getHuespedes().end();
+}
+
 Reserva::Reserva(){
     this->contador++;
     codigo = this->contador;

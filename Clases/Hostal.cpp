@@ -24,35 +24,69 @@ Hostal::Hostal(string _nombre, string _direccion, string _telefono){
 
 set<DTEstadia*> Hostal::getEstadiasDT(){
     set<DTEstadia*> respuesta;
+    set<DTEstadia*> aux;
+    for(set<Habitacion*>::iterator i = habitaciones.begin();i != habitaciones.end();++i){
+        Habitacion* actual = *i; 
+        aux = actual->getEstadiasDT();
+        for(set<DTEstadia*>::iterator it = aux.begin();it != aux.end();++it)
+            respuesta.insert(*it);
+    }
     return respuesta;
 }
 
-set<DTHabitacion*> Hostal::getHabDis(DataR* datar){
+set<DTHabitacion*> Hostal::getHabDis(DataR* data){
     set<DTHabitacion*> resu;
+    for(set<Habitacion*>::iterator i = habitaciones.begin();i != habitaciones.end();++i){
+        Habitacion* actual = *i;
+        if(actual->estaLibre(data)) resu.insert(actual->getDT());
+    }
     return resu;
 }
 
 Habitacion* Hostal::getHabNum(int numeroHab){
-    Habitacion* respuesta = new Habitacion();
-    return respuesta;
+    bool encontre = false;
+    set<Habitacion*>::iterator it = habitaciones.begin();
+    while (it != habitaciones.end() && !encontre){
+        Habitacion* actual = *it;
+        encontre = actual->getNumero() == numeroHab;
+        if(!encontre) ++it;
+    }
+    return *it;
 }
 
 float Hostal::getPromCal(){
-    return 0.0;
+    float resu = 0.0;
+    int i = 0;
+    for(set<Calificacion*>::iterator it = calificaciones.begin();it != calificaciones.end();++it){
+        Calificacion* actual = *it;
+        resu = resu + actual->getValor();
+        i++;
+    }
+    if(i!=0)resu = resu/i;
+    return resu;
 }
 
 set<DTCalificacion*> Hostal::getCalifs(){
     set<DTCalificacion*> respuesta;
+    for(set<Calificacion*>::iterator it = calificaciones.begin();it != calificaciones.end();++it){
+        Calificacion* actual = *it;
+        respuesta.insert(actual->getDT());
+    }
     return respuesta;
 }
 
 set<DTHabitacion*> Hostal::getHabitaciones(){
     set<DTHabitacion*> respuesta;
+    for(set<Habitacion*>::iterator it = habitaciones.begin();it != habitaciones.end();++it){
+        Habitacion* actual = *it;
+        respuesta.insert(actual->getDT());
+    }
     return respuesta;
 }
 
 void Hostal::agregarHabitacion(int numero, float precio, int capacidad){
-    
+    Habitacion* hab = new Habitacion(numero,precio,capacidad);
+    habitaciones.insert(hab);
 }
 
 DTHostal* Hostal::getDT(){
@@ -63,7 +97,14 @@ DTHostal* Hostal::getDT(){
 }
 
 bool Hostal::existeEstadiasActivas(string _email){
-    return false;
+    bool existe = false;
+    set<Habitacion*>::iterator it =  habitaciones.begin();
+    while (it != habitaciones.end() && !existe){
+        Habitacion* actual = *it;
+        existe = actual->existeEstadiasActivas(_email);
+        ++it;
+    }    
+    return existe;
 }
 
 set<DTEstadia*> Hostal::getReservasFinalizadasAsociadas(string _email){
@@ -90,12 +131,20 @@ void Hostal::agregarCalificacion(Calificacion* cal){
     calificaciones.insert(cal);
 }
 
+//si no encuentra habitacion asosciada a est devuelve -1
 int Hostal::getHabEstadia(Estadia* est){
-    return 1;
+    set<Habitacion*>::iterator it = habitaciones.begin();
+    int resu = -1;
+    while (it != habitaciones.end() && resu == -1){
+        Habitacion* actual = *it;
+        resu = actual->getHabEstadia(est);
+        ++it;
+    }
+    return resu;
 }
 
 void Hostal::eliminarCalificacion(Calificacion* cal){
-
+    this->calificaciones.erase(cal);
 }
 
 
