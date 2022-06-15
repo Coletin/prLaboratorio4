@@ -84,6 +84,7 @@ void Huesped::eliminarEstadia(Estadia* _estadia){
 Empleado::Empleado(string _nombre,string _email, string _password, CargoEmpleado _cargo):
           Usuario(_nombre,_email,_password){
               this->cargo = _cargo;
+              this->trabajo = nullptr;
 }
 
 CargoEmpleado Empleado::getCargo(){
@@ -98,7 +99,9 @@ DTEmpleado* Empleado::getDTEmpleado(){
     string _nombre = getNombre();
     string _email = getEmail();
     string _password = getPassword();
-    string _trabajo = this->getTrabajo()->getNombre();
+    string _trabajo = "";
+    if(this->getTrabajo() != nullptr)
+        _trabajo = this->getTrabajo()->getNombre();
     CargoEmpleado _cargo = getCargo();
     DTEmpleado* res = new DTEmpleado(_nombre,_email,_password,_trabajo,_cargo);
     return res;
