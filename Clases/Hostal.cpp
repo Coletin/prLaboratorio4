@@ -95,7 +95,7 @@ int Hostal::getHabEstadia(Estadia* est){
 }
 
 void Hostal::eliminarCalificacion(Calificacion* cal){
-
+    this->calificaciones.erase(cal);
 }
 
 
