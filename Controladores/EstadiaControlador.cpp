@@ -94,7 +94,7 @@ set<DTEstadia*> EstadiaControlador::obtenerEstadiasFinalizadas(string email, str
 
 
 
-void EstadiaControlador::crearCalificacion(string email, string hostal_, string comentario, int valor){
+void EstadiaControlador::crearCalificacion(string email, string hostal_, string comentario, int valor, int codigo){
     RelojControlador * reloj = RelojControlador::getInstancia();
     DTFecha * fecha = reloj->getFecha();
     Calificacion* cal = new Calificacion();
@@ -107,7 +107,7 @@ void EstadiaControlador::crearCalificacion(string email, string hostal_, string 
     Hostal* hostal = col->getHostal(hostal_);
 
     string nombre = huesped->getNombre();
-    Estadia* est = huesped->getEstadia();
+    Estadia* est = huesped->getEstadia(codigo);
     hostal->agregarCalificacion(cal);
     int numHab = hostal->getHabEstadia(est);
     est->setCalificacion(cal);
