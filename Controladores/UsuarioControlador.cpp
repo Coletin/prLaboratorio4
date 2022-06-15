@@ -14,6 +14,12 @@
 
 UsuarioControlador * UsuarioControlador::instancia = NULL;
 
+UsuarioControlador::UsuarioControlador(){
+    nombreACrear = "";
+    contraseniaACrear = "";
+    usuarioACrear = NULL;
+}
+
 UsuarioControlador * UsuarioControlador::getInstancia(){
 	if(instancia == NULL)
 		instancia = new UsuarioControlador;
@@ -31,7 +37,7 @@ void UsuarioControlador::crearHuesped(bool esFinger){
 
 
 void UsuarioControlador::crearEmpleado(CargoEmpleado cargo){
-    usuarioACrear = new DTEmpleado(nombreACrear,emailACrear,contraseniaACrear,cargo);
+    usuarioACrear = new DTEmpleado(nombreACrear,emailACrear,contraseniaACrear,"",cargo);
 }
 
 
@@ -73,8 +79,9 @@ void UsuarioControlador::cancelarCreacionUsuario(){
 }
 
 set<DTUsuario*> UsuarioControlador::listarUsuarios(){
-   set<DTUsuario*> setListaUsuarios;
-   return setListaUsuarios;
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    set<DTUsuario*> listaUsuarios = colecciones->getUsuarios();
+    return listaUsuarios;
 }
 
 DTEmpleado* UsuarioControlador::datosEmpleado(string email){
@@ -116,7 +123,7 @@ set<DTCalificacion*> UsuarioControlador::listarCalificacion(string mail){
 
 void UsuarioControlador::seleccionarCalificacion(string codigo){
 
-}//codigo = Codigo de la estadia
+}
 
 
 void UsuarioControlador::responderComentario(string comentario){

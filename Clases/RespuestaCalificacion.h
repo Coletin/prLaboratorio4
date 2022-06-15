@@ -12,7 +12,7 @@ class RespuestaCalificacion{
     public:
         RespuestaCalificacion();
         RespuestaCalificacion(string);
-        ~RespuestaCalificacion();
+        ~RespuestaCalificacion(){};
         DTRespuestaCalificacion* getDTRespuestaCalificacion();
         void setComentario(string comentario);
         string getComentario();
