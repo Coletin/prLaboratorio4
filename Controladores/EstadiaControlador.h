@@ -21,5 +21,5 @@ class EstadiaControlador:public IEstadia{
         bool existenEstadiasActivas(string email, string hostal);
         void finalizarEstadia(int codigo);
         set<DTEstadia*> obtenerEstadiasFinalizadas(string email, string hostal);
-        void crearCalificacion(string email, string hostal, string comentario, int valor);
+        void crearCalificacion(string email, string hostal, string comentario, int valor, int codigo);
 };

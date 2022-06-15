@@ -42,7 +42,7 @@ class Reserva{
      void setEstado(EstadoReserva);
      void setHabitacion(Habitacion*);
      bool esReservaHostal(string);
-     DTReserva* getDT();
+     virtual DTReserva* getDT() = 0;
      bool resNoSeSuperpone(DataR*);
      void asociarHabRev(Habitacion*);
      void asociarHuespedRev(Huesped*);
@@ -61,10 +61,11 @@ class ReservaGrupal : public Reserva{
     private:
 
     public:
-     ReservaGrupal(DTFecha*,DTFecha*,EstadoReserva); 
-     ~ReservaGrupal(); 
-     virtual float calcularCosto();
-     virtual int cantidadHuespedes();
+     ReservaGrupal(DTFecha*,DTFecha*,EstadoReserva);
+     ~ReservaGrupal(){};
+     float calcularCosto();
+     int cantidadHuespedes();
+     DTReserva* getDT();
 };
 
 
@@ -78,6 +79,7 @@ class ReservaIndividual : public Reserva{
 
     public:
      ReservaIndividual(DTFecha*,DTFecha*,EstadoReserva);
-     ~ReservaIndividual();
-     virtual float calcularCosto();
+     ~ReservaIndividual(){};
+     float calcularCosto();
+     DTReserva* getDT();
 };
