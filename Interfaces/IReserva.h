@@ -1,10 +1,16 @@
 #include <set>
-#include "../Tipos/tipos.h"
+
+using namespace std;
+
+class DTHostal;
+class DTHabitacion;
+class DTHuesped;
+class DTReserva;
 
 class IReserva{
     public:
         virtual set<DTHostal*> listarHostales();
-        virtual void ingresarDatosReserva(DataR data);
+        virtual void ingresarDatosReserva(DataR* data);
         virtual set<DTHabitacion*> obtenerHabitacionesDisponiblesEnFecha();
         virtual void agregarHabitacionAReserva(int numeroHab);
         virtual set<DTHuesped*> listarHuespedes();

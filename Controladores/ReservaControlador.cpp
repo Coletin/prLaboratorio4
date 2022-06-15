@@ -5,19 +5,12 @@
 #include "UsuarioControlador.h"
 
 #include "../Clases/Reserva.h"
-#include "../Clases/ReservaIndividual.h"
-#include "../Clases/ReservaGrupal.h"
-
+#include "../Clases/ColeccionesHandler.h"
 #include "../Clases/Fabrica.h"
-
+#include "../Clases/Habitacion.h"
+#include "../Clases/Hostal.h"
 
 ReservaControlador *ReservaControlador::instancia = NULL;
-
-ReservaControlador::ReservaControlador(){
-
-// aca van definiciones del controlador
-
-}
 
 ReservaControlador * ReservaControlador::getInstancia(){
 	if(instancia == NULL)
@@ -26,109 +19,108 @@ ReservaControlador * ReservaControlador::getInstancia(){
 	return instancia;
 }
 
-
-
-
-
-
-
-
-set<DTHostal*> listarHostales(){
-
+ReservaControlador::ReservaControlador(){
+	data = NULL;
+	numeroHab = -1;
+	codR = -1;
+	nombre = "/0";
 }
 
-
-
-
-void ingresarDatosReserva(DataR data){
-
+set<DTHostal*> ReservaControlador::listarHostales(){
+	ColeccionesHandler* col;
+	col = ColeccionesHandler::getInstancia();
+	return col->getHostalCol();
 }
 
-
-
-
-set<DTHabitacion*> obtenerHabitacionesDisponiblesEnFecha(){
-
+void ReservaControlador::ingresarDatosReserva(DataR data){
+	this->data = &data;
 }
 
-
-
-void agregarHabitacionAReserva(int numeroHab){
-
+set<DTHabitacion*> ReservaControlador::obtenerHabitacionesDisponiblesEnFecha(){
+	ColeccionesHandler* col;
+	col = ColeccionesHandler::getInstancia();
+	Hostal* h = col->getHostal(data->getHostal());
+	return h->getHabDis(data*);
 }
 
-
-
-
-set<DTHuesped*> listarHuespedes(){
-
-
+void ReservaControlador::agregarHabitacionAReserva(int numeroHab){
+	this->numeroHab = numeroHab;
 }
 
-
-
-
-void agregarHuespedAReserva(string email){
-
-
+set<DTHuesped*> ReservaControlador::listarHuespedes(){
+	ColeccionesHandler* col;
+	col = ColeccionesHandler::getInstancia();
+	return col->getHuespedes();
 }
 
-
-
-void confirmarReserva(){
-
+void ReservaControlador::agregarHuespedAReserva(string email){
+	this->emailHue.insert(email);
 }
 
-
-
-
-void cancelarReserva(){
-
-
+void ReservaControlador::confirmarReserva(){
+	ColeccionesHandler* col;
+	col = ColeccionesHandler::getInstancia();
+	Reserva* r;
+	
+	if(this->data->getEsGrupal())
+		r = new ReservaGrupal(17,&data->getCheckIn(),&data->getCheckOut(),Abierta);
+	else
+		r = new ReservaIndividual(17,&data->getCheckIn(),&data->getCheckOut(),Abierta);
+	
+	Hostal* h = col->getHostal(data->getHostal());
+	Habitacion* hab = h->getHabNum(numeroHab);
+	r->asociarHabRev(hab);
+	for(set<string>::iterator it = emailHue.begin(); it != emailHue.end();++it){
+		Reserva* r;
+		Huesped* hue = col->getHuesped(*it);
+		r->asociarHuespedRev(hue);
+	}
+	hab->asociarRevHab(r);
+	col->agregarReserva(r);
+	
+	delete data;
+	data = NULL;
+	numeroHab = -1;
+	emailHue.clear();
 }
 
-
-
-
-set<DTReserva*> listarReservasHostal(string hostal){
-
+void ReservaControlador::cancelarReserva(){
+	delete data;
+	data = NULL;
+	numeroHab = -1;
+	emailHue.clear();
 }
 
-
-
-void seleccionarReserva(int reserva){
-
+set<DTReserva*> ReservaControlador::listarReservasHostal(string hostal){
+	ColeccionesHandler* col;
+	col = ColeccionesHandler::getInstancia();
+return col->getReservasHostal(hostal);
 }
 
-
-
-
-void confirmarBajaReserva(){
-
-
+void ReservaControlador::seleccionarReserva(int reserva){
+	this->codR = reserva;
 }
 
-
-
-
-
-void cancelarBajaReserva(){
-
-
+void ReservaControlador::confirmarBajaReserva(){
+	ColeccionesHandler* col;
+	col = ColeccionesHandler::getInstancia();
+	Reserva* r = col->getReserva(codR);
+	col->eliminarReserva(codR);
+	r->~Reserva();
 }
 
-
-
-void seleccionarHostal(string hostal){
-
-
+void ReservaControlador::cancelarBajaReserva(){
+	numeroHab = -1;
 }
 
+void ReservaControlador::seleccionarHostal(string hostal){
+	nombre = hostal;
+}
 
-
-
-set<DTReserva*> listarReservasMem(){
-
-
-
+set<DTReserva*> ReservaControlador::listarReservasMem(){
+	ColeccionesHandler* col;
+	col = ColeccionesHandler::getInstancia();
+	string nom = nombre;
+	nombre = "/0";
+	return col->getReservasHostal(nom);
 }

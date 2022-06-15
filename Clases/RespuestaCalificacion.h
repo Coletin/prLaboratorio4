@@ -1,16 +1,19 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include "tipos.h"
+
+using namespace std;
+
+class DTRespuestaCalificacion;
 
 class RespuestaCalificacion{
     private:
         string comentario;
     public:
-        RespuestaCalificacion(string);
         RespuestaCalificacion();
+        RespuestaCalificacion(string);
         ~RespuestaCalificacion();
-        DTRespuestaCalificacion getDTRespuestaCalificacion();
+        DTRespuestaCalificacion* getDTRespuestaCalificacion();
         void setComentario(string comentario);
         string getComentario();
 };

@@ -26,6 +26,7 @@ RespuestaCalificacion::RespuestaCalificacion(string _comentario){
 };
 
 
+
 /*
 Razonemos, me dan el EMAIL, con eso filtro las estadias finalizadas por
 ese empleado, al  tener a la estadia tengo la coleccion de la calificacion
@@ -34,31 +35,8 @@ ese empleado, al  tener a la estadia tengo la coleccion de la calificacion
 
 void RespuestaCalificacion::setComentario(string _comentario){
   this->comentario=_comentario;
-
-
-/*try{
-        ColeccionesHandler * col = ColeccionesHandler::getInstancia();
-        set<DTEstadia*> estadias = col->obtenerEstadiasFinalizadas(,"d");
-        set<DTEstadia*>::iterator it = estadias.begin();
-        bool detectado = false;
-        while (it != estadias.end() && !detectado)
-            {
-                DTEstadia* actual = *it;
-                detectado = (actual->getPromo()== "calificacion");
-                if(!detectado)
-                    ++it;
-                else {
-                    actual->getCodigo();
-                }
-            }
-
-
-} catch(int myNum) {
-      cout << "Dio Errpr la Respuesta Calificacion \n"<<endl;
-}*/
-
-
 }
+
 
 string RespuestaCalificacion::getComentario(){
     return this->comentario;

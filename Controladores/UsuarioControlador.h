@@ -1,7 +1,8 @@
 #include <set>
 #include "../Tipos/tipos.h"
+#include "../Interfaces/IUsuario.h"
 
-class UsuarioControlador{
+class UsuarioControlador:public IUsuario{
     private:
         DTUsuario * usuarioACrear;
         string nombreACrear;

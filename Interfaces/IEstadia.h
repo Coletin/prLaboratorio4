@@ -1,5 +1,10 @@
 #include <set>
-#include "../Tipos/tipos.h"
+
+using namespace std;
+
+class DTHostal;
+class DTReserva;
+class DTEstadia;
 
 class IEstadia{
     public:
