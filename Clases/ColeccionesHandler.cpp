@@ -94,6 +94,10 @@ set<DTUsuario*> ColeccionesHandler::getUsuarios(){
 return resu;
 }
 
+set<Hostal*> ColeccionesHandler::getHostales(){
+    return this->hostales;
+}
+
 void ColeccionesHandler::agregarEstadia(Estadia* e){
     this->estadias.insert(e);
 };
