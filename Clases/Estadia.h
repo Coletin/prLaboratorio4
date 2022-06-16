@@ -35,6 +35,7 @@ class Estadia{
         DTEstadia* getDTEstadia();
         bool existeEstadiaActiva();
         void setHuesped(Huesped*);
+        Calificacion* getCalificacion();
         Huesped* getHuesped();
         //void setReserva(int codigo);
         //void setHuesped(string email);
