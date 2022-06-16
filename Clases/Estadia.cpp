@@ -98,8 +98,10 @@ DTReserva Estadia::obtenerDatosReserva(){
 DTEstadia* Estadia::getDTEstadia(){
     string promo = this->promo;
     DTFecha* checkin = new DTFecha(this->checkIn->getDia(), this->checkIn->getMes(), this->checkIn->getAnio(), this->checkIn->getHora());
-    DTFecha* checkout = new DTFecha(this->checkOut->getDia(), this->checkOut->getMes(), this->checkOut->getAnio(), this->checkOut->getHora());
-    DTEstadia* dt = new DTEstadia(promo, *checkin, *checkout,this->codigo);
+    DTFecha* checkout;
+    if(this->checkOut!=nullptr) checkout = new DTFecha(this->checkOut->getDia(), this->checkOut->getMes(), this->checkOut->getAnio(), this->checkOut->getHora());
+    else checkout = new DTFecha(-1,-1,-1,-1);
+    DTEstadia* dt = new DTEstadia(promo, *checkin, *checkout,this->codigo, this->huesped->getNombre());
     return dt;
 }
 bool Estadia::existeEstadiaActiva(){

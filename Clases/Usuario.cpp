@@ -44,10 +44,12 @@ bool Huesped::getEsFinger(){ return esFinger; }
 
 Huesped::Huesped():Usuario(){
     esFinger = false;
+    estadia.clear();
 }
 
 Huesped::Huesped(string _nombre, string _email, string _password,bool _esFinger):Usuario(_nombre, _email, _password){
     esFinger = _esFinger;
+    estadia.clear();
 }
 
 DTHuesped* Huesped::getDTHuesped(){
@@ -58,13 +60,14 @@ DTHuesped* Huesped::getDTHuesped(){
 Estadia* Huesped::getEstadia(int codigo){
     set<Estadia*>::iterator it = estadia.begin();
     bool encontre = false;
+    Estadia* actual;
     while (it != estadia.end() && !encontre){
-        Estadia actual = **it;
-        encontre = actual.getCodigo() == codigo;
+        actual = *it;
+        encontre = actual->getCodigo() == codigo;
         if(!encontre)
             ++it;
     }
-    return *it;
+    return actual;
 }
 
 

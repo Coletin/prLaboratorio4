@@ -17,8 +17,8 @@ Calificacion::Calificacion(int valor,string comentario,DTFecha* fecha,int hab){
     this->comentario = comentario;
     this->fecha = fecha;
     this->habitacion = hab;
-    this->estadia = NULL;
-    this->respuesta =NULL;
+    this->estadia = nullptr;
+    this->respuesta =nullptr;
 }
 
 void Calificacion::setEstadia(Estadia* estadia){

@@ -204,9 +204,6 @@ bool DTFecha::operator>=(const DTFecha& meIgual){
 };
 
 ostream& operator<<(ostream& o, DTFecha& f){
-    if((f.getHora()-10) < 0) o << '0';
-    o << f.getHora();
-    o << '/';
     if((f.getDia()-10) < 0) o << '0';
     o << f.getDia();
     o << '/';
@@ -214,6 +211,10 @@ ostream& operator<<(ostream& o, DTFecha& f){
     o << f.getMes();
     o << '/';
     o << f.getAnio();
+    o << ':' << ' ';
+    if((f.getHora()-10) < 0) o << '0';
+    o << f.getHora();
+    o << ' ' << 'h' << 's';
     return o;
 };
 
@@ -473,15 +474,20 @@ string DTRespuestaCalificacion::getComentario(){
     return this->comentario;
 };
 
-DTEstadia::DTEstadia(string promo, DTFecha checkIn, DTFecha checkOut, int codigo){
+DTEstadia::DTEstadia(string promo, DTFecha checkIn, DTFecha checkOut, int codigo, string huesped){
     this->promo = promo;
     this->checkIn = checkIn;
     this->checkOut = checkOut;
     this->codigo = codigo;
+    this->huesped = huesped;
 };
 
 string DTEstadia::getPromo(){
     return this->promo;
+};
+
+string DTEstadia::getHuesped(){
+    return this->huesped;
 };
 
 int DTEstadia::getCodigo(){

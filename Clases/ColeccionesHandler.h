@@ -48,4 +48,5 @@ class ColeccionesHandler {
         void agregarUsuario(Usuario *);
         bool existeUsuario(string email);
         set<Hostal*>getHostales();
+        Reserva* getReservaEstadia(int);
 };
