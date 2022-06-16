@@ -473,15 +473,20 @@ string DTRespuestaCalificacion::getComentario(){
     return this->comentario;
 };
 
-DTEstadia::DTEstadia(string promo, DTFecha checkIn, DTFecha checkOut, int codigo){
+DTEstadia::DTEstadia(string promo, DTFecha checkIn, DTFecha checkOut, int codigo, string huesped){
     this->promo = promo;
     this->checkIn = checkIn;
     this->checkOut = checkOut;
     this->codigo = codigo;
+    this->huesped = huesped;
 };
 
 string DTEstadia::getPromo(){
     return this->promo;
+};
+
+string DTEstadia::getHuesped(){
+    return this->huesped;
 };
 
 int DTEstadia::getCodigo(){

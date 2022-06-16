@@ -233,5 +233,21 @@ bool ColeccionesHandler::existeUsuario(string email){
     return encontre;
 }
 
+Reserva* ColeccionesHandler::getReservaEstadia(int codigoE){
+    set<Reserva*>::iterator it = reservas.begin();
+    bool encontre = false;
+    while((it != reservas.end())&&(!encontre)){
+        Reserva* actual = *it;
+        set<Estadia*> estadiasReserva = actual->getEstadias();
+        set<Estadia*>::iterator itE = estadiasReserva.begin();
+        Estadia* actualE = *itE;
+        while((itE != estadiasReserva.end())&&(actualE->getCodigo() != codigoE)){
+            ++itE;
+            Estadia* actual = *itE;
+        }
+        encontre = itE != estadiasReserva.end();
+    }
+    return *it;
+}
     
 
