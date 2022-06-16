@@ -611,7 +611,7 @@ ingresados, fecha y hora correspondientes al sistema.
                getch();
                break;
             }
-            bool valido=true;
+            valido=true;
                 while(valido){
                     std::cout<<"Digite Hostal Seleccionado: "<<endl;
                     std::cin>>numero;
@@ -620,7 +620,7 @@ ingresados, fecha y hora correspondientes al sistema.
                 }
             DTEstadia* nuevoE = *its;
             its= _estadiaH.begin();
-            int valor=0;
+            valor=0;
                 while ((valor)!=numero)
                 {
                     nuevoE = *its;
