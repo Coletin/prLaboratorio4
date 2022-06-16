@@ -1188,7 +1188,7 @@ int main(){
 
              std::cout<<" \n == FECHA ACTUAL: == \n"<<endl;
 
-            std::cout<<controladorReloj->getFecha()<<endl;
+            std::cout<< *controladorReloj->getFecha()<<endl;
 
              std::cout<<" \n == CARGA HABITACIONES: == \n"<<endl;
             //Habitaciones
@@ -1256,8 +1256,8 @@ int main(){
             controladorReserva->ingresarDatosReserva(reseva);
             controladorReserva->agregarHabitacionAReserva(1);
             controladorReserva->agregarHuespedAReserva("sofia@mail.com");
-            std::cout<<" \n == FALLA: == \n"<<endl;
-           // controladorReserva->confirmarReserva();
+            std::cout<<" \n == FALLA: == 1\n"<<endl;
+            controladorReserva->confirmarReserva();
             //R2
             DTFecha desder2(4,01,2001,20);  
             DTFecha hastar2(5,01,2001,2);
@@ -1268,26 +1268,26 @@ int main(){
             controladorReserva->agregarHuespedAReserva("sam@mail.com");
             controladorReserva->agregarHuespedAReserva("merry@mail.com");
             controladorReserva->agregarHuespedAReserva("pipin@mail.com");
-
-            std::cout<<" \n == FALLA: == \n"<<endl;
+            controladorReserva->confirmarReserva();
+            std::cout<<" \n == FALLA: == 2\n"<<endl;
             //R3
             DTFecha desder3(7,6,2022,14);  
             DTFecha hastar3(30,6,2022,11);
             DataR* reseva3 = new DataR("La posada del finger",desder3,hastar3,false);//Dia,Mes,Año,Hora(0-23)
             controladorReserva->ingresarDatosReserva(reseva3);
             controladorReserva->agregarHabitacionAReserva(3);
-            controladorReserva->agregarHuespedAReserva("seba@mail.com");
-            std::cout<<" \n == FALLA: == \n"<<endl;
-
+            controladorReserva->agregarHuespedAReserva("sofia@mail.com");
+            controladorReserva->confirmarReserva();
+            std::cout<<" \n == FALLA: == 3\n"<<endl;
             //R4
             DTFecha desder4(10,6,2022,14);  
-            DTFecha hastar4(30,6,2023,11);
+            DTFecha hastar4(30,6,2022,11);
             DataR* reseva4 = new DataR("Caverna Lujosa",desder4,hastar4,false);//Dia,Mes,Año,Hora(0-23)
             controladorReserva->ingresarDatosReserva(reseva4);
-            controladorReserva->agregarHabitacionAReserva(5);
-            controladorReserva->agregarHuespedAReserva("sofia@mail.com");
-            std::cout<<" \n == FALLA: == \n"<<endl;
-
+            controladorReserva->agregarHabitacionAReserva(1);
+            controladorReserva->agregarHuespedAReserva("seba@mail.com");
+            controladorReserva->confirmarReserva();
+            std::cout<<" \n == FALLA: == 4\n"<<endl;
      
 
              std::cout<<" \n == CARGA ESTADIAS: == \n"<<endl;

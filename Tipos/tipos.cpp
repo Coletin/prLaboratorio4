@@ -204,9 +204,6 @@ bool DTFecha::operator>=(const DTFecha& meIgual){
 };
 
 ostream& operator<<(ostream& o, DTFecha& f){
-    if((f.getHora()-10) < 0) o << '0';
-    o << f.getHora();
-    o << '/';
     if((f.getDia()-10) < 0) o << '0';
     o << f.getDia();
     o << '/';
@@ -214,6 +211,10 @@ ostream& operator<<(ostream& o, DTFecha& f){
     o << f.getMes();
     o << '/';
     o << f.getAnio();
+    o << ':' << ' ';
+    if((f.getHora()-10) < 0) o << '0';
+    o << f.getHora();
+    o << ' ' << 'h' << 's';
     return o;
 };
 
