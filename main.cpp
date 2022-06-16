@@ -607,11 +607,28 @@ ingresados, fecha y hora correspondientes al sistema.
                 };
             if (_estadiaH.size()==0)
             {
-               std::cout<<" NO HAY ESTADIAS ECONTRADAS "<<endl;
+               std::cout<<" NO HAY ESTADIAS FINALIZADAS "<<endl;
                getch();
                break;
             }
-            
+            bool valido=true;
+                while(valido){
+                    std::cout<<"Digite Hostal Seleccionado: "<<endl;
+                    std::cin>>numero;
+                    if (numero>0 && numero<=_estadiaH.size()) {
+                        valido=false;} else { std::cout<<"Elija un numero de estadia valido por favor!"<<endl;};
+                }
+            DTEstadia* nuevoE = *its;
+            its= _estadiaH.begin();
+            int valor=0;
+                while ((valor)!=numero)
+                {
+                    nuevoE = *its;
+                    valor++;
+                    ++its;
+                }
+
+            std::cout<<"Estadia Seleccionada:"<<nuevoE->getCodigo()<<endl;
             string comentario;
             std::cout<<"Ingrese su comentario:  "<<endl;
             cin>>comentario;
@@ -628,7 +645,7 @@ ingresados, fecha y hora correspondientes al sistema.
             }
 
 
-            controladorEstadia->crearCalificacion(emailr,nuevo->getNombre(),comentario,valorcalif);
+            controladorEstadia->crearCalificacion(emailr,nuevo->getNombre(),comentario,valorcalif,nuevoE->getCodigo());
             
            
             }
