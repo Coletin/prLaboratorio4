@@ -46,6 +46,24 @@ int pedirEntero(string mensajePedir, string mensajeError, int tope){
     return respuesta;
 }
 
+
+int pedirEnteroConCero(string mensajePedir, string mensajeError, int tope){
+    int respuesta = -1;
+    bool primerMensaje = true;
+    string lectura = "";
+    while(respuesta > tope || respuesta < 0){
+      if(primerMensaje)
+            primerMensaje = false;
+        else
+            cout << mensajeError << "\n";
+        cout << mensajePedir;
+        cin >> lectura;
+        if(checkNumero(lectura))
+            respuesta = std::stoi(lectura); //stoi convierte un string a un entero
+    }
+    return respuesta;
+}
+
 //pide un entero entre 1 y tope. mensajePedir es el mensaje que se muestra siempre mientras que mensajeError se muestra solamente cada vez que ingrese un numero mal.
 int pedirEnteroSinLimpiarPantalla(string mensajePedir, string mensajeError, int tope){
     int respuesta = 0;
@@ -107,7 +125,8 @@ int main(){
             case 1:
                 limpiarPantalla();
                 cout << "Ingrese nombre: ";
-                cin >> nombreUsuarioCrear;
+                cin.ignore();
+                getline(cin,nombreUsuarioCrear);
                 cout << "Ingrese clave: ";
                 cin >> claveUsuarioCrear;
                 controladorUsuario->cargarDatosUsuario(nombreUsuarioCrear,claveUsuarioCrear);
@@ -334,6 +353,35 @@ int main(){
             }
             break;
             case 10:{
+                //Responder calificacion
+                //+++++++++++++++++++++++
+                limpiarPantalla();
+                cout << "Ingrese email del empleado: ";
+                cin >> emailUsuarioCrear;
+                set<DTCalificacion*> calis = controladorUsuario->listarCalificacion(emailUsuarioCrear);
+            if(calis.size()==0){ std::cout<<"No existen comentarios"<<endl;}
+            else{ 
+                int numero=0; 
+                set<DTCalificacion*>::iterator it = calis.begin();
+                while (it != calis.end())
+                {
+                    DTCalificacion* actual = *it;
+                    ++numero;
+                    std::cout<<numero<<".: "<<actual->getComentario()<<endl;
+                    ++it;
+                }
+                tipoUsuarioCrear = pedirEntero("Seleccione un comentario: ","Opcion incorrecta ",numero);
+                it = calis.begin();
+                for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
+                DTCalificacion* cali = *it;
+                controladorUsuario->seleccionarCalificacion(cali->getEstadia());
+                emailUsuarioCrear = "";
+                cout << "Ingrese la respuesta al comentario seleccionado: ";
+                getline(cin,emailUsuarioCrear);
+                getline(cin,emailUsuarioCrear);
+                controladorUsuario->responderComentario(emailUsuarioCrear);
+            }
+            getch();
             }
             break;
             case 11:{
@@ -529,13 +577,91 @@ int main(){
             break;
             case 15:
             break;
-            case 16:
+            case 16:{
+                set<DTEmpleado*> empleados = controladorUsuario->obtenerEmpleados();
+                if(empleados.size()==0){ std::cout<<"No existen empleados"<<endl;}
+            else{ 
+                int numero=0; 
+                set<DTEmpleado*>::iterator it = empleados.begin();
+                while (it != empleados.end())
+                {
+                    DTEmpleado* actual = *it;
+                    ++numero;
+                    std::cout<<numero<<".: "<<actual->getNombre()<<" "<<actual->getEmail()<<endl;
+                    ++it;
+                }
+                tipoUsuarioCrear = pedirEntero("Seleccione un empleado: ","Opcion incorrecta ",numero);
+                it = empleados.begin();
+                for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
+                DTEmpleado* e = *it;
+                controladorUsuario->subscribirseANotificaciones(e->getEmail());
+                cout << "Subscripto";
+            }
+            getch();
+            }
             break;
-            case 17:
+            case 17:{
+                 set<DTEmpleado*> empleados = controladorUsuario->obtenerEmpleados();
+                if(empleados.size()==0){ std::cout<<"No existen empleados"<<endl;
+                getch();
+                }
+            else{ 
+                int numero=0; 
+                set<DTEmpleado*>::iterator it = empleados.begin();
+                while (it != empleados.end())
+                {
+                    DTEmpleado* actual = *it;
+                    ++numero;
+                    std::cout<<numero<<".: "<<actual->getNombre()<<" "<<actual->getEmail()<<endl;
+                    ++it;
+                }
+                tipoUsuarioCrear = pedirEntero("Seleccione un empleado: ","Opcion incorrecta ",numero);
+                it = empleados.begin();
+                for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
+                DTEmpleado* e = *it;
+                set<DTNotificacion*> notifs = controladorUsuario->listarNotificaciones(e->getEmail());
+                for(set<DTNotificacion*>::iterator it = notifs.begin();it != notifs.end();++it){
+                    DTNotificacion* actual = *it;
+                    cout <<"Autor: " << actual->getAutor() << " " << "Puntaje: " << actual->getPuntaje() << " " << "Comentario: " << actual->getComentario() << endl;
+                }
+                controladorUsuario->eliminarNotificaciones(e->getEmail());
+                if(notifs.size()==0){cout << "No hay nuevas notificaciones";};
+                getch();
+            }
+            }
             break;
-            case 18:
+            case 18:{
+                set<DTEmpleado*> empleados = controladorUsuario->obtenerEmpleados();
+                if(empleados.size()==0){ std::cout<<"No existen empleados"<<endl;}
+            else{ 
+                int numero=0; 
+                set<DTEmpleado*>::iterator it = empleados.begin();
+                while (it != empleados.end())
+                {
+                    DTEmpleado* actual = *it;
+                    ++numero;
+                    std::cout<<numero<<".: "<<actual->getNombre()<<" "<<actual->getEmail()<<endl;
+                    ++it;
+                }
+                tipoUsuarioCrear = pedirEntero("Seleccione un empleado: ","Opcion incorrecta ",numero);
+                it = empleados.begin();
+                for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
+                DTEmpleado* e = *it;
+                controladorUsuario->desubscribirseDeNotificaciones(e->getEmail());
+                cout << "Subscripcion eliminada";
+            }
+            getch();
+            }
             break;
-            case 19:
+            case 19:{
+                int anio = pedirEntero("Ingrese el anio: ","Anio invalido ",3000);
+                int mes = pedirEntero("Ingrese el mes: ","Mes invalido ",12);
+                int dia = pedirEntero("Ingrese el dia: ","Dia invalido ",31);
+                int hora = pedirEnteroConCero("Ingrese la hora: ","Hora invalida ",23);
+                DTFecha* nueva = new DTFecha(anio, mes, dia, hora);
+                controladorReloj->setFecha(nueva);
+                cout << "Fecha actualizada";
+            }
             break;
             case 20: {
 
