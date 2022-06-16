@@ -9,6 +9,9 @@
 #include "../Clases/Fabrica.h"
 #include "../Clases/ColeccionesHandler.h"
 #include "../Clases/Hostal.h"
+#include "../Clases/Estadia.h"
+#include "../Clases/Calificacion.h"
+#include "../Clases/Notificador.h"
 #include "../Tipos/tipos.h"
 
 
@@ -35,6 +38,11 @@ void UsuarioControlador::crearHuesped(bool esFinger){
     usuarioACrear = new DTHuesped(nombreACrear,emailACrear,contraseniaACrear,esFinger);
 }
 
+set<DTEmpleado*> UsuarioControlador::obtenerEmpleados(){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    set<DTEmpleado*> listaEmpleados = colecciones->getEmpleados();
+    return listaEmpleados;
+}
 
 void UsuarioControlador::crearEmpleado(CargoEmpleado cargo){
     usuarioACrear = new DTEmpleado(nombreACrear,emailACrear,contraseniaACrear,"",cargo);
@@ -116,17 +124,19 @@ set<DTCalificacion*> UsuarioControlador::listarCalificacion(string mail){
 
     Empleado* empleado = colecciones->getEmpleado(mail);
     Hostal *hostal = empleado->getTrabajo();
-    respuesta = hostal->getCalifs();
-
+    if(hostal != nullptr) respuesta = hostal->getCalifs();
     return respuesta;
 }
 
-void UsuarioControlador::seleccionarCalificacion(string codigo){
-
+void UsuarioControlador::seleccionarCalificacion(int codigo){
+    estadiaMem = codigo;
 }
 
 
 void UsuarioControlador::responderComentario(string comentario){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Estadia* est = colecciones->getEstadia(estadiaMem);
+    est->getCalificacion()->responderCalificacion(comentario);
 }
 
 void UsuarioControlador::limpiarMemoria(){
@@ -134,4 +144,30 @@ void UsuarioControlador::limpiarMemoria(){
     contraseniaACrear = "";
     delete usuarioACrear;
     usuarioACrear = NULL;
+}
+
+void UsuarioControlador::eliminarNotificaciones(string email){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Empleado* empleado = colecciones->getEmpleado(email);
+    empleado->eliminarNotificaciones();
+}
+
+void UsuarioControlador::subscribirseANotificaciones(string email){
+    Notificador* notificador = Notificador::getInstancia();
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    IObserver* empleado = colecciones->getEmpleado(email);
+    notificador->agregar(empleado);
+}
+
+void UsuarioControlador::desubscribirseDeNotificaciones(string email){
+    Notificador* notificador = Notificador::getInstancia();
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    IObserver* empleado = colecciones->getEmpleado(email);
+    notificador->eliminar(empleado);
+}
+
+set<DTNotificacion*> UsuarioControlador::listarNotificaciones(string email){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Empleado* empleado = colecciones->getEmpleado(email);
+    return empleado->getNotificaciones();
 }

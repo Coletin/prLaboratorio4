@@ -10,6 +10,7 @@ class DTUsuario;
 class DTEmpleado;
 class DTHuesped;
 class DTCalificacion;
+class DTNotificacion;
 
 
 class IUsuario{
@@ -24,7 +25,12 @@ class IUsuario{
         virtual DTEmpleado* datosEmpleado(string email) = 0;
         virtual DTHuesped* datosHuesped(string email) = 0;
         virtual set<DTCalificacion*> listarCalificacion(string mail) = 0;
-        virtual void seleccionarCalificacion(string codigo) = 0;//codigo = Codigo de la estadia
+        virtual void seleccionarCalificacion(int codigo) = 0;//codigo = Codigo de la estadia
         virtual void responderComentario(string comentario){};
+        virtual set<DTEmpleado*> obtenerEmpleados()= 0;
+        virtual void subscribirseANotificaciones(string){};
+        virtual void desubscribirseDeNotificaciones(string){};
+        virtual set<DTNotificacion*> listarNotificaciones(string)=0;
+        virtual void eliminarNotificaciones(string){};
 };
 #endif

@@ -32,6 +32,7 @@ class ColeccionesHandler {
         Hostal *getHostal(string);
         set<DTHostal*> getHostalCol();
         set<DTEmpleado*> getEmpleadoNoAsigCol(string);
+        set<DTEmpleado*> getEmpleados();
         set<DTUsuario*> getUsuarios();
         void agregarEstadia(Estadia*);
         void eliminarEstadia(Estadia*);

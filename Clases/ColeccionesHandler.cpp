@@ -201,6 +201,19 @@ set<DTHuesped*> ColeccionesHandler::getHuespedes(){
 return resu;
 }
 
+set<DTEmpleado*> ColeccionesHandler::getEmpleados(){
+    set<DTEmpleado*> resu;
+    for(set<Usuario*>::iterator it = usuarios.begin(); it != usuarios.end();++it){
+        Usuario* actual = *it;
+        if(dynamic_cast<Empleado*>(actual) != 0){
+            Empleado* empleado = dynamic_cast<Empleado*>(actual);
+            DTEmpleado* agregar = empleado->getDTEmpleado();
+            resu.insert(agregar);
+        }
+    }
+return resu;
+}
+
 void ColeccionesHandler::agregarReserva(Reserva *r){
     this->reservas.insert(r);
 }

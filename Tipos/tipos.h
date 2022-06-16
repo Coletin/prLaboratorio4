@@ -29,6 +29,19 @@ class DTFecha{
      bool operator>(const DTFecha&);
 };
 
+class DTNotificacion{
+    private:
+        string autor;
+        string comentario;
+        int puntaje;
+    public:
+        DTNotificacion();
+        DTNotificacion(string, int, string);
+        string getAutor();
+        string getComentario();
+        int getPuntaje();
+};
+
 class DTCalificacion{
     private:
         int valor;
