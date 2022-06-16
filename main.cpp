@@ -1131,39 +1131,39 @@ int main(){
              std::cout<<" \n == CARGA HUESPEDES: == \n"<<endl;
             //H1
             controladorUsuario->cargarDatosUsuario("Sofia","123");
-            controladorUsuario->crearHuesped(true);
             controladorUsuario->indicarEmail("sofia@mail.com");
+            controladorUsuario->crearHuesped(true);
             controladorUsuario->persistirUsuario();
 
             //H2
             controladorUsuario->cargarDatosUsuario("Frodo","123");
-            controladorUsuario->crearHuesped(true);
             controladorUsuario->indicarEmail("frodo@mail.com");
+            controladorUsuario->crearHuesped(true);
             controladorUsuario->persistirUsuario();
 
 
             //H3
             controladorUsuario->cargarDatosUsuario("Sam","123");
-            controladorUsuario->crearHuesped(false);
             controladorUsuario->indicarEmail("sam@mail.com");
+            controladorUsuario->crearHuesped(false);
             controladorUsuario->persistirUsuario();
 
             //H4
             controladorUsuario->cargarDatosUsuario("Merry","123");
-            controladorUsuario->crearHuesped(false);
             controladorUsuario->indicarEmail("merry@mail.com");
+            controladorUsuario->crearHuesped(false);
             controladorUsuario->persistirUsuario();
 
             //H5
             controladorUsuario->cargarDatosUsuario("Pippin","123");
-            controladorUsuario->crearHuesped(false);
             controladorUsuario->indicarEmail("pippin@mail.com");
+            controladorUsuario->crearHuesped(false);
             controladorUsuario->persistirUsuario();
 
             //H6
             controladorUsuario->cargarDatosUsuario("Seba","123");
-            controladorUsuario->crearHuesped(true);
             controladorUsuario->indicarEmail("seba@mail.com");
+            controladorUsuario->crearHuesped(true);
             controladorUsuario->persistirUsuario();
 
              std::cout<<" \n == CARGA HOSTALES: == \n"<<endl;
@@ -1237,7 +1237,6 @@ int main(){
 
             controladorHostal->seleccionarHostalVar("El Pony Pisador");
             controladorHostal->asignarEmpleado("barli@mail.com", CargoEmpleado::Recepcion);
-            std::cout<<" \n == fallo: == \n"<<endl;
             controladorHostal->confirmarAsigncacion();
             controladorHostal->finalizar();
 
@@ -1253,7 +1252,6 @@ int main(){
             controladorReserva->ingresarDatosReserva(reseva);
             controladorReserva->agregarHabitacionAReserva(1);
             controladorReserva->agregarHuespedAReserva("sofia@mail.com");
-            std::cout<<" \n == FALLA: == 1\n"<<endl;
             controladorReserva->confirmarReserva();
             //R2
             DTFecha desder2(4,01,2001,20);  
@@ -1266,7 +1264,6 @@ int main(){
             controladorReserva->agregarHuespedAReserva("merry@mail.com");
             controladorReserva->agregarHuespedAReserva("pipin@mail.com");
             controladorReserva->confirmarReserva();
-            std::cout<<" \n == FALLA: == 2\n"<<endl;
             //R3
             DTFecha desder3(7,6,2022,14);  
             DTFecha hastar3(30,6,2022,11);
@@ -1275,7 +1272,6 @@ int main(){
             controladorReserva->agregarHabitacionAReserva(3);
             controladorReserva->agregarHuespedAReserva("sofia@mail.com");
             controladorReserva->confirmarReserva();
-            std::cout<<" \n == FALLA: == 3\n"<<endl;
             //R4
             DTFecha desder4(10,6,2022,14);  
             DTFecha hastar4(30,6,2022,11);
@@ -1284,7 +1280,6 @@ int main(){
             controladorReserva->agregarHabitacionAReserva(1);
             controladorReserva->agregarHuespedAReserva("seba@mail.com");
             controladorReserva->confirmarReserva();
-            std::cout<<" \n == FALLA: == 4\n"<<endl;
      
 
              std::cout<<" \n == CARGA ESTADIAS: == \n"<<endl;
@@ -1292,55 +1287,68 @@ int main(){
             DTFecha* fechaSistema = new DTFecha(1,5,2022,18);//Dia,Mes,Año,Hora(0-23)
             controladorReloj->setFecha(fechaSistema);
             //agregar ES1
+            controladorEstadia->registrarEstadia("sofia@mail.com", 1);
 
             fechaSistema = new DTFecha(4,1,2001,21);
             controladorReloj->setFecha(fechaSistema);
             //agregar ES2
+            controladorEstadia->registrarEstadia("frodo@mail.com", 2);
 
             fechaSistema = new DTFecha(4,1,2001,21);
             controladorReloj->setFecha(fechaSistema);
             //agregar ES3
+            controladorEstadia->registrarEstadia("sam@mail.com", 2);
 
             fechaSistema = new DTFecha(4,1,2001,21);
             controladorReloj->setFecha(fechaSistema);
             //agregar ES4
+            controladorEstadia->registrarEstadia("merry@mail.com", 2);
 
             fechaSistema = new DTFecha(4,1,2001,21);
             controladorReloj->setFecha(fechaSistema);
             //agregar ES5
+            controladorEstadia->registrarEstadia("pippin@mail.com", 2);
 
             fechaSistema = new DTFecha(7,6,2022,18);
             controladorReloj->setFecha(fechaSistema);
             //agregar ES6
-
+            controladorEstadia->registrarEstadia("seba@mail.com", 4);
+            
 
             //Finalizar Estadias
             fechaSistema = new DTFecha(10,5,2022,9);
             controladorReloj->setFecha(fechaSistema);
             //finalizar ES1
+            controladorEstadia->finalizarEstadia(1);
 
             fechaSistema = new DTFecha(5,1,2001,2);
             controladorReloj->setFecha(fechaSistema);
             //finalizar ES2
+            controladorEstadia->finalizarEstadia(2);
 
             fechaSistema = new DTFecha(15,6,2022,22);
             controladorReloj->setFecha(fechaSistema);
             //finalizar ES6
+            controladorEstadia->finalizarEstadia(6);
 
 
              std::cout<<" \n == CALIFICAR ESTADIAS: == \n"<<endl;
             //Calificar Estadias
+
             fechaSistema = new DTFecha(11,5,2022,18);
             controladorReloj->setFecha(fechaSistema);
             //agregar C1
+            controladorEstadia->crearCalificacion("sofia@mail.com","La posada del finger","Un poco caro para lo que ofrecen. El famoso gimnasio era una caminadora (que hacia tremendo ruido) y 2 pesas, la piscina parecia el lago del Parque Rodo y el desayuno eran 2 tostadas con mermelada. Internet se pasaba cayendo. No vuelvo.",3,1);
 
             fechaSistema = new DTFecha(5,1,2001,3);
             controladorReloj->setFecha(fechaSistema);
             //agregar C2
+            controladorEstadia->crearCalificacion("frodo@mail.com","El Pony Pisador","Se pone peligroso de noche, no recomiendo. Ademas no hay caja fuerte para guardar anillos.",2,2);
 
             fechaSistema = new DTFecha(15,6,2022,23);
             controladorReloj->setFecha(fechaSistema);
             //agregar C3
+            controladorEstadia->crearCalificacion("seba@mail.com","Caverna Lujosa","Habia pulgas en la habitacion. Que lugar mas mamarracho",1,6);
 
 
             //Comentar Calificaciones
@@ -1349,6 +1357,8 @@ int main(){
 
              std::cout<<" \n == RESPONDER CALIFICACIONES: == \n"<<endl;
             //agregar comentario C2
+            controladorUsuario->listarCalificacion("barli@mail.com");
+            controladorUsuario->seleccionarCalificacion(2);
             controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
 
 
