@@ -345,11 +345,13 @@ int main(){
 /******************************  6 - CONSULTAR TOP 3 HOSTALES  ********************************/
 /*****************************************************************************************/ 
             std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
-            set<DTHostal*> top3 = controladorHostal->topTres();
+            set<DTHostal*> hostalesEnsistema = controladorHostal->listarHostales();
+            int cantidadHostalesEnSistema = hostalesEnsistema.size();
             std::cout<<"****************  6 - CONSULTAR TOP 3 HOSTALES  ************"<<endl;
-            if(top3.size()<3){std::cout<<"No hay suficientes hostales para hacer un top tres";}
+            if(cantidadHostalesEnSistema<3){std::cout<<"No hay suficientes hostales para hacer un top tres";}
             else
              {
+            set<DTHostal*> top3 = controladorHostal->topTres();                
              auto it= top3.begin();
              int opcion = 0;
              while (it != top3.end()){
