@@ -89,7 +89,10 @@ int main(){
     IReserva* controladorReserva = f->getIReserva();
     IEstadia* controladorEstadia = f->getIEstadia();
     IUsuario* controladorUsuario = f->getIUsuario();
+    DTFecha* fechaSistemaArranque = new DTFecha(1,5,2022,18);//Dia,Mes,Año,Hora(0-23)
+    controladorReloj->setFecha(fechaSistemaArranque);
     int i = 0;
+    int _cargaInicial=1;
 
     //variables para creacion de empleado
     string nombreUsuarioCrear = "", claveUsuarioCrear = "", emailUsuarioCrear = "";
@@ -543,9 +546,18 @@ int main(){
 /*****************************************************************************************/
 /******************************  9 - CALIFICAR ESTADIA  ******************************/
 /*****************************************************************************************/ 
-            std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
+/*
+El caso comienza cuando un huesped desea calificar una estadia . Para ello, el sistema lista
+todos los hostales registrados y el usuario selecciona uno de ellos. A continuacion, el usuario
+indica el email del huesped y el sistema lista las estadias  finalizadas por huesped (en los cuales hizo
+check out) y este selecciona una de ellas. A continuacion el usuario ingresa el texto del mensaje
+a enviar y la calificacion correspondiente y el sistema da de alta la falificacion con los datos 
+ingresados, fecha y hora correspondientes al sistema.
+
+*/
+            limpiarPantalla();
             int numero=0;
-            string email;
+            string emailr;
             set<DTHostal*> hostales= controladorHostal->listarHostales();
             if(hostales.size()==0){ std::cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;}
             else{ 
@@ -581,17 +593,43 @@ int main(){
                 }
 
                std::cout<<"Hostal Seleccionado:"<<nuevo->getNombre()<<endl; 
-               std::cout<<"Indique MAIL del empleado "<<endl;
-               std::cin>>email;
-               set<DTEstadia*> _estadiaH=controladorEstadia->obtenerEstadiasFinalizadas(email,nuevo->getNombre());
+               std::cout<<"Indique MAIL del Huesped "<<endl;
+               std::cin>>emailr;
+       
+               
+               set<DTEstadia*> _estadiaH=controladorEstadia->obtenerEstadiasFinalizadas(emailr,nuevo->getNombre());
                auto its= _estadiaH.begin();
                 while (its != _estadiaH.end())
                 {
                     DTEstadia* actual_estadia = *its;
-               
-                    std::cout<<numero<<".-Estadia Finalizada: "<< actual_estadia->getPromo()<<endl;
+                    std::cout<<numero<<".-Estadia Finalizada: "<< actual_estadia->getCodigo()<<endl;
                     ++its;
-                }
+                };
+            if (_estadiaH.size()==0)
+            {
+               std::cout<<" NO HAY ESTADIAS ECONTRADAS "<<endl;
+               getch();
+               break;
+            }
+            
+            string comentario;
+            std::cout<<"Ingrese su comentario:  "<<endl;
+            cin>>comentario;
+
+            std::cout<<"Ingrese su Calificacion (1-5):  "<<endl;
+            int valorcalif=-1;
+            cin>>valorcalif;
+            while  (1>valorcalif || valorcalif>5){
+                 
+                  std::cout<<"Calificacion Incorrecta  "<<endl;        
+                  std::cout<<"Ingrese su Calificacion (1-5)  "<<endl;
+                  cin>>valorcalif;
+            
+            }
+
+
+            controladorEstadia->crearCalificacion(emailr,nuevo->getNombre(),comentario,valorcalif);
+            
            
             }
              system("pause");
@@ -697,7 +735,8 @@ int main(){
 /*****************************************************************************************/ 
     {
             std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
-            std::cout<<"****************  12 - CONSULTA DE HOSTAL  ************"<<endl; 
+            std::cout<<"****************  12 - CONSULTA DE HOSTAL  ************"<<endl;
+             
 
                 int numero=0;
                
@@ -709,7 +748,7 @@ int main(){
             std::cout<<" \n == HOSTALES: == \n"<<endl;
             std::cout<<"Digite Hostal Seleccionado: "<<endl;
                 while (it != hostales.end())
-                {
+                { 
                     DTHostal* actual = *it;
                     ++numero;
                     std::cout<<numero<<".-Nombre Hostal: "<<actual->getNombre()<<endl;
@@ -808,13 +847,18 @@ int main(){
                     valor++;
                     ++it;
                 }
-            std::cout<<"Tengo el hostal pero no puedo listar hanitaciones y reservas------>"<<nuevo->getNombre()<<endl;
+            
+            std::cout<<"/n ===HOTEL=== "<<nuevo->getNombre()<<endl;
+            std::cout<<"Nombre: "<<nuevo->getNombre()<<endl;
+            std::cout<<"Direccion: "<<nuevo->getDireccion()<<endl;
+            std::cout<<"Telefono: "<<nuevo->getTelefono()<<endl;
             set<DTReserva*> reservas_Hostal=controladorReserva->listarReservasHostal(nuevo->getNombre());
-            nuevo->getNombre();
-            nuevo->getDireccion();
-            nuevo->getTelefono();
+           
+            if(reservas_Hostal.size()==0){
+                std::cout<<"EL HOSTAL NO TIENE RESERVAS----->"<<nuevo->getNombre()<<endl;
+            } else {
             auto itres= reservas_Hostal.begin();
-
+            
             while (itres != reservas_Hostal.end())
                 {
                 DTReserva * actual_r = *itres;
@@ -846,9 +890,10 @@ int main(){
                                      }
                  };
 
-
-
-                 }
+                }
+                std::cout<<"sALI"<<endl;
+                }
+               
             }
             system("pause");
 
@@ -1092,9 +1137,8 @@ int main(){
             break;
             case 20: {
 
-
-            DTFecha* fechaSistemaArranque = new DTFecha(1,5,2022,18);//Dia,Mes,Año,Hora(0-23)
-            controladorReloj->setFecha(fechaSistemaArranque);
+            if(_cargaInicial==1){
+            _cargaInicial=0;
 
 
 
@@ -1128,45 +1172,45 @@ int main(){
              std::cout<<" \n == CARGA HUESPEDES: == \n"<<endl;
             //H1
             controladorUsuario->cargarDatosUsuario("Sofia","123");
-            controladorUsuario->crearHuesped(true);
             controladorUsuario->indicarEmail("sofia@mail.com");
+            controladorUsuario->crearHuesped(true);
             controladorUsuario->persistirUsuario();
 
             //H2
             controladorUsuario->cargarDatosUsuario("Frodo","123");
-            controladorUsuario->crearHuesped(true);
             controladorUsuario->indicarEmail("frodo@mail.com");
+            controladorUsuario->crearHuesped(true);
             controladorUsuario->persistirUsuario();
 
 
             //H3
             controladorUsuario->cargarDatosUsuario("Sam","123");
-            controladorUsuario->crearHuesped(false);
             controladorUsuario->indicarEmail("sam@mail.com");
+            controladorUsuario->crearHuesped(false);
             controladorUsuario->persistirUsuario();
 
             //H4
             controladorUsuario->cargarDatosUsuario("Merry","123");
-            controladorUsuario->crearHuesped(false);
             controladorUsuario->indicarEmail("merry@mail.com");
+            controladorUsuario->crearHuesped(false);
             controladorUsuario->persistirUsuario();
 
             //H5
             controladorUsuario->cargarDatosUsuario("Pippin","123");
-            controladorUsuario->crearHuesped(false);
             controladorUsuario->indicarEmail("pippin@mail.com");
+            controladorUsuario->crearHuesped(false);
             controladorUsuario->persistirUsuario();
 
             //H6
             controladorUsuario->cargarDatosUsuario("Seba","123");
-            controladorUsuario->crearHuesped(true);
             controladorUsuario->indicarEmail("seba@mail.com");
+            controladorUsuario->crearHuesped(true);
             controladorUsuario->persistirUsuario();
 
              std::cout<<" \n == CARGA HOSTALES: == \n"<<endl;
 
             //HO1
-            controladorHostal->agregarHostal("La posada finger", "Av de la playa 123, Maldonado", "099111111");
+            controladorHostal->agregarHostal("La posada del finger", "Av de la playa 123, Maldonado", "099111111");
 
             //HO2
             controladorHostal->agregarHostal("Mochileros", "Rambla Costanera 333, Rocha", "42579512");
@@ -1178,37 +1222,37 @@ int main(){
             controladorHostal->agregarHostal("Altos de Fing", "Av del Toro 1424", "099892992");
 
             //HO5
-            controladorHostal->agregarHostal("Caverna Lujuriosa", "Amaya 2515", "233233235");
+            controladorHostal->agregarHostal("Caverna Lujosa", "Amaya 2515", "233233235");
 
              std::cout<<" \n == FECHA ACTUAL: == \n"<<endl;
 
-            std::cout<<controladorReloj->getFecha()<<endl;
+            std::cout<< *controladorReloj->getFecha()<<endl;
 
              std::cout<<" \n == CARGA HABITACIONES: == \n"<<endl;
             //Habitaciones
 
             //HA1
-            controladorHostal->seleccionarHostalVar("La posada finger");
+            controladorHostal->seleccionarHostalVar("La posada del finger");
             controladorHostal->ingresarHabitacion(1,40,2);
             controladorHostal->persistirHabitacion();
 
             //HA2
-            controladorHostal->seleccionarHostalVar("La posada finger");
+            controladorHostal->seleccionarHostalVar("La posada del finger");
             controladorHostal->ingresarHabitacion(2,10,7);
             controladorHostal->persistirHabitacion();
 
             //HA3
-            controladorHostal->seleccionarHostalVar("La posada finger");
+            controladorHostal->seleccionarHostalVar("La posada del finger");
             controladorHostal->ingresarHabitacion(3,30,3);
             controladorHostal->persistirHabitacion();
 
             //HA4
-            controladorHostal->seleccionarHostalVar("La posada finger");
+            controladorHostal->seleccionarHostalVar("La posada del finger");
             controladorHostal->ingresarHabitacion(4,5,12);
             controladorHostal->persistirHabitacion();
 
             //HA5
-            controladorHostal->seleccionarHostalVar("Caverna Lujuriosa");
+            controladorHostal->seleccionarHostalVar("Caverna Lujosa");
             controladorHostal->ingresarHabitacion(1,3,2);
             controladorHostal->persistirHabitacion();
 
@@ -1218,131 +1262,134 @@ int main(){
             controladorHostal->persistirHabitacion();
             
 
-            //AsignarEmpleados
-           /* 
-            std::cout<<" \n == ASIGNAR EMPLEADOS: == \n"<<endl;
-            controladorHostal->seleccionarHostal("La posada finger");
+             std::cout<<" \n == ASIGNAR EMPLEADOS: == \n"<<endl;
+            controladorHostal->seleccionarHostalVar("La posada del finger");
             controladorHostal->asignarEmpleado("emilia@mail.com", CargoEmpleado::Recepcion);
-            std::cout<<" \n ==3: == \n"<<endl;
-
             controladorHostal->confirmarAsigncacion();
-            */
-
-
-            std::cout<<" \n == 1: == \n"<<endl;
-            controladorHostal->seleccionarHostalVar("Mochileros");
-            std::cout<<" \n == 2: == \n"<<endl;
-            controladorHostal->asignarEmpleado("leo@mail.com", CargoEmpleado::Recepcion);
-               std::cout<<" \n == 3: == \n"<<endl;
-            controladorHostal->confirmarAsigncacion();
-               std::cout<<" \n == 4: == \n"<<endl;
             controladorHostal->finalizar();
-               std::cout<<" \n == 5: == \n"<<endl;
             controladorHostal->seleccionarHostalVar("Mochileros");
-               std::cout<<" \n == 6: == \n"<<endl;
-            controladorHostal->asignarEmpleado("alina@mail.com", CargoEmpleado::Administracion);
-               std::cout<<" \n == 7: == \n"<<endl;
+            controladorHostal->asignarEmpleado("leo@mail.com", CargoEmpleado::Recepcion);
             controladorHostal->confirmarAsigncacion();
-               std::cout<<" \n == 8: == \n"<<endl;
-             controladorHostal->finalizar();
-                std::cout<<" \n == 9: == \n"<<endl;
+            controladorHostal->finalizar();
+            controladorHostal->seleccionarHostalVar("Mochileros");
+            controladorHostal->asignarEmpleado("alina@mail.com", CargoEmpleado::Administracion);
+            controladorHostal->confirmarAsigncacion();
+            controladorHostal->finalizar();
+
             controladorHostal->seleccionarHostalVar("El Pony Pisador");
-               std::cout<<" \n == 10: == \n"<<endl;
             controladorHostal->asignarEmpleado("barli@mail.com", CargoEmpleado::Recepcion);
-               std::cout<<" \n == 11: == \n"<<endl;
-         //   controladorHostal->confirmarAsigncacion();
-               std::cout<<" \n == 12: == \n"<<endl;
-    
+            controladorHostal->confirmarAsigncacion();
+            controladorHostal->finalizar();
 
-             std::cout<<" \n == CARGA RESERVAS: == \n"<<endl;
-           // controladorReserva->listarHostales();
-                controladorReserva->seleccionarHostal("La posada finger");
-               
-              std::cout<<" \n == 12.1: == \n"<<endl;
 
-           DataR* reseva = new DataR("La posada finger",*fechaSistemaArranque,*fechaSistemaArranque,false);//Dia,Mes,Año,Hora(0-23)
 
-           controladorReserva->ingresarDatosReserva(reseva);
-            std::cout<<" \n == 13: == \n"<<endl;
-          // controladorReserva->obtenerHabitacionesDisponiblesEnFecha(); 
-           std::cout<<" \n == 13-2: == \n"<<endl;
-           controladorReserva->agregarHabitacionAReserva(1);       
-  
-           
-            
- 
-            
-   
-            std::cout<<" \n == 14: == \n"<<endl;
-            //controladorReserva->listarHuespedes();
-            std::cout<<" \n == 14-2: == \n"<<endl;
-            controladorReserva->agregarHuespedAReserva("sofia@mail.com");
-            std::cout<<" \n == 15: == \n"<<endl;
-           // controladorReserva->confirmarReserva();
-            std::cout<<" \n == 16: == \n"<<endl;
-  
+
+
+            std::cout<<" \n == CARGA RESERVAS: == \n"<<endl;
             //R1
-
+            DTFecha desder(01,05,2022,14);  
+            DTFecha hastar(10,05,2022,10);
+            DataR* reseva = new DataR("La posada del finger",desder,hastar,false);//Dia,Mes,Año,Hora(0-23)
+            controladorReserva->ingresarDatosReserva(reseva);
+            controladorReserva->agregarHabitacionAReserva(1);
+            controladorReserva->agregarHuespedAReserva("sofia@mail.com");
+            controladorReserva->confirmarReserva();
             //R2
-
+            DTFecha desder2(4,01,2001,20);  
+            DTFecha hastar2(5,01,2001,2);
+            DataR* reseva2 = new DataR("El Pony Pisador",desder2,hastar2,true);//Dia,Mes,Año,Hora(0-23)
+            controladorReserva->ingresarDatosReserva(reseva2);
+            controladorReserva->agregarHabitacionAReserva(1);
+            controladorReserva->agregarHuespedAReserva("frodo@mail.com");
+            controladorReserva->agregarHuespedAReserva("sam@mail.com");
+            controladorReserva->agregarHuespedAReserva("merry@mail.com");
+            controladorReserva->agregarHuespedAReserva("pipin@mail.com");
+            controladorReserva->confirmarReserva();
             //R3
-
+            DTFecha desder3(7,6,2022,14);  
+            DTFecha hastar3(30,6,2022,11);
+            DataR* reseva3 = new DataR("La posada del finger",desder3,hastar3,false);//Dia,Mes,Año,Hora(0-23)
+            controladorReserva->ingresarDatosReserva(reseva3);
+            controladorReserva->agregarHabitacionAReserva(3);
+            controladorReserva->agregarHuespedAReserva("sofia@mail.com");
+            controladorReserva->confirmarReserva();
             //R4
+            DTFecha desder4(10,6,2022,14);  
+            DTFecha hastar4(30,6,2022,11);
+            DataR* reseva4 = new DataR("Caverna Lujosa",desder4,hastar4,false);//Dia,Mes,Año,Hora(0-23)
+            controladorReserva->ingresarDatosReserva(reseva4);
+            controladorReserva->agregarHabitacionAReserva(1);
+            controladorReserva->agregarHuespedAReserva("seba@mail.com");
+            controladorReserva->confirmarReserva();
+     
 
              std::cout<<" \n == CARGA ESTADIAS: == \n"<<endl;
             //Crear Estadias
             DTFecha* fechaSistema = new DTFecha(1,5,2022,18);//Dia,Mes,Año,Hora(0-23)
             controladorReloj->setFecha(fechaSistema);
             //agregar ES1
+            controladorEstadia->registrarEstadia("sofia@mail.com", 1);
 
             fechaSistema = new DTFecha(4,1,2001,21);
             controladorReloj->setFecha(fechaSistema);
             //agregar ES2
+            controladorEstadia->registrarEstadia("frodo@mail.com", 2);
 
             fechaSistema = new DTFecha(4,1,2001,21);
             controladorReloj->setFecha(fechaSistema);
             //agregar ES3
+            controladorEstadia->registrarEstadia("sam@mail.com", 2);
 
             fechaSistema = new DTFecha(4,1,2001,21);
             controladorReloj->setFecha(fechaSistema);
             //agregar ES4
+            controladorEstadia->registrarEstadia("merry@mail.com", 2);
 
             fechaSistema = new DTFecha(4,1,2001,21);
             controladorReloj->setFecha(fechaSistema);
             //agregar ES5
+            controladorEstadia->registrarEstadia("pippin@mail.com", 2);
 
             fechaSistema = new DTFecha(7,6,2022,18);
             controladorReloj->setFecha(fechaSistema);
             //agregar ES6
-
+            controladorEstadia->registrarEstadia("seba@mail.com", 4);
+            
 
             //Finalizar Estadias
             fechaSistema = new DTFecha(10,5,2022,9);
             controladorReloj->setFecha(fechaSistema);
             //finalizar ES1
+            controladorEstadia->finalizarEstadia(1);
 
             fechaSistema = new DTFecha(5,1,2001,2);
             controladorReloj->setFecha(fechaSistema);
             //finalizar ES2
+            controladorEstadia->finalizarEstadia(2);
 
             fechaSistema = new DTFecha(15,6,2022,22);
             controladorReloj->setFecha(fechaSistema);
             //finalizar ES6
+            controladorEstadia->finalizarEstadia(6);
 
 
              std::cout<<" \n == CALIFICAR ESTADIAS: == \n"<<endl;
             //Calificar Estadias
+
             fechaSistema = new DTFecha(11,5,2022,18);
             controladorReloj->setFecha(fechaSistema);
             //agregar C1
+            controladorEstadia->crearCalificacion("sofia@mail.com","La posada del finger","Un poco caro para lo que ofrecen. El famoso gimnasio era una caminadora (que hacia tremendo ruido) y 2 pesas, la piscina parecia el lago del Parque Rodo y el desayuno eran 2 tostadas con mermelada. Internet se pasaba cayendo. No vuelvo.",3,1);
 
             fechaSistema = new DTFecha(5,1,2001,3);
             controladorReloj->setFecha(fechaSistema);
             //agregar C2
+            controladorEstadia->crearCalificacion("frodo@mail.com","El Pony Pisador","Se pone peligroso de noche, no recomiendo. Ademas no hay caja fuerte para guardar anillos.",2,2);
 
             fechaSistema = new DTFecha(15,6,2022,23);
             controladorReloj->setFecha(fechaSistema);
             //agregar C3
+            controladorEstadia->crearCalificacion("seba@mail.com","Caverna Lujosa","Habia pulgas en la habitacion. Que lugar mas mamarracho",1,6);
 
 
             //Comentar Calificaciones
@@ -1351,7 +1398,13 @@ int main(){
 
              std::cout<<" \n == RESPONDER CALIFICACIONES: == \n"<<endl;
             //agregar comentario C2
-            controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
+       //     controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
+
+
+            } else {std::cout<<"CARGA INICIAL YA REALIZADA"<<endl;
+              cout << "La opcion seleccionada no es valida \n"<<endl;
+              system("pause");
+            };
             break;
             }
             case 21:

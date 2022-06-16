@@ -56,7 +56,7 @@ void EstadiaControlador::registrarEstadia(string email, int codigo){
     col->agregarEstadia(est);
     reserva->agregarEstadia(est);
     Huesped* huesped = col->getHuesped(email);
-    huesped->agregarEstadia(est);  
+    huesped->agregarEstadia(est);
 }
 
 
@@ -96,20 +96,20 @@ set<DTEstadia*> EstadiaControlador::obtenerEstadiasFinalizadas(string email, str
 
 void EstadiaControlador::crearCalificacion(string email, string hostal_, string comentario, int valor, int codigo){
     RelojControlador * reloj = RelojControlador::getInstancia();
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    Hostal* hostal = col->getHostal(hostal_);
+    Huesped* huesped = col->getHuesped(email);
+    string nombre = huesped->getNombre();
     DTFecha * fecha = reloj->getFecha();
-    Calificacion* cal = new Calificacion();
+    Estadia* est = huesped->getEstadia(codigo);
+    int numHab = hostal->getHabEstadia(est);
+    Calificacion* cal = new Calificacion(1,"a",fecha,1);
     cal->setComentario(comentario);
     cal->setValor(valor);
     cal->setFecha(fecha);
-
-    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
-    Huesped* huesped = col->getHuesped(email);
-    Hostal* hostal = col->getHostal(hostal_);
-
-    string nombre = huesped->getNombre();
-    Estadia* est = huesped->getEstadia(codigo);
+    cal->setHabitacion(numHab);
     hostal->agregarCalificacion(cal);
-    int numHab = hostal->getHabEstadia(est);
+    
     est->setCalificacion(cal);
     Notificacion* n = new Notificacion(false, nombre, valor, comentario);
     Notificador* notif = Notificador::getInstancia();
