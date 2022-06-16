@@ -241,8 +241,8 @@ istream& operator>>(istream& i, DTFecha& f){
     }
     indice++;
     while (fLeer[indice]!='a' && fLeer[indice]!='p'){
-    horaS = horaS + fLeer[indice];
-    indice++;
+      horaS = horaS + fLeer[indice];
+      indice++;
     }
     int horaN = stoi(horaS);
     if(fLeer[indice]=='p')
@@ -501,3 +501,17 @@ int diasEntre(DTFecha* start, DTFecha* end){
     int diascOut = end->getDia() + ((end->getMes() - 1) * 31) + (end->getAnio() * 372);
     return diascOut - diascIn + 1;
 }
+
+DTNotificacion::DTNotificacion(string autor, int puntaje, string comentario){
+    this->autor=autor;
+    this->puntaje=puntaje;
+    this->comentario=comentario;
+}
+
+DTNotificacion::DTNotificacion(){}
+
+string DTNotificacion::getAutor(){ return this->autor;}
+
+string DTNotificacion::getComentario(){ return this->comentario;}
+
+int DTNotificacion::getPuntaje(){ return this->puntaje;}
