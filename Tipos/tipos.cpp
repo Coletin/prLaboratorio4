@@ -240,9 +240,9 @@ istream& operator>>(istream& i, DTFecha& f){
         indice++;
     }
     indice++;
-    while (fLeer[indice]!='a' || fLeer[indice]!='p'){
-        horaS = horaS + fLeer[indice];
-        indice++;
+    while (fLeer[indice]!='a' && fLeer[indice]!='p'){
+      horaS = horaS + fLeer[indice];
+      indice++;
     }
     int horaN = stoi(horaS);
     if(fLeer[indice]=='p')
