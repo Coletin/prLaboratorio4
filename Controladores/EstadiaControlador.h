@@ -22,4 +22,10 @@ class EstadiaControlador:public IEstadia{
         void finalizarEstadia(int codigo);
         set<DTEstadia*> obtenerEstadiasFinalizadas(string email, string hostal);
         void crearCalificacion(string email, string hostal, string comentario, int valor, int codigo);
+        set<DTEstadia*> listarEstadias(string);
+        int getHabitacionEstadia(int);
+        int getReservaEstadia(int);
+        DTCalificacion* getCalificacion(int);
+        DTRespuestaCalificacion* getRespuestaCalificacion(int);
+        DTReserva* getReservaDT(int);
 };

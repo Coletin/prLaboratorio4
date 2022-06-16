@@ -623,7 +623,7 @@ int main(){
                 controladorUsuario->seleccionarCalificacion(cali->getEstadia());
                 emailUsuarioCrear = "";
                 cout << "Ingrese la respuesta al comentario seleccionado: ";
-                getline(cin,emailUsuarioCrear);
+                cin.ignore();
                 getline(cin,emailUsuarioCrear);
                 controladorUsuario->responderComentario(emailUsuarioCrear);
             }
@@ -819,7 +819,76 @@ int main(){
             }
 
             break;
-            case 14:
+            case 14:{
+                set<DTHostal*> hostales = controladorHostal->listarHostales();
+                if(hostales.size()==0){ 
+                    std::cout<<"No existen hostales en el sistema"<<endl;
+                    getch();
+                }
+            else{ 
+                int numero=0; 
+                set<DTHostal*>::iterator it = hostales.begin();
+                while (it != hostales.end())
+                {
+                    DTHostal* actual = *it;
+                    ++numero;
+                    std::cout<<numero<<".: "<<actual->getNombre();
+                    ++it;
+                }
+                tipoUsuarioCrear = pedirEntero("Seleccione un empleado: ","Opcion incorrecta ",numero);
+                it = hostales.begin();
+                for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
+                DTHostal* h = *it;
+                set<DTEstadia*> estadias = controladorEstadia->listarEstadias(h->getNombre());
+                if(estadias.size()==0){ std::cout<<"No existen estadias en el hostal"<<endl;}
+            else{ 
+                int numero=0; 
+                set<DTEstadia*>::iterator ite = estadias.begin();
+                while (ite != estadias.end())
+                {
+                    DTEstadia* actual = *ite;
+                    ++numero;
+                    std::cout<<numero<<".: "<<actual->getCodigo();
+                    ++ite;
+                }
+                tipoUsuarioCrear = pedirEntero("Seleccione una estadia: ","Opcion incorrecta ",numero);
+                ite = estadias.begin();
+                for(int i = 1; i < tipoUsuarioCrear; i++) ++ite;
+                DTEstadia* e = *ite;
+                cout << "Hostal: " << h->getNombre() << endl;
+                cout << "Huesped: " << e->getHuesped() << endl;
+                int habEstadia = controladorEstadia->getHabitacionEstadia(e->getCodigo());
+                int resEstadia = controladorEstadia->getReservaEstadia(e->getCodigo());
+                cout << "Habitacion: " << habEstadia << endl;
+                cout << "Check-In: " << e->getCheckIn().getDia()<<"/"<<e->getCheckIn().getMes()<<"/"<<e->getCheckIn().getAnio()<< "  " << e->getCheckIn().getHora() << " hs";
+                if(e->getCheckOut().getDia() != -1){
+                    cout << "Check-Out: ";
+                    cout << e->getCheckIn().getDia()<<"/"<<e->getCheckIn().getMes()<<"/"<<e->getCheckIn().getAnio()<< "  " << e->getCheckIn().getHora() << " hs";
+                }
+                else cout << "No ha sido finalizada aun" << endl;
+                cout << "Promo: " << e->getPromo();
+                cout << "Reserva: " << resEstadia << endl;
+                cout << "Desea ver la calificacion de esta estadia? 1.Si 2.No :" << endl;
+                int opcion = 0;
+                cin >> opcion;
+                if(opcion == 1){
+                    DTCalificacion* cali = controladorEstadia->getCalificacion(e->getCodigo());
+                    DTRespuestaCalificacion* resp = controladorEstadia->getRespuestaCalificacion(e->getCodigo());
+                    std::cout<<"Valor: "<<cali->getValor()<<endl;
+                    std::cout<<"Comentario:\n"<<cali->getComentario()<<endl;
+                    std::cout<<"Respuesta:\n"<<resp->getComentario()<<endl;
+                }
+                cout << "Desea ver la reserva asociada a esta estadia? 1.Si 2.No :" << endl;
+                opcion = 0;
+                cin >> opcion;
+                if(opcion == 1){
+                    DTReserva* res = controladorEstadia->getReservaDT(resEstadia);
+                    cout << res;
+                }
+                }
+                getch();
+            }
+            }
             break;
             case 15:{
 /*****************************************************************************************/

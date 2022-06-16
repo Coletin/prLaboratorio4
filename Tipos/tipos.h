@@ -197,12 +197,14 @@ class DTEstadia{
         DTFecha checkIn;
         DTFecha checkOut;
         int codigo;
+        string huesped;
     public:
-        DTEstadia(string, DTFecha, DTFecha, int);
+        DTEstadia(string, DTFecha, DTFecha, int, string);
         string getPromo();
         DTFecha getCheckIn();
         DTFecha getCheckOut();
         int getCodigo();
+        string getHuesped();
 };
 
 
