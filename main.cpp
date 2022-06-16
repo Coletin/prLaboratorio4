@@ -546,9 +546,18 @@ int main(){
 /*****************************************************************************************/
 /******************************  9 - CALIFICAR ESTADIA  ******************************/
 /*****************************************************************************************/ 
-            std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
+/*
+El caso comienza cuando un huesped desea calificar una estadia . Para ello, el sistema lista
+todos los hostales registrados y el usuario selecciona uno de ellos. A continuacion, el usuario
+indica el email del huesped y el sistema lista las estadias  finalizadas por huesped (en los cuales hizo
+check out) y este selecciona una de ellas. A continuacion el usuario ingresa el texto del mensaje
+a enviar y la calificacion correspondiente y el sistema da de alta la falificacion con los datos 
+ingresados, fecha y hora correspondientes al sistema.
+
+*/
+            limpiarPantalla();
             int numero=0;
-            string email;
+            string emailr;
             set<DTHostal*> hostales= controladorHostal->listarHostales();
             if(hostales.size()==0){ std::cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;}
             else{ 
@@ -584,17 +593,43 @@ int main(){
                 }
 
                std::cout<<"Hostal Seleccionado:"<<nuevo->getNombre()<<endl; 
-               std::cout<<"Indique MAIL del empleado "<<endl;
-               std::cin>>email;
-               set<DTEstadia*> _estadiaH=controladorEstadia->obtenerEstadiasFinalizadas(email,nuevo->getNombre());
+               std::cout<<"Indique MAIL del Huesped "<<endl;
+               std::cin>>emailr;
+       
+               
+               set<DTEstadia*> _estadiaH=controladorEstadia->obtenerEstadiasFinalizadas(emailr,nuevo->getNombre());
                auto its= _estadiaH.begin();
                 while (its != _estadiaH.end())
                 {
                     DTEstadia* actual_estadia = *its;
-               
-                    std::cout<<numero<<".-Estadia Finalizada: "<< actual_estadia->getPromo()<<endl;
+                    std::cout<<numero<<".-Estadia Finalizada: "<< actual_estadia->getCodigo()<<endl;
                     ++its;
-                }
+                };
+            if (_estadiaH.size()==0)
+            {
+               std::cout<<" NO HAY ESTADIAS ECONTRADAS "<<endl;
+               getch();
+               break;
+            }
+            
+            string comentario;
+            std::cout<<"Ingrese su comentario:  "<<endl;
+            cin>>comentario;
+
+            std::cout<<"Ingrese su Calificacion (1-5):  "<<endl;
+            int valorcalif=-1;
+            cin>>valorcalif;
+            while  (1>valorcalif || valorcalif>5){
+                 
+                  std::cout<<"Calificacion Incorrecta  "<<endl;        
+                  std::cout<<"Ingrese su Calificacion (1-5)  "<<endl;
+                  cin>>valorcalif;
+            
+            }
+
+
+            controladorEstadia->crearCalificacion(emailr,nuevo->getNombre(),comentario,valorcalif);
+            
            
             }
              system("pause");
@@ -812,13 +847,18 @@ int main(){
                     valor++;
                     ++it;
                 }
-            std::cout<<"Tengo el hostal pero no puedo listar hanitaciones y reservas------>"<<nuevo->getNombre()<<endl;
+            
+            std::cout<<"/n ===HOTEL=== "<<nuevo->getNombre()<<endl;
+            std::cout<<"Nombre: "<<nuevo->getNombre()<<endl;
+            std::cout<<"Direccion: "<<nuevo->getDireccion()<<endl;
+            std::cout<<"Telefono: "<<nuevo->getTelefono()<<endl;
             set<DTReserva*> reservas_Hostal=controladorReserva->listarReservasHostal(nuevo->getNombre());
-            nuevo->getNombre();
-            nuevo->getDireccion();
-            nuevo->getTelefono();
+           
+            if(reservas_Hostal.size()==0){
+                std::cout<<"EL HOSTAL NO TIENE RESERVAS----->"<<nuevo->getNombre()<<endl;
+            } else {
             auto itres= reservas_Hostal.begin();
-
+            
             while (itres != reservas_Hostal.end())
                 {
                 DTReserva * actual_r = *itres;
@@ -850,9 +890,10 @@ int main(){
                                      }
                  };
 
-
-
-                 }
+                }
+                std::cout<<"sALI"<<endl;
+                }
+               
             }
             system("pause");
 
@@ -1357,9 +1398,7 @@ int main(){
 
              std::cout<<" \n == RESPONDER CALIFICACIONES: == \n"<<endl;
             //agregar comentario C2
-            controladorUsuario->listarCalificacion("barli@mail.com");
-            controladorUsuario->seleccionarCalificacion(2);
-            controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
+       //     controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
 
 
             } else {std::cout<<"CARGA INICIAL YA REALIZADA"<<endl;
