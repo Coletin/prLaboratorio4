@@ -29,11 +29,11 @@ void limpiarPantalla(){
 
 //pide un entero entre 1 y tope. mensajePedir es el mensaje que se muestra siempre mientras que mensajeError se muestra solamente cada vez que ingrese un numero mal.
 int pedirEntero(string mensajePedir, string mensajeError, int tope){
-    limpiarPantalla();
     int respuesta = 0;
     bool primerMensaje = true;
     string lectura = "";
     while(respuesta > tope || respuesta < 1){
+        limpiarPantalla();
         if(primerMensaje)
             primerMensaje = false;
         else
