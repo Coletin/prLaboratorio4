@@ -89,6 +89,8 @@ int main(){
     IReserva* controladorReserva = f->getIReserva();
     IEstadia* controladorEstadia = f->getIEstadia();
     IUsuario* controladorUsuario = f->getIUsuario();
+    DTFecha* fechaSistemaArranque = new DTFecha(1,5,2022,18);//Dia,Mes,Año,Hora(0-23)
+    controladorReloj->setFecha(fechaSistemaArranque);
     int i = 0;
     int _cargaInicial=1;
 
@@ -1096,11 +1098,6 @@ int main(){
 
             if(_cargaInicial==1){
             _cargaInicial=0;
-
-          
-
-            DTFecha* fechaSistemaArranque = new DTFecha(1,5,2022,18);//Dia,Mes,Año,Hora(0-23)
-            controladorReloj->setFecha(fechaSistemaArranque);
 
 
 
