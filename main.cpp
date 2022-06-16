@@ -616,7 +616,7 @@ int main(){
                     std::cout<<numero<<".: "<<actual->getComentario()<<endl;
                     ++it;
                 }
-                tipoUsuarioCrear = pedirEntero("Seleccione un comentario: ","Opcion incorrecta ",numero);
+                tipoUsuarioCrear = pedirEnteroSinLimpiarPantalla("Seleccione un comentario: ","Opcion incorrecta ",numero);
                 it = calis.begin();
                 for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
                 DTCalificacion* cali = *it;
