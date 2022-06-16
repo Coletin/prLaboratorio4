@@ -34,6 +34,7 @@ class UsuarioControlador:public IUsuario{
         set<DTEmpleado*> obtenerEmpleados();
         void subscribirseANotificaciones(string);
         void desubscribirseDeNotificaciones(string);
-        set<Notificacion*> listarNotificaciones(string);
+        set<DTNotificacion*> listarNotificaciones(string);
+        void eliminarNotificaciones(string);
 
 };

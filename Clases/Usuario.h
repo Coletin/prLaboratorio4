@@ -48,6 +48,7 @@ class Huesped : public Usuario{
 
 
 class Notificacion;
+class DTNotificacion;
 class Habitacion;
 class Hostal;
 class DTEmpleado;
@@ -67,5 +68,6 @@ class Empleado : public Usuario,public IObserver{
         void setCargo(CargoEmpleado _cargo);
         void setTrabajo(Hostal* h);
         void notificar(Notificacion* n);
-        set<Notificacion*> getNotificaciones();
+        set<DTNotificacion*> getNotificaciones();
+        void eliminarNotificaciones();
 };

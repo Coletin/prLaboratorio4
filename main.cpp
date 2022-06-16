@@ -10,7 +10,6 @@
 #include "Interfaces/IObserver.h"
 #include "Interfaces/IReloj.h"
 #include "Interfaces/Iusuario.h"
-#include "Clases/Notificacion.h"
 
 
 
@@ -30,6 +29,7 @@ void limpiarPantalla(){
 
 //pide un entero entre 1 y tope. mensajePedir es el mensaje que se muestra siempre mientras que mensajeError se muestra solamente cada vez que ingrese un numero mal.
 int pedirEntero(string mensajePedir, string mensajeError, int tope){
+    limpiarPantalla();
     int respuesta = 0;
     bool primerMensaje = true;
     string lectura = "";
@@ -106,7 +106,7 @@ int main(){
             case 1:
                 limpiarPantalla();
                 cout << "Ingrese nombre: ";
-                getline(cin, nombreUsuarioCrear);
+                cin.ignore();
                 getline(cin,nombreUsuarioCrear);
                 cout << "Ingrese clave: ";
                 cin >> claveUsuarioCrear;
@@ -478,7 +478,9 @@ int main(){
             break;
             case 17:{
                  set<DTEmpleado*> empleados = controladorUsuario->obtenerEmpleados();
-                if(empleados.size()==0){ std::cout<<"No existen empleados"<<endl;}
+                if(empleados.size()==0){ std::cout<<"No existen empleados"<<endl;
+                getch();
+                }
             else{ 
                 int numero=0; 
                 set<DTEmpleado*>::iterator it = empleados.begin();
@@ -493,13 +495,14 @@ int main(){
                 it = empleados.begin();
                 for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
                 DTEmpleado* e = *it;
-                set<Notificacion*> notifs = controladorUsuario->listarNotificaciones(e->getEmail());
-                for(set<Notificacion*>::iterator it = notifs.begin();it != notifs.end();++it){
-                    Notificacion* actual = *it;
+                set<DTNotificacion*> notifs = controladorUsuario->listarNotificaciones(e->getEmail());
+                for(set<DTNotificacion*>::iterator it = notifs.begin();it != notifs.end();++it){
+                    DTNotificacion* actual = *it;
                     cout <<"Autor: " << actual->getAutor() << " " << "Puntaje: " << actual->getPuntaje() << " " << "Comentario: " << actual->getComentario() << endl;
                 }
-
-
+                controladorUsuario->eliminarNotificaciones(e->getEmail());
+                if(notifs.size()==0){cout << "No hay nuevas notificaciones";};
+                getch();
             }
             }
             break;

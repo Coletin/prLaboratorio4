@@ -30,6 +30,7 @@ class IUsuario{
         virtual set<DTEmpleado*> obtenerEmpleados()= 0;
         virtual void subscribirseANotificaciones(string){};
         virtual void desubscribirseDeNotificaciones(string){};
-        virtual set<Notificacion*> listarNotificaciones(string)=0;
+        virtual set<DTNotificacion*> listarNotificaciones(string)=0;
+        virtual void eliminarNotificaciones(string){};
 };
 #endif

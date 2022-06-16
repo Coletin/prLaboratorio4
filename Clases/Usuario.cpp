@@ -120,4 +120,17 @@ void Empleado::notificar(Notificacion* n){
     this->notificaciones.insert(n);
 }
 
-set<Notificacion*> Empleado::getNotificaciones(){return this->notificaciones;}
+set<DTNotificacion*> Empleado::getNotificaciones(){
+    set<DTNotificacion*> resu;
+    for(set<Notificacion*>::iterator it = this->notificaciones.begin(); it != this->notificaciones.end(); ++it){
+        Notificacion* actual = *it;
+        DTNotificacion* nueva = new DTNotificacion(actual->getAutor(), actual->getPuntaje(), actual->getComentario());
+        resu.insert(nueva);
+    }
+    return resu;
+}
+
+void Empleado::eliminarNotificaciones(){
+    for(set<Notificacion*>::iterator it = this->notificaciones.begin();it != this->notificaciones.end(); ++it){delete(*it);};
+    this->notificaciones.clear();
+}

@@ -146,6 +146,12 @@ void UsuarioControlador::limpiarMemoria(){
     usuarioACrear = NULL;
 }
 
+void UsuarioControlador::eliminarNotificaciones(string email){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Empleado* empleado = colecciones->getEmpleado(email);
+    empleado->eliminarNotificaciones();
+}
+
 void UsuarioControlador::subscribirseANotificaciones(string email){
     Notificador* notificador = Notificador::getInstancia();
     ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
@@ -160,7 +166,7 @@ void UsuarioControlador::desubscribirseDeNotificaciones(string email){
     notificador->eliminar(empleado);
 }
 
-set<Notificacion*> UsuarioControlador::listarNotificaciones(string email){
+set<DTNotificacion*> UsuarioControlador::listarNotificaciones(string email){
     ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
     Empleado* empleado = colecciones->getEmpleado(email);
     return empleado->getNotificaciones();
