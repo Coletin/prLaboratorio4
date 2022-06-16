@@ -115,3 +115,43 @@ void EstadiaControlador::crearCalificacion(string email, string hostal_, string 
     Notificador* notif = Notificador::getInstancia();
     notif->modificar(n);
 }
+
+set<DTEstadia*> EstadiaControlador::listarEstadias(string hostal){
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    Hostal* h = col->getHostal(hostal);
+    set<DTEstadia*> res = h->getEstadiasDT();
+    return res;
+}
+
+int EstadiaControlador::getHabitacionEstadia(int codigo){
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    Estadia* e = col->getEstadia(codigo);
+    return e->getCalificacion()->getHabitacion();
+}
+
+
+int EstadiaControlador::getReservaEstadia(int codigo){
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    Reserva* reserva = col->getReservaEstadia(codigo);
+    return reserva->getCodigo();
+}
+
+DTCalificacion* EstadiaControlador::getCalificacion(int codigo){
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    Estadia* e = col->getEstadia(codigo);
+    DTCalificacion* res = e->getDatosCalificacion();
+    return res;
+}
+
+DTRespuestaCalificacion* EstadiaControlador::getRespuestaCalificacion(int codigo){
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    Estadia* e = col->getEstadia(codigo);
+    DTRespuestaCalificacion* res = e->getCalificacion()->obtenerRespuestaCalificacion();
+    return res;
+}
+
+DTReserva* EstadiaControlador::getReservaDT(int codigo){
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    DTReserva * res = col->getReserva(codigo)->getDT();
+    return res;
+}

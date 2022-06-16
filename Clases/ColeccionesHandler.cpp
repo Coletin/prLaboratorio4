@@ -201,6 +201,19 @@ set<DTHuesped*> ColeccionesHandler::getHuespedes(){
 return resu;
 }
 
+set<DTEmpleado*> ColeccionesHandler::getEmpleados(){
+    set<DTEmpleado*> resu;
+    for(set<Usuario*>::iterator it = usuarios.begin(); it != usuarios.end();++it){
+        Usuario* actual = *it;
+        if(dynamic_cast<Empleado*>(actual) != 0){
+            Empleado* empleado = dynamic_cast<Empleado*>(actual);
+            DTEmpleado* agregar = empleado->getDTEmpleado();
+            resu.insert(agregar);
+        }
+    }
+return resu;
+}
+
 void ColeccionesHandler::agregarReserva(Reserva *r){
     this->reservas.insert(r);
 }
@@ -220,5 +233,21 @@ bool ColeccionesHandler::existeUsuario(string email){
     return encontre;
 }
 
+Reserva* ColeccionesHandler::getReservaEstadia(int codigoE){
+    set<Reserva*>::iterator it = reservas.begin();
+    bool encontre = false;
+    while((it != reservas.end())&&(!encontre)){
+        Reserva* actual = *it;
+        set<Estadia*> estadiasReserva = actual->getEstadias();
+        set<Estadia*>::iterator itE = estadiasReserva.begin();
+        Estadia* actualE = *itE;
+        while((itE != estadiasReserva.end())&&(actualE->getCodigo() != codigoE)){
+            ++itE;
+            Estadia* actual = *itE;
+        }
+        encontre = itE != estadiasReserva.end();
+    }
+    return *it;
+}
     
 

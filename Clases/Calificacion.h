@@ -30,6 +30,7 @@ class Calificacion{
         void setComentario(string comentario);
         void setFecha(DTFecha *fecha);
         void setHabitacion(int habitacion);
+        void responderCalificacion(string);
         int getValor();
         string getComentario();
         DTFecha* getFecha();
