@@ -46,11 +46,30 @@ int pedirEntero(string mensajePedir, string mensajeError, int tope){
     return respuesta;
 }
 
+
 int pedirEnteroConCero(string mensajePedir, string mensajeError, int tope){
     int respuesta = -1;
     bool primerMensaje = true;
     string lectura = "";
     while(respuesta > tope || respuesta < 0){
+      if(primerMensaje)
+            primerMensaje = false;
+        else
+            cout << mensajeError << "\n";
+        cout << mensajePedir;
+        cin >> lectura;
+        if(checkNumero(lectura))
+            respuesta = std::stoi(lectura); //stoi convierte un string a un entero
+    }
+    return respuesta;
+}
+
+//pide un entero entre 1 y tope. mensajePedir es el mensaje que se muestra siempre mientras que mensajeError se muestra solamente cada vez que ingrese un numero mal.
+int pedirEnteroSinLimpiarPantalla(string mensajePedir, string mensajeError, int tope){
+    int respuesta = 0;
+    bool primerMensaje = true;
+    string lectura = "";
+    while(respuesta > tope || respuesta < 1){
         if(primerMensaje)
             primerMensaje = false;
         else
@@ -164,9 +183,114 @@ int main(){
             break;
             case 6:
             break;
-            case 7:
+            case 7:{
+                /******************************  7 - Registrar ESTADIA  ******************************/
+                limpiarPantalla();
+                set<DTHostal*> hostales7 = controladorEstadia->listarHostales();
+                string mailHuesped;
+                int numSeleccionado = 0;
+                int numero = 1;
+                if(hostales7.size() == 0){
+                    cout << "No hay hostales en el sistema.";
+                }else{
+                    cout << "Nombres de hostales:";
+                    set<DTHostal*>::iterator it = hostales7.begin();
+                    while(it != hostales7.end()){
+                        DTHostal* hostal = *it;
+                        cout << numero<<"- "<< hostal->getNombre()<<endl;
+                        numero++;
+                        it++;
+                    };
+
+                    numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el numero del hostal:", "Numero invalido, ingrese que aparece en la lista ", numero - 1);
+                    numero = 0; 
+                    it = hostales7.begin();
+                    DTHostal* seleccionado = *it;
+                    while(numero != numSeleccionado){
+                        seleccionado = *it;
+                        numero++;
+                        it++;
+                    };
+
+                    cout << endl;
+                    cout << "Ingrese mail del huesped:";
+                    cin >> mailHuesped; //no se checkea que el email exista en el sistema y puede romper le metodo de listarReservas
+
+                    set<DTReserva*> reservas = controladorEstadia->listarReservas(mailHuesped, seleccionado->getNombre());
+                    cout << "Codigos, fechas de inicio y habitaciones de las reservas:";
+                    set<DTReserva*>::iterator it2 = reservas.begin();
+                    numero = 1;
+                    while(it2 != reservas.end()){
+                        DTReserva* reserva = *it2;
+                        DTFecha checkIn = reserva->getcheckIn();
+                        cout << numero<<"- Codigo: "<<reserva->getCodigo()<<", Dia de checkIn: "<<checkIn.getDia()<<"/"<<checkIn.getMes()<<"/"<<checkIn.getAnio()<<", Habitacion: "<<reserva->getHabitacion()<<endl;
+                        numero++;
+                        it2++;
+                    };
+
+                    numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el codigo de la reserva:", "Numero invalido, ingrese que aparece en la lista ", 250);
+
+                    // por si lo quiero hacer con el numero que aparece en la lista
+                    // numero = 0; 
+                    // it = reservas.begin();
+                    // DTReserva* seleccionadoRes = *it;
+                    // while(numero != numSeleccionado){
+                    //     seleccionadoRes = *it;
+                    //     numero++;
+                    //     it++;
+                    // };
+                    // controladorEstadia->registrarEstadia(mailHuesped, seleccionadoRes->getCodigo());
+
+                    controladorEstadia->registrarEstadia(mailHuesped, numSeleccionado);
+
+                    cout << "Operacion hecha con exito! Ingrese cualquier caracter para continuar.";
+                    getch();//esperamos que ingrese cualquier caracter;
+                }
+            };          
             break;
-            case 8:
+            case 8:{
+                /******************************  8 - Finalizar ESTADIA  ******************************/
+                limpiarPantalla();
+                set<DTHostal*> hostales = controladorEstadia->listarHostales();
+                string mailHuesped8;
+                int numSeleccionado = 0;
+                int numero = 1;
+                if(hostales.size() == 0){
+                    cout << "No hay hostales en el sistema.";
+                }else{
+                    cout << "Nombres de hostales:";
+                    set<DTHostal*>::iterator it = hostales.begin();
+                    while(it != hostales.end()){
+                        DTHostal* hostal = *it;
+                        cout << numero<<"- "<< hostal->getNombre()<<endl;
+                        numero++;
+                        it++;
+                    };
+
+                    numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el numero del hostal:", "Numero invalido, ingrese que aparece en la lista ", numero - 1);
+                    numero = 0; 
+                    it = hostales.begin();
+                    DTHostal* seleccionado = *it;
+                    while(numero != numSeleccionado){
+                        seleccionado = *it;
+                        numero++;
+                        it++;
+                    };
+
+                    cout << endl;
+                    cout << "Ingrese mail del huesped:";
+                    cin >> mailHuesped8; //no se checkea que el email exista en el sistema y puede romper le metodo de listarReservas
+
+                    if(controladorEstadia->existenEstadiasActivas(mailHuesped8, seleccionado->getNombre())){
+                        int codigo = pedirEnteroSinLimpiarPantalla("Ingrese el codigo de la estadia:", "Numero invalido ", 250);
+                        controladorEstadia->finalizarEstadia(codigo);
+                        cout << "Operacion realisada con exito. Presione cualquier caracter para continuar.";
+                    }else{
+                        cout << "No existen estadias activas en el sistema. Presione cualquier caracter para continuar.";
+                    }
+                    getch();//esperamos que ingrese cualquier caracter;                    
+                }
+            };        
             break;
             case 9:{
 
