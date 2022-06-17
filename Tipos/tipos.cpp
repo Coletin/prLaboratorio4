@@ -204,9 +204,6 @@ bool DTFecha::operator>=(const DTFecha& meIgual){
 };
 
 ostream& operator<<(ostream& o, DTFecha& f){
-    if((f.getHora()-10) < 0) o << '0';
-    o << f.getHora();
-    o << '/';
     if((f.getDia()-10) < 0) o << '0';
     o << f.getDia();
     o << '/';
@@ -214,6 +211,10 @@ ostream& operator<<(ostream& o, DTFecha& f){
     o << f.getMes();
     o << '/';
     o << f.getAnio();
+    o << ':' << ' ';
+    if((f.getHora()-10) < 0) o << '0';
+    o << f.getHora();
+    o << ' ' << 'h' << 's';
     return o;
 };
 
@@ -240,9 +241,9 @@ istream& operator>>(istream& i, DTFecha& f){
         indice++;
     }
     indice++;
-    while (fLeer[indice]!='a' || fLeer[indice]!='p'){
-        horaS = horaS + fLeer[indice];
-        indice++;
+    while (fLeer[indice]!='a' && fLeer[indice]!='p'){
+      horaS = horaS + fLeer[indice];
+      indice++;
     }
     int horaN = stoi(horaS);
     if(fLeer[indice]=='p')
@@ -300,10 +301,16 @@ int DTReserva::getHabitacion(){
     return this->habitacion;
 };
 
-DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_costo,_habitacion){
+DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion, DTHuesped* huesped):DTReserva(_codigo,_checkIn,_checkOut,_estado,_costo,_habitacion){
+    this->huesped = huesped;
 };
 
-DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_habitacion){
+DTHuesped* DTReservaIndividual::getHuesped(){
+    return huesped;
+}
+
+DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion, DTHuesped* huesped):DTReserva(_codigo,_checkIn,_checkOut,_estado,_habitacion){
+    this->huesped = huesped;
 };
 
 DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion,set<DTHuesped*> _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _costo, _habitacion){
@@ -473,15 +480,20 @@ string DTRespuestaCalificacion::getComentario(){
     return this->comentario;
 };
 
-DTEstadia::DTEstadia(string promo, DTFecha checkIn, DTFecha checkOut, int codigo){
+DTEstadia::DTEstadia(string promo, DTFecha checkIn, DTFecha checkOut, int codigo, string huesped){
     this->promo = promo;
     this->checkIn = checkIn;
     this->checkOut = checkOut;
     this->codigo = codigo;
+    this->huesped = huesped;
 };
 
 string DTEstadia::getPromo(){
     return this->promo;
+};
+
+string DTEstadia::getHuesped(){
+    return this->huesped;
 };
 
 int DTEstadia::getCodigo(){

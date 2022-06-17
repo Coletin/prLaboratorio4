@@ -17,8 +17,8 @@ Calificacion::Calificacion(int valor,string comentario,DTFecha* fecha,int hab){
     this->comentario = comentario;
     this->fecha = fecha;
     this->habitacion = hab;
-    this->estadia = NULL;
-    this->respuesta =NULL;
+    this->estadia = nullptr;
+    this->respuesta =nullptr;
 }
 
 void Calificacion::setEstadia(Estadia* estadia){
@@ -46,7 +46,7 @@ DTCalificacion* Calificacion::getDT(){
     string _comentario = this->comentario;
     DTFecha* _fecha = new DTFecha(this->fecha->getDia(), this->fecha->getMes(), this->fecha->getAnio(), this->fecha->getHora());
     int _habitacion = this->habitacion;
-    int _estadia = getEstadia()->getCodigo(); 
+    int _estadia = this->estadia->getCodigo();
     DTCalificacion* resu = new DTCalificacion( _valor, _comentario, _fecha, _habitacion, _estadia);
     return resu;
 }

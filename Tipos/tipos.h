@@ -148,9 +148,12 @@ class DataR{
 };
 
 class DTReservaIndividual : public DTReserva{
- public: 
-    DTReservaIndividual(int,DTFecha,DTFecha,EstadoReserva,float,int);
-    DTReservaIndividual(int,DTFecha,DTFecha,EstadoReserva,int);
+ private:
+    DTHuesped* huesped;
+ public:
+    DTReservaIndividual(int,DTFecha,DTFecha,EstadoReserva,float,int, DTHuesped*);
+    DTReservaIndividual(int,DTFecha,DTFecha,EstadoReserva,int, DTHuesped*);
+    DTHuesped* getHuesped();
     void operacion();
 };
 
@@ -197,12 +200,14 @@ class DTEstadia{
         DTFecha checkIn;
         DTFecha checkOut;
         int codigo;
+        string huesped;
     public:
-        DTEstadia(string, DTFecha, DTFecha, int);
+        DTEstadia(string, DTFecha, DTFecha, int, string);
         string getPromo();
         DTFecha getCheckIn();
         DTFecha getCheckOut();
         int getCodigo();
+        string getHuesped();
 };
 
 
