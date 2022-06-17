@@ -104,11 +104,9 @@ void ReservaControlador::seleccionarReserva(int reserva){
 }
 
 void ReservaControlador::confirmarBajaReserva(){
-	ColeccionesHandler* col;
-	col = ColeccionesHandler::getInstancia();
+	ColeccionesHandler* col = ColeccionesHandler::getInstancia();
 	Reserva* r = col->getReserva(codR);
-	col->eliminarReserva(codR);
-	r->~Reserva();
+	delete(r);
 }
 
 void ReservaControlador::cancelarBajaReserva(){

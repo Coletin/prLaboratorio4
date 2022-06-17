@@ -22,14 +22,14 @@ set<Huesped*> Reserva::getHuespedes(){ return huespedes; }
 Reserva::~Reserva(){
     string hostal = this->habitacion->getNomHostal();
     this->habitacion->eliminarReserva(this);
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    col->eliminarReserva(this->getCodigo());
     for(set<Estadia*>::iterator it = estadias.begin(); it != estadias.end();++it){
         Estadia *actual = *it;
         actual->elimCalHostal(hostal);
-        estadias.erase(it);
         delete(actual);
     }
-    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
-    col->eliminarReserva(this->getCodigo());
+    estadias.clear();
 }
 
 bool Reserva::esReservaHostal(string nom){
@@ -39,7 +39,8 @@ bool Reserva::esReservaHostal(string nom){
 
 bool Reserva::huespedPertenece(string email){
     set<Huesped*>::iterator it;
-    it = this->getHuespedes().begin();
+    set<Huesped*> huespedes = this->getHuespedes();
+    it = huespedes.begin();
     Huesped *current = *it;
     while (current->getEmail() != email){
         current = *it;
