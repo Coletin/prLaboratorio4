@@ -150,7 +150,7 @@ Huesped* ColeccionesHandler::getHuesped(string email){
         encontre = actual->getEmail() == email;
         if(!encontre)
             ++it;
-        else if(dynamic_cast<Huesped*>(actual) != 0){
+        else{
             res = dynamic_cast<Huesped*>(actual);
         };
     }
@@ -250,6 +250,7 @@ Reserva* ColeccionesHandler::getReservaEstadia(int codigoE){
             actualE = *itE;
         }
         encontre = itE != estadiasReserva.end();
+        ++it;
     }
     return actual;
 }

@@ -76,7 +76,11 @@ RespuestaCalificacion* Calificacion::getRespuestaCalificacion(){
 }
 
 DTRespuestaCalificacion* Calificacion::obtenerRespuestaCalificacion(){
-    return respuesta->getDTRespuestaCalificacion();
+    if(this->respuesta != nullptr) return respuesta->getDTRespuestaCalificacion();
+    else{
+        DTRespuestaCalificacion* nueva = new DTRespuestaCalificacion("");
+        return nueva;
+    }
 }
 
 //void setHostal(string nombre){}; no existe asociacion clasificacion hostal

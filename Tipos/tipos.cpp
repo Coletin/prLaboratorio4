@@ -354,8 +354,9 @@ ostream& operator<<(ostream& o, DTReservaGrupal& rg){
     o << "Habitacion: " << rg.getHabitacion() << endl;
     o << "Costo: $" << rg.getCosto() << endl;
     o << "Huespedes: ";
-    set<DTHuesped*>::iterator it = rg.getHuespedes().begin();
-    while(it != rg.getHuespedes().end()){
+    set<DTHuesped*> huespedes = rg.getHuespedes();
+    set<DTHuesped*>::iterator it = huespedes.begin();
+    while(it != huespedes.end()){
         DTHuesped* actual = *it;
         o << actual->getNombre() << " - " << actual->getEmail();
         if(actual->getEsFinger()) 

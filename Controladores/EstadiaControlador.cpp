@@ -16,6 +16,7 @@
 #include "../Clases/Calificacion.h"
 #include "../Clases/Notificacion.h"
 #include "../Clases/Notificador.h"
+#include "../Tipos/tipos.h"
 
 
 EstadiaControlador * EstadiaControlador::instancia = NULL;
@@ -51,11 +52,11 @@ void EstadiaControlador::registrarEstadia(string email, int codigo){
     RelojControlador * reloj = RelojControlador::getInstancia();
     DTFecha* fecha = reloj->getFecha();
     Reserva* reserva = col->getReserva(codigo);
-    Estadia* est = new Estadia();
-    est->setCheckIn(fecha);
+    Estadia* est = new Estadia(fecha);
     col->agregarEstadia(est);
     reserva->agregarEstadia(est);
     Huesped* huesped = col->getHuesped(email);
+    est->setHuesped(huesped);
     huesped->agregarEstadia(est);
 }
 
@@ -126,8 +127,9 @@ set<DTEstadia*> EstadiaControlador::listarEstadias(string hostal){
 
 int EstadiaControlador::getHabitacionEstadia(int codigo){
     ColeccionesHandler * col = ColeccionesHandler::getInstancia();
-    Estadia* e = col->getEstadia(codigo);
-    return e->getCalificacion()->getHabitacion();
+    Reserva* r = col->getReservaEstadia(codigo);
+    int h = r->getNumeroHabitacion();
+    return h;
 }
 
 
