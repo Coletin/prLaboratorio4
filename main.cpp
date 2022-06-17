@@ -785,7 +785,7 @@ ingresados, fecha y hora correspondientes al sistema.
             }
             valido=true;
                 while(valido){
-                    std::cout<<"Digite Hostal Seleccionado: "<<endl;
+                    std::cout<<"Digite Estadia Seleccionada: "<<endl;
                     std::cin>>numero;
                     if (numero>0 && numero<=_estadiaH.size()) {
                         valido=false;} else { std::cout<<"Elija un numero de estadia valido por favor!"<<endl;};
@@ -802,8 +802,10 @@ ingresados, fecha y hora correspondientes al sistema.
 
             std::cout<<"Estadia Seleccionada:"<<nuevoE->getCodigo()<<endl;
             string comentario;
+            
             std::cout<<"Ingrese su comentario:  "<<endl;
-            cin>>comentario;
+            cin.ignore();
+            getline(cin,comentario);
 
             std::cout<<"Ingrese su Calificacion (1-5):  "<<endl;
             int valorcalif=-1;
