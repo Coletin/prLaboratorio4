@@ -67,7 +67,7 @@ set<DTEmpleado*> ColeccionesHandler::getEmpleadoNoAsigCol(string nom){
         Usuario* actual = *it;
         if(dynamic_cast<Empleado*>(actual) != 0){    
             Empleado* empleado = dynamic_cast<Empleado*>(actual); 
-            if(empleado->getTrabajo()->getNombre() == nom){
+            if(empleado->getTrabajo() != nullptr && empleado->getTrabajo()->getNombre() == nom){
                 DTEmpleado* agregar = empleado->getDTEmpleado();
                 resu.insert(agregar);
             }

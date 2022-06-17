@@ -36,5 +36,7 @@ class UsuarioControlador:public IUsuario{
         void desubscribirseDeNotificaciones(string);
         set<DTNotificacion*> listarNotificaciones(string);
         void eliminarNotificaciones(string);
-
+        bool existeUsuario(string email);
+        bool existeEmpleado(string email);
+        bool existeHuesped(string email);
 };
