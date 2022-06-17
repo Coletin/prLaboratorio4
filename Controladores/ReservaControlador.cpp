@@ -73,15 +73,15 @@ void ReservaControlador::confirmarReserva(){
 	Habitacion* hab = h->getHabNum(numeroHab);
 	r->asociarHabRev(hab);
 	for(set<string>::iterator it = emailHue.begin(); it != emailHue.end();++it){
-		Reserva* r;
-		Huesped* hue = col->getHuesped(*it);
+		string actual = *it;
+		Huesped* hue = col->getHuesped(actual);
 		r->asociarHuespedRev(hue);
 	}
 	hab->asociarRevHab(r);
 	col->agregarReserva(r);
 	
 	delete data;
-	data = NULL;
+	data = nullptr;
 	numeroHab = -1;
 	emailHue.clear();
 }
@@ -104,11 +104,9 @@ void ReservaControlador::seleccionarReserva(int reserva){
 }
 
 void ReservaControlador::confirmarBajaReserva(){
-	ColeccionesHandler* col;
-	col = ColeccionesHandler::getInstancia();
+	ColeccionesHandler* col = ColeccionesHandler::getInstancia();
 	Reserva* r = col->getReserva(codR);
-	col->eliminarReserva(codR);
-	r->~Reserva();
+	delete(r);
 }
 
 void ReservaControlador::cancelarBajaReserva(){

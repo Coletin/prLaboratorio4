@@ -28,13 +28,14 @@ void ColeccionesHandler::addHostal(Hostal* hostalN){
 Hostal* ColeccionesHandler::getHostal(string nombre){
     set<Hostal*>::iterator it = hostales.begin();
     bool encontre = false;
+    Hostal* actual;
     while (it != hostales.end() && !encontre){
-        Hostal actual = **it;
-        encontre = actual.getNombre() == nombre;
+        actual = *it;
+        encontre = actual->getNombre() == nombre;
         if(!encontre)
             ++it;
     }
-    return *it;
+    return actual;
 }
 
 set<DTHostal*> ColeccionesHandler::getHostalCol(){
@@ -50,13 +51,14 @@ set<DTHostal*> ColeccionesHandler::getHostalCol(){
 Estadia* ColeccionesHandler::getEstadia(int codigo){
     set<Estadia*>::iterator it = estadias.begin();
     bool encontre = false;
+    Estadia* actual;
     while (it != estadias.end() && !encontre){
-        Estadia actual = **it;
-        encontre = actual.getCodigo() == codigo;
+        actual = *it;
+        encontre = actual->getCodigo() == codigo;
         if(!encontre)
             ++it;
     }
-    return *it;
+    return actual;
 }
 
 set<DTEmpleado*> ColeccionesHandler::getEmpleadoNoAsigCol(string nom){
@@ -65,7 +67,7 @@ set<DTEmpleado*> ColeccionesHandler::getEmpleadoNoAsigCol(string nom){
         Usuario* actual = *it;
         if(dynamic_cast<Empleado*>(actual) != 0){    
             Empleado* empleado = dynamic_cast<Empleado*>(actual); 
-            if(empleado->getTrabajo()->getNombre() == nom){
+            if(empleado->getTrabajo() != nullptr && empleado->getTrabajo()->getNombre() == nom){
                 DTEmpleado* agregar = empleado->getDTEmpleado();
                 resu.insert(agregar);
             }
@@ -116,7 +118,7 @@ Empleado* ColeccionesHandler::getEmpleado(string email){
         encontre = actual->getEmail() == email;
         if(!encontre)
             ++it;
-        else if(dynamic_cast<Empleado*>(actual) != 0){
+        else {
             res = dynamic_cast<Empleado*>(actual);
         };
     }
@@ -132,7 +134,7 @@ IObserver* ColeccionesHandler::getEmpleadoObs(string email){
         encontre = actual->getEmail() == email;
         if(!encontre)
             ++it;
-        else if(dynamic_cast<IObserver*>(actual) != 0){
+        else{
             res = dynamic_cast<IObserver*>(actual);
         };
     }
@@ -148,7 +150,7 @@ Huesped* ColeccionesHandler::getHuesped(string email){
         encontre = actual->getEmail() == email;
         if(!encontre)
             ++it;
-        else if(dynamic_cast<Huesped*>(actual) != 0){
+        else{
             res = dynamic_cast<Huesped*>(actual);
         };
     }
@@ -173,19 +175,19 @@ void ColeccionesHandler::eliminarReserva(int codR){
         ++it;
         actual = *it;
     }
-    reservas.erase(it);
-    delete(actual);
+    reservas.erase(actual);
 }
 
 Reserva* ColeccionesHandler::getReserva(int codR){
     set<Reserva*>::iterator it = reservas.begin();
     bool encontre = false;
+    Reserva* actual;
     while (it != reservas.end() && !encontre){
-        Reserva* actual = *it;
+        actual = *it;
         encontre = actual->getCodigo() == codR;
         if(!encontre) ++it;
     }
-    return *it;
+    return actual;
 }
 
 set<DTHuesped*> ColeccionesHandler::getHuespedes(){
@@ -236,18 +238,20 @@ bool ColeccionesHandler::existeUsuario(string email){
 Reserva* ColeccionesHandler::getReservaEstadia(int codigoE){
     set<Reserva*>::iterator it = reservas.begin();
     bool encontre = false;
+    Reserva* actual;
     while((it != reservas.end())&&(!encontre)){
-        Reserva* actual = *it;
+        actual = *it;
         set<Estadia*> estadiasReserva = actual->getEstadias();
         set<Estadia*>::iterator itE = estadiasReserva.begin();
         Estadia* actualE = *itE;
         while((itE != estadiasReserva.end())&&(actualE->getCodigo() != codigoE)){
             ++itE;
-            Estadia* actual = *itE;
+            actualE = *itE;
         }
         encontre = itE != estadiasReserva.end();
+        ++it;
     }
-    return *it;
+    return actual;
 }
     
 

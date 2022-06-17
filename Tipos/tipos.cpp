@@ -204,9 +204,6 @@ bool DTFecha::operator>=(const DTFecha& meIgual){
 };
 
 ostream& operator<<(ostream& o, DTFecha& f){
-    if((f.getHora()-10) < 0) o << '0';
-    o << f.getHora();
-    o << '/';
     if((f.getDia()-10) < 0) o << '0';
     o << f.getDia();
     o << '/';
@@ -214,11 +211,15 @@ ostream& operator<<(ostream& o, DTFecha& f){
     o << f.getMes();
     o << '/';
     o << f.getAnio();
+    o << ':' << ' ';
+    if((f.getHora()-10) < 0) o << '0';
+    o << f.getHora();
+    o << ' ' << 'h' << 's';
     return o;
 };
 
 istream& operator>>(istream& i, DTFecha& f){
-    char fLeer[15];
+    char fLeer[30];
     scanf("%s", fLeer);
     string horaS;
     string diaS;
@@ -240,18 +241,16 @@ istream& operator>>(istream& i, DTFecha& f){
         indice++;
     }
     indice++;
-    while (fLeer[indice]!='a' || fLeer[indice]!='p'){
-        horaS = horaS + fLeer[indice];
-        indice++;
+    while (fLeer[indice]!='.'){
+      horaS = horaS + fLeer[indice];
+      indice++;
     }
     int horaN = stoi(horaS);
-    if(fLeer[indice]=='p')
-        horaN = horaN + 12;
     int diaN = stoi(diaS);
     int mesN = stoi(mesS);
     int anioN = stoi(anioS);
     if(horaN > 23 || horaN < 0 ||diaN > 31 || diaN < 1 || mesN > 12 || mesN < 1 || anioN < 1900) throw std::invalid_argument("Fecha fuera de rango");
-    DTFecha nueva(horaN, diaN, mesN, anioN);
+    DTFecha nueva(diaN, mesN, anioN, horaN);
     f = nueva;
     return i;
 };
@@ -300,10 +299,16 @@ int DTReserva::getHabitacion(){
     return this->habitacion;
 };
 
-DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_costo,_habitacion){
+DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion, DTHuesped* huesped):DTReserva(_codigo,_checkIn,_checkOut,_estado,_costo,_habitacion){
+    this->huesped = huesped;
 };
 
-DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_habitacion){
+DTHuesped* DTReservaIndividual::getHuesped(){
+    return huesped;
+}
+
+DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion, DTHuesped* huesped):DTReserva(_codigo,_checkIn,_checkOut,_estado,_habitacion){
+    this->huesped = huesped;
 };
 
 DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion,set<DTHuesped*> _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _costo, _habitacion){
@@ -347,8 +352,9 @@ ostream& operator<<(ostream& o, DTReservaGrupal& rg){
     o << "Habitacion: " << rg.getHabitacion() << endl;
     o << "Costo: $" << rg.getCosto() << endl;
     o << "Huespedes: ";
-    set<DTHuesped*>::iterator it = rg.getHuespedes().begin();
-    while(it != rg.getHuespedes().end()){
+    set<DTHuesped*> huespedes = rg.getHuespedes();
+    set<DTHuesped*>::iterator it = huespedes.begin();
+    while(it != huespedes.end()){
         DTHuesped* actual = *it;
         o << actual->getNombre() << " - " << actual->getEmail();
         if(actual->getEsFinger()) 

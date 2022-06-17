@@ -66,6 +66,10 @@ set<DTEstadia*> Habitacion::getEstadiasDT(){
     return respuesta;
 }
 
+void Habitacion::setHostal(Hostal* h){
+    hostal = h;
+}
+
 set<DTEstadia*> Habitacion::getReservasFinalizadasAsociadas(string email){  
     set<DTEstadia*> respuesta;
     set<DTEstadia*> aux;
