@@ -319,7 +319,7 @@ int main(){
             set<DTHostal*> hostales = controladorReserva->listarHostales();
             DTFecha fechaNula(0,0,0,0);
         //////////////////////////////////Datos Base///////////////////////////////////////   
-            if(hostales.size() == 0) std:cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;
+            if(hostales.size() == 0){std:cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;getch();}
             else
              {
              std::cout<<"****************  5 - REALIZAR RESERVA  ************"<<endl;
@@ -328,14 +328,15 @@ int main(){
              //lista hostales
              auto it= hostales.begin();
              int hostalNumero = 0;
+             std::cout<<"-----------------------------------------"<<endl;
              while (it != hostales.end()){
                  DTHostal* actualHos = *it;
                  hostalNumero++;
-                 std::cout<<"-----------------------------------------"<<endl;
                  std::cout<<hostalNumero<<".-Nombre Hostal: "<<actualHos->getNombre()<<endl;
                  std::cout<<" Direccion: "<<actualHos->getDireccion()<<endl;
                  std::cout<<" Promedio de calificacion: "<<actualHos->getPromedioClasi()<<endl;
                  ++it;
+                 std::cout<<"-----------------------------------------"<<endl;
              }
              //selecciona hostal
              bool valido = false;
@@ -357,7 +358,7 @@ int main(){
                      try{
                         std::cin>>desde;  
                      }catch(exception e){
-                        cout<<"Fecha fuera de rango";
+                        cout<<"\nFecha fuera de rango";
                      }
                  }
                  while (hasta == fechaNula){
@@ -365,7 +366,7 @@ int main(){
                      try{
                         std::cin>>hasta;  
                      }catch(exception e){
-                        cout<<"Fecha fuera de rango";
+                        cout<<"\nFecha fuera de rango";
                      } 
                  }
                  valido = desde < hasta;
@@ -392,7 +393,10 @@ int main(){
         /////////////////////////////////Habitacion///////////////////////////////////////
              //Listar Habitacion
              set<DTHabitacion*> habitaciones = controladorReserva->obtenerHabitacionesDisponiblesEnFecha();
-             if(habitaciones.size()==0){std::cout<<"No hay habitaciones disponibles para estas fechas" <<endl;}
+             if(habitaciones.size()==0){
+                std::cout<<"No hay habitaciones disponibles para estas fechas" <<endl;
+                getch();
+                }
              else
               {
               std::cout<<" \n \n \n Seleccione Habitacion: \n" <<endl;
@@ -411,8 +415,8 @@ int main(){
               valido = false;
               while (!valido){
                   std::cout<<"Digite Habitacion Seleccionada: "<<endl;
-                  std::cin>>hostalNumero;
-                  if (hostalNumero>0 && hostalNumero<=hostales.size()) {
+                  std::cin>>habNumero;
+                  if (habNumero>0 && habNumero<=habitaciones.size()) {
                       valido=true;} else { std::cout<<"Elija un numero de habitacion valido"<<endl;};
               }
               limpiarPantalla();
@@ -428,7 +432,8 @@ int main(){
         /////////////////////////////////Huesped///////////////////////////////////////    
              //Listar Huesped
               set<DTHuesped*> huespedes = controladorReserva->listarHuespedes();
-              if(huespedes.size()==0 && (esGrupal && huespedes.size()<2)){std::cout<<"No hay suficientes huespedes en el sistema"<<endl;}
+              if(huespedes.size()==0 && (esGrupal && huespedes.size()<2)){
+                std::cout<<"No hay suficientes huespedes en el sistema"<<endl;getch();}
               else
                {
                std::cout<<" \n \n \n Seleccione Huesped Prinsipal: \n" <<endl;
@@ -467,7 +472,7 @@ int main(){
                  bool seguir = true; 
                  while(seguir)
                  {
-                     if(huespedes.size()==0){std::cout<<"No hay mas huespedes en el sistema"<<endl;seguir=false;}
+                     if(huespedes.size()==0){std::cout<<"No hay mas huespedes en el sistema"<<endl;seguir=false;getch();}
                      else
                      {
              //Lista los huespedes que quedan
@@ -480,7 +485,7 @@ int main(){
                          std::cout<<"-----------------------------------------"<<endl;
                          std::cout<<hueNumero<<".-Nombre: "<<actualHue->getNombre()<<endl;
                          std::cout<<" Email: "<<actualHue->getEmail()<<endl;
-                         ++ithab;
+                         ++ithue;
                      }
              //Selecciona huesped        
                      valido = false;
@@ -572,18 +577,20 @@ int main(){
                 if(opcion>0 && opcion <= top3.size() + 1){
                     valido = true;}else{ std::cout<<"Elija una opcion valida"<<endl;}
                 }
-                DTHostal* actual = top3array[opcion - 1];
-                std::cout<<"Hostal: "<<actual->getNombre()<<endl;
-                set<DTCalificacion*> cali = actual->getCaliHabi();
-                set<DTCalificacion*>::iterator itcal = cali.begin();  
-                std::cout<<"Calificaciones: "<<endl;
-                while (itcal != cali.end()){
-                    DTCalificacion* calActual= *itcal; 
-                    std::cout<<"Valor: "<<calActual->getValor()<<endl;
-                    std::cout<<"Comentario:\n"<<calActual->getComentario()<<endl;
-                    ++itcal;
+                if(opcion>0 && opcion <= top3.size()){
+                    DTHostal* actual = top3array[opcion - 1];
+                    std::cout<<"Hostal: "<<actual->getNombre()<<endl;
+                    set<DTCalificacion*> cali = actual->getCaliHabi();
+                    set<DTCalificacion*>::iterator itcal = cali.begin();  
+                    std::cout<<"Calificaciones: "<<endl;
+                    while (itcal != cali.end()){
+                        DTCalificacion* calActual= *itcal; 
+                        std::cout<<"Valor: "<<calActual->getValor()<<endl;
+                        std::cout<<"Comentario:\n"<<calActual->getComentario()<<endl;
+                        ++itcal;
+                    }
+                getch();    
                 }
-                getch();      
              }
              controladorHostal->liberarMemoriaTop3();
             }//case 6
