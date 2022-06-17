@@ -42,11 +42,11 @@ bool Reserva::huespedPertenece(string email){
     set<Huesped*> huespedes = this->getHuespedes();
     it = huespedes.begin();
     Huesped *current = *it;
-    while (current->getEmail() != email){
-        current = *it;
+    while ((current->getEmail() != email)&&(it!=huespedes.end())){
         ++it;
+        if(it!=huespedes.end()) current = *it;
     }
-    return it != this->getHuespedes().end();
+    return it != huespedes.end();
 }
 
 Reserva::Reserva(){

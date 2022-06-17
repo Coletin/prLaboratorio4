@@ -515,7 +515,7 @@ int main(){
                 }
                int confirmarN = pedirEntero("1-Si \n2-No \nDesea Confirmar La Reserva? ","Opcion incorrecta ",2);
                if(confirmarN == 1)controladorReserva->confirmarReserva();
-               else controladorReserva->cancelarReserva(); 
+               else controladorReserva->cancelarReserva();
                }//if de Huespedes
               }//if de Habitacines
              }//if de Hostales
@@ -605,7 +605,7 @@ int main(){
                 if(hostales7.size() == 0){
                     cout << "No hay hostales en el sistema.";
                 }else{
-                    cout << "Nombres de hostales:";
+                    cout << "Nombres de hostales:"<<endl;
                     set<DTHostal*>::iterator it = hostales7.begin();
                     while(it != hostales7.end()){
                         DTHostal* hostal = *it;
@@ -615,7 +615,7 @@ int main(){
                     };
 
                     numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el numero del hostal:", "Numero invalido, ingrese que aparece en la lista ", numero - 1);
-                    numero = 1; 
+                    numero = 0; 
                     it = hostales7.begin();
                     DTHostal* seleccionado = *it;
                     while(numero != numSeleccionado){
@@ -625,22 +625,31 @@ int main(){
                     };
 
                     cout << endl;
-                    cout << "Ingrese mail del huesped:";
-                    cin >> mailHuesped; //no se checkea que el email exista en el sistema y puede romper le metodo de listarReservas
-
+                    mailHuesped = "";
+                    while(!controladorUsuario->existeHuesped(mailHuesped)){
+                        cout << "Ingrese mail del huesped:"<<endl;
+                       cin >> mailHuesped; //no se checkea que el email exista en el sistema y puede romper le metodo de listarReservas
+                    };
                     set<DTReserva*> reservas = controladorEstadia->listarReservas(mailHuesped, seleccionado->getNombre());
-                    cout << "Codigos, fechas de inicio y habitaciones de las reservas:";
+                    cout << "Codigos, fechas de inicio y habitaciones de las reservas:" << endl;
                     set<DTReserva*>::iterator it2 = reservas.begin();
-                    numero = 1;
+                    numero = 0;
+                    set<int> reservasCods;
                     while(it2 != reservas.end()){
                         DTReserva* reserva = *it2;
                         DTFecha checkIn = reserva->getcheckIn();
                         cout << numero<<"- Codigo: "<<reserva->getCodigo()<<", Dia de checkIn: "<<checkIn.getDia()<<"/"<<checkIn.getMes()<<"/"<<checkIn.getAnio()<<", Habitacion: "<<reserva->getHabitacion()<<endl;
+                        reservasCods.insert(reserva->getCodigo());
                         numero++;
                         it2++;
                     };
-
-                    numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el codigo de la reserva:", "Numero invalido, ingrese que aparece en la lista ", 250);
+                    bool valido = false;
+                    while(!valido){
+                        cout << "Ingrese el codigo de la reserva:";
+                        cin >> numSeleccionado;
+                        valido = reservasCods.find(numSeleccionado) != reservasCods.end();
+                        if(!valido) cout << "Numero invalido, ingrese que aparece en la lista "<<endl;
+                    }
 
                     // por si lo quiero hacer con el numero que aparece en la lista
                     // numero = 0; 
@@ -680,7 +689,7 @@ int main(){
                     };
 
                     numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el numero del hostal:", "Numero invalido, ingrese que aparece en la lista ", numero - 1);
-                    numero = 1; 
+                    numero = 0; 
                     it = hostales.begin();
                     DTHostal* seleccionado = *it;
                     while(numero != numSeleccionado){
@@ -982,7 +991,7 @@ ingresados, fecha y hora correspondientes al sistema.
             }
             
             
-            
+            getch();
             }
             break;
             case 13:{
