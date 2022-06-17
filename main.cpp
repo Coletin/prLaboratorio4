@@ -1183,6 +1183,7 @@ ingresados, fecha y hora correspondientes al sistema.
                 std::cout<<"-----------------------------------------"<<endl;
                 std::cout<<reservaNumero<<".-Codigo Reserva: "<<actualRes->getCodigo()<<endl;
                 std::cout<<" Estado "<<actualRes->getEstadoReserva()<<endl;
+                ++itr;
               }
               valido = false;
               int codR;
