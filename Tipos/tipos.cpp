@@ -301,10 +301,16 @@ int DTReserva::getHabitacion(){
     return this->habitacion;
 };
 
-DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_costo,_habitacion){
+DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion, DTHuesped* huesped):DTReserva(_codigo,_checkIn,_checkOut,_estado,_costo,_habitacion){
+    this->huesped = huesped;
 };
 
-DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion):DTReserva(_codigo,_checkIn,_checkOut,_estado,_habitacion){
+DTHuesped* DTReservaIndividual::getHuesped(){
+    return huesped;
+}
+
+DTReservaIndividual::DTReservaIndividual(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,int _habitacion, DTHuesped* huesped):DTReserva(_codigo,_checkIn,_checkOut,_estado,_habitacion){
+    this->huesped = huesped;
 };
 
 DTReservaGrupal::DTReservaGrupal(int _codigo,DTFecha _checkIn,DTFecha _checkOut,EstadoReserva _estado,float _costo,int _habitacion,set<DTHuesped*> _huespedes):DTReserva(_codigo, _checkIn, _checkOut, _estado, _costo, _habitacion){

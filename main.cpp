@@ -879,18 +879,12 @@ ingresados, fecha y hora correspondientes al sistema.
             while (itres != reservas_Hostal.end())
                 {
                 DTReserva * actual_r = *itres;
-                if(dynamic_cast<DTReservaIndividual*>(actual_r)!= 0){DTReservaGrupal * rgrupal= dynamic_cast<DTReservaGrupal*>(actual_r); 
-                          set<DTHuesped*> huespedes_por_reserva =rgrupal->getHuespedes();
-                            auto itreserva= huespedes_por_reserva .begin();
-                            std::cout<<"Reserva INDIVIDUAL- Habitacion : "<<rgrupal->getHabitacion()<<endl;
-                            std::cout<<"Reserva INDIVIDUAL- Codigo : "<<rgrupal->getCodigo()<<endl;
+                if(dynamic_cast<DTReservaIndividual*>(actual_r)!= 0){DTReservaIndividual * rindividual= dynamic_cast<DTReservaIndividual*>(actual_r);
+                    DTHuesped* huespedes_por_reserva =rindividual->getHuesped();
+                    std::cout<<"Reserva INDIVIDUAL- Habitacion : "<<rindividual->getHabitacion()<<endl;
+                    std::cout<<"Reserva INDIVIDUAL- Codigo : "<<rindividual->getCodigo()<<endl;
+                    std::cout<<"Huesped INDIVIDUAL-"<<huespedes_por_reserva->getNombre()<<endl;
                             
-                                while (itreserva != huespedes_por_reserva .end())
-                                    {
-                                        DTHuesped * actual_hues = *itreserva;
-                                        std::cout<<"Huesped INDIVIDUAL-"<<actual_hues->getNombre()<<endl;
-                                        itreserva++;
-                                     }
                  } else {
                           DTReservaGrupal * rgrupal= dynamic_cast<DTReservaGrupal*>(actual_r); 
                           set<DTHuesped*> huespedes_por_reserva =rgrupal->getHuespedes();
@@ -1277,9 +1271,10 @@ ingresados, fecha y hora correspondientes al sistema.
             controladorHostal->seleccionarHostalVar("El Pony Pisador");
             controladorHostal->ingresarHabitacion(1,9,5);
             controladorHostal->persistirHabitacion();
-            
 
-             std::cout<<" \n == ASIGNAR EMPLEADOS: == \n"<<endl;
+
+            std::cout << "fallo 1";
+            std::cout<<" \n == ASIGNAR EMPLEADOS: == \n"<<endl;
             controladorHostal->seleccionarHostalVar("La posada del finger");
             controladorHostal->asignarEmpleado("emilia@mail.com", CargoEmpleado::Recepcion);
             controladorHostal->confirmarAsigncacion();
@@ -1415,7 +1410,7 @@ ingresados, fecha y hora correspondientes al sistema.
 
              std::cout<<" \n == RESPONDER CALIFICACIONES: == \n"<<endl;
             //agregar comentario C2
-       //     controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
+            controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
 
 
             } else {std::cout<<"CARGA INICIAL YA REALIZADA"<<endl;
