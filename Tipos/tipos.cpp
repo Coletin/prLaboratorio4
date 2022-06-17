@@ -219,7 +219,7 @@ ostream& operator<<(ostream& o, DTFecha& f){
 };
 
 istream& operator>>(istream& i, DTFecha& f){
-    char fLeer[15];
+    char fLeer[30];
     scanf("%s", fLeer);
     string horaS;
     string diaS;
@@ -241,13 +241,11 @@ istream& operator>>(istream& i, DTFecha& f){
         indice++;
     }
     indice++;
-    while (fLeer[indice]!='a' && fLeer[indice]!='p'){
+    while (fLeer[indice]!='.'){
       horaS = horaS + fLeer[indice];
       indice++;
     }
     int horaN = stoi(horaS);
-    if(fLeer[indice]=='p')
-        horaN = horaN + 12;
     int diaN = stoi(diaS);
     int mesN = stoi(mesS);
     int anioN = stoi(anioS);

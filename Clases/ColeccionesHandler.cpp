@@ -175,8 +175,7 @@ void ColeccionesHandler::eliminarReserva(int codR){
         ++it;
         actual = *it;
     }
-    reservas.erase(it);
-    delete(actual);
+    reservas.erase(actual);
 }
 
 Reserva* ColeccionesHandler::getReserva(int codR){
