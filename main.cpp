@@ -696,7 +696,7 @@ int main(){
                         it++;
                     };
 
-                    numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el numero del hostal:", "Numero invalido, ingrese que aparece en la lista ", numero - 1);
+                    numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el numero del hostal:\n", "Numero invalido, ingrese que aparece en la lista \n", numero - 1);
                     numero = 0; 
                     it = hostales.begin();
                     DTHostal* seleccionado = *it;
@@ -709,14 +709,15 @@ int main(){
                     cout << endl;
                     cout << "Ingrese mail del huesped:";
                     cin >> mailHuesped8; //no se checkea que el email exista en el sistema y puede romper le metodo de listarReservas
-
-                    if(controladorEstadia->existenEstadiasActivas(mailHuesped8, seleccionado->getNombre())){
-                        int codigo = pedirEnteroSinLimpiarPantalla("Ingrese el codigo de la estadia:", "Numero invalido ", 250);
-                        controladorEstadia->finalizarEstadia(codigo);
-                        cout << "Operacion realizada con exito. Presione cualquier caracter para continuar.";
-                    }else{
-                        cout << "No existen estadias activas en el sistema. Presione cualquier caracter para continuar.";
-                    }
+                    if(controladorUsuario->existeHuesped(mailHuesped8)){
+                        if(controladorEstadia->existenEstadiasActivas(mailHuesped8, seleccionado->getNombre())){
+                            int codigo = pedirEnteroSinLimpiarPantalla("Ingrese el codigo de la estadia:\n", "Numero invalido \n", 250);
+                            controladorEstadia->finalizarEstadia(codigo);
+                            cout << "Operacion realizada con exito.\n Presione cualquier caracter para continuar.";
+                        }else{
+                            cout << "No existen estadias activas en el sistema.\n Presione cualquier caracter para continuar.";
+                        }
+                    }else cout<< "No se encontro el huesped. \n Presione cualquier caracter para continuar";
                     getch();//esperamos que ingrese cualquier caracter;                    
                 }
             };
@@ -793,7 +794,7 @@ ingresados, fecha y hora correspondientes al sistema.
             }
             valido=true;
                 while(valido){
-                    std::cout<<"Digite Hostal Seleccionado: "<<endl;
+                    std::cout<<"Digite Estadia Seleccionada: "<<endl;
                     std::cin>>numero;
                     if (numero>0 && numero<=_estadiaH.size()) {
                         valido=false;} else { std::cout<<"Elija un numero de estadia valido por favor!"<<endl;};
@@ -810,8 +811,10 @@ ingresados, fecha y hora correspondientes al sistema.
 
             std::cout<<"Estadia Seleccionada:"<<nuevoE->getCodigo()<<endl;
             string comentario;
+            
             std::cout<<"Ingrese su comentario:  "<<endl;
-            cin>>comentario;
+            cin.ignore();
+            getline(cin,comentario);
 
             std::cout<<"Ingrese su Calificacion (1-5):  "<<endl;
             int valorcalif=-1;
