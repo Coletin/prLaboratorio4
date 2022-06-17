@@ -104,7 +104,7 @@ bool Hostal::existeEstadiasActivas(string _email){
     set<Habitacion*>::iterator it =  habitaciones.begin();
     while (it != habitaciones.end() && !existe){
         Habitacion* actual = *it;
-        existe = actual->existeEstadiasActivas(_email);
+        existe = existe||actual->existeEstadiasActivas(_email);
         ++it;
     }    
     return existe;
