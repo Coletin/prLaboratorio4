@@ -113,7 +113,7 @@ DTEstadia* Estadia::getDTEstadia(){
     return dt;
 }
 bool Estadia::existeEstadiaActiva(){
-    return this->checkOut != nullptr; 
+    return this->checkOut == nullptr; 
 }
 
 Calificacion* Estadia::getCalificacion(){ return this->calificacion;}

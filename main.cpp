@@ -123,6 +123,14 @@ int main(){
 
     while(i!=21){
         limpiarPantalla();
+        cout << "***||||||****|||||||*******||||***|||||||***||||||***||**********||***||*****|||||||||||||***|||||||***||**********||||*******" <<endl;
+        cout << "***||***||***||*********||||******||********||***||***||********||***||||*********||*********||********||********||****||*****"<<endl;
+        cout << "***||**||****||********||*********||********||**||*****||******||***||**||********||*********||********||******||********||***"<<endl;
+        cout << "***||||******|||||******||||******|||||*****||||********||****||***||****||*******||*********|||||*****||******||********||***"<<endl;
+        cout << "***||*||*****||*************||****||********||*||********||**||***||||||||||******||*********||********||******||********||***"<<endl;
+        cout << "***||**||****||**********||||*****||********||**||********||||***||********||*****||*********||********||********||****||*****"<<endl;
+        cout << "***||***||***|||||||***||||*******|||||||***||***||********||***||**********||****||*********|||||||***||||||||****||||*******"<<endl;
+        cout << "DREAMTEAM Inc." << endl;
         cout << "1-Alta de Usuario" << "\n";
         cout << "2-Alta de Hostal" << "\n";
         cout << "3-Alta de Habitacion"<< "\n";
@@ -266,7 +274,7 @@ int main(){
                 set<DTEmpleado*> listaEmpleadosHostal = controladorHostal->seleccionarHostal(nombreHostalBuscar);
 
                 if(listaEmpleadosHostal.size() == 0){
-                    cout << "No hay empleados cargados al hostal seleccionado. Presione cualquier tecla para continuar.";
+                    cout << "No hay empleados no asignados al hostal seleccionado. Presione cualquier tecla para continuar.";
                     getch();
                     break;
                 }
@@ -711,7 +719,7 @@ int main(){
                     }
                     getch();//esperamos que ingrese cualquier caracter;                    
                 }
-            };        
+            };
             break;
             case 9:{
 
