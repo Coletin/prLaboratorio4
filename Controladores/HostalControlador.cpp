@@ -190,3 +190,20 @@ void HostalControlador::liberarMemoriaTop3(){
     }
     t3.clear();
 }
+
+bool HostalControlador::existeHostal(string _nombre){
+    bool encontre = false;
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    set<DTHostal*> listaHostales = colecciones->getHostalCol();
+    for(set<DTHostal*>::iterator actual = listaHostales.begin(); actual != listaHostales.end() && !encontre; actual ++){
+        DTHostal *elemento = *actual;
+        encontre = _nombre.compare(elemento->getNombre()) == 0;
+    }
+    /*
+    for(set<DTUsuario*>::iterator actual = listaUsuarios.begin(); actual != listaUsuarios.end() && !encontre; ++actual){
+        DTUsuario *elemento = *actual;
+        encontre = email.compare(elemento->getEmail()) == 0;
+    }
+    */
+    return encontre;
+}

@@ -73,7 +73,8 @@ void ReservaControlador::confirmarReserva(){
 	Habitacion* hab = h->getHabNum(numeroHab);
 	r->asociarHabRev(hab);
 	for(set<string>::iterator it = emailHue.begin(); it != emailHue.end();++it){
-		Huesped* hue = col->getHuesped(*it);
+		string actual = *it;
+		Huesped* hue = col->getHuesped(actual);
 		r->asociarHuespedRev(hue);
 	}
 	hab->asociarRevHab(r);

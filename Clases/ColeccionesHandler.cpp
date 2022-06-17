@@ -67,7 +67,7 @@ set<DTEmpleado*> ColeccionesHandler::getEmpleadoNoAsigCol(string nom){
         Usuario* actual = *it;
         if(dynamic_cast<Empleado*>(actual) != 0){    
             Empleado* empleado = dynamic_cast<Empleado*>(actual); 
-            if(empleado->getTrabajo()->getNombre() == nom){
+            if(empleado->getTrabajo() != nullptr && empleado->getTrabajo()->getNombre() == nom){
                 DTEmpleado* agregar = empleado->getDTEmpleado();
                 resu.insert(agregar);
             }
@@ -150,7 +150,7 @@ Huesped* ColeccionesHandler::getHuesped(string email){
         encontre = actual->getEmail() == email;
         if(!encontre)
             ++it;
-        else if(dynamic_cast<Huesped*>(actual) != 0){
+        else{
             res = dynamic_cast<Huesped*>(actual);
         };
     }
@@ -250,6 +250,7 @@ Reserva* ColeccionesHandler::getReservaEstadia(int codigoE){
             actualE = *itE;
         }
         encontre = itE != estadiasReserva.end();
+        ++it;
     }
     return actual;
 }
