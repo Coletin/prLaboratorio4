@@ -761,65 +761,62 @@ ingresados, fecha y hora correspondientes al sistema.
             if(hostales.size()==0){ std::cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;}
 
             else{ 
-            auto it= hostales.begin();
-            std::cout<<" \n == HOSTALES: == \n"<<endl;
-            std::cout<<"Digite Hostal Seleccionado: "<<endl;
-                while (it != hostales.end())
-                { 
-                    DTHostal* actual = *it;
-                    ++numero;
-                    std::cout<<numero<<".-Nombre Hostal: "<<actual->getNombre()<<endl;
-                    ++it;
-                }
-            bool valido=true;
+                auto it= hostales.begin();
+                std::cout<<" \n == HOSTALES: == \n"<<endl;
+                std::cout<<"Digite Hostal Seleccionado: "<<endl;
+                    while (it != hostales.end())
+                    { 
+                        DTHostal* actual = *it;
+                        ++numero;
+                        std::cout<<numero<<".-Nombre Hostal: "<<actual->getNombre()<<endl;
+                        ++it;
+                    }
+                bool valido=true;
 
-                while(valido){
-                    std::cout<<"Seleccione el Hostal"<<endl;
-                    std::cin>>numero;
-                    if (numero>0 && numero<=hostales.size()) {
-                        valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
-                } 
-            DTHostal* nuevo = *it;
-          
-
-           
-            it= hostales.begin();
-            int valor=0;
-                while ((valor)!=numero)
-                {
-                    nuevo = *it;
-                    valor++;
-                    ++it;
-                }
-            set<DTReserva*> reservas=  controladorReserva->listarReservasHostal(nuevo->getNombre());
+                    while(valido){
+                        std::cout<<"Seleccione el Hostal"<<endl;
+                        std::cin>>numero;
+                        if (numero>0 && numero<=hostales.size()) {
+                            valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
+                    } 
+                DTHostal* nuevo = *it;
             
 
+            
+                it= hostales.begin();
+                int valor=0;
+                    while ((valor)!=numero)
+                    {
+                        nuevo = *it;
+                        valor++;
+                        ++it;
+                    }
+                set<DTReserva*> reservas=  controladorReserva->listarReservasHostal(nuevo->getNombre());
+                
 
-           /* DTReservaGrupal * actual_h =controladorReserva->listarReservasHostal( nuevo->getNombre());
-            if(dynamic_cast<DTReservaGrupal*>() != 0){
+
+            /* DTReservaGrupal * actual_h =controladorReserva->listarReservasHostal( nuevo->getNombre());
+                if(dynamic_cast<DTReservaGrupal*>() != 0){
+                    
+                }
+                */
+                
+
+                if(reservas.size()==0){ std::cout<<"NO HAY RESERVAS EN EL SISTEMA"<<endl;}
+                else{ 
+                std::cout<<" \n == RESERVAS: == \n"<<endl;
+                auto it= reservas.begin();
+                int iteranumero=0;
+                    while (it != reservas.end())
+                    {
+                        DTReserva* _reserva = *it;
+                        ++iteranumero;
+                        std::cout<<iteranumero<<".-Reserva: "<<_reserva->getCodigo()<<"  "<<".-Habitacion: "<<_reserva->getHabitacion()<<".-Estado: "<<_reserva->getEstadoReserva()<<endl;
+                        ++it;
+                    }
+                }
                 
             }
-            */
-            
-
-            if(reservas.size()==0){ std::cout<<"NO HAY RESERVAS EN EL SISTEMA"<<endl;}
-            else{ 
-            std::cout<<" \n == RESERVAS: == \n"<<endl;
-            std::cout<<"Digite Reserva Seleccionada: "<<endl;
-            auto it= reservas.begin();
-            int iteranumero=0;
-            std::cout<<iteranumero<<".-Nombre Hostal: "<<nuevo->getNombre()<<endl;
-                while (it != reservas.end())
-                {
-                    DTReserva* _reserva = *it;
-                    ++numero;    
-                    std::cout<<iteranumero<<".-Reserva: "<<_reserva->getHabitacion()<<"  "<<".-Habitacion: "<<_reserva->getCodigo()<<endl<<".-Estado: "<<_reserva->getEstadoReserva()<<endl;
-                    ++it;
-                }
-            }
-            
-            }
-            system("pause");
             
             
             
@@ -1157,24 +1154,24 @@ ingresados, fecha y hora correspondientes al sistema.
             //E1
            
             controladorUsuario->cargarDatosUsuario("Emilia","123");
-            controladorUsuario->crearEmpleado(Recepcion);
             controladorUsuario->indicarEmail("emilia@mail.com");
+            controladorUsuario->crearEmpleado(Recepcion);
             controladorUsuario->persistirUsuario();
 
             //E2
             controladorUsuario->cargarDatosUsuario("Leonardo","123");
-            controladorUsuario->crearEmpleado(Recepcion);
             controladorUsuario->indicarEmail("leo@mail.com");
+            controladorUsuario->crearEmpleado(Recepcion);
             controladorUsuario->persistirUsuario();
             //E3
             controladorUsuario->cargarDatosUsuario("Alina","123");
-            controladorUsuario->crearEmpleado(Administracion);
             controladorUsuario->indicarEmail("alina@mail.com");
+            controladorUsuario->crearEmpleado(Administracion);
             controladorUsuario->persistirUsuario();
             //E4 
             controladorUsuario->cargarDatosUsuario("Barliman","123");
-            controladorUsuario->crearEmpleado(Recepcion);
             controladorUsuario->indicarEmail("barli@mail.com");
+            controladorUsuario->crearEmpleado(Recepcion);
             controladorUsuario->persistirUsuario();
 
 
@@ -1426,12 +1423,6 @@ ingresados, fecha y hora correspondientes al sistema.
         };
 
     }
-
-
-
-
-
-
     return 0;
 }
 
