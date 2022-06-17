@@ -52,6 +52,7 @@ Habitacion* Hostal::getHabNum(int numeroHab){
         encontre = actual->getNumero() == numeroHab;
         if(!encontre) ++it;
     }
+    if(it == habitaciones.end())actual = nullptr;
     return actual;
 }
 

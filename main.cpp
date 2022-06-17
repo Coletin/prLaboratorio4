@@ -234,7 +234,54 @@ int main(){
                 getch();
             }
             break;
-            case 3:
+            case 3:{
+                limpiarPantalla();
+                cin.clear();
+                cin.sync();
+
+                set<DTHostal*> listaHostales = controladorHostal->listarHostales();
+                if(listaHostales.size() == 0){
+                    cout << "No hay hostales cargados al sistema. Presione cualquier tecla para continuar.";
+                    getch();
+                    break;
+                }
+                bool existeHostal = true, existeEmpleado = true;
+                int contador = 1, tipoUsuarioCrear = 1;
+                string mensajeElegirHostal = "Indique el nombre de un hostal: \n", nombreHostalBuscar = "", emailEmpleadoBuscar = "";
+                for(set<DTHostal*>::iterator actual = listaHostales.begin(); actual != listaHostales.end(); actual ++, contador ++){
+                    DTHostal *elemento = *actual;
+                    mensajeElegirHostal += (std::to_string(contador) + ": " + elemento->getNombre() + "\n");
+                }
+
+                do{
+                    if(!existeHostal){
+                        limpiarPantalla();
+                        cout << "El hostal indicado no existe\n";
+                    }
+                    nombreHostalBuscar = pedirStringNoVacio("El nombre del hostal no puede ser vacio\n",mensajeElegirHostal,true);
+                    existeHostal = controladorHostal->existeHostal(nombreHostalBuscar);
+                }while(!existeHostal);
+                controladorHostal->seleccionarHostalVar(nombreHostalBuscar);
+                int numero = pedirEntero("Ingrese el numero de la habitacion:\n","Numero no valido",5000);
+                float precio;
+                cout << "Ingrese el costo de la habitacion: \n";
+                cin >> precio;
+                int capacidad = pedirEntero("Ingrese la capacidad de la habitacion:\n","Capacidad no valida(>100)",100);
+                int opcion = 0;
+                controladorHostal->ingresarHabitacion(numero, precio, capacidad);
+                cout << "Desea confirmar la habitacion: 1-No 2-Si \n";
+                cin >> opcion;
+                if(opcion == 1){
+                    controladorHostal->persistirHabitacion();
+                    if(controladorHostal->)
+                    cout << "Habitacion confirmada \n Presione cualquier caracter para continuar"<<endl;
+                }
+                else {
+                    controladorHostal->cancelarCreacionHabitacion();
+                    cout << "Habitacion no confirmada \n Presione cualquier caracter para continuar"<<endl;
+                }
+                getch();
+            }
             break;
             case 4:{
                 limpiarPantalla();

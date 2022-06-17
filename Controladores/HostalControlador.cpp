@@ -90,7 +90,14 @@ void HostalControlador::seleccionarHostalVar(string nombre){
 }
 
 
-
+bool HostalControlador::habitacionEnHostal(int num ,string hostal){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Hostal* h = colecciones->getHostal(nom);
+    set<DTHabitacion*> habitaciones = h->habitacionEnHostal(num);
+    for(set<Habitacion*>::iterator it = habitaciones.begin(); it!= habitaciones.end();++it){
+        
+    }
+}
 
 
 
