@@ -194,6 +194,9 @@ float ReservaIndividual::calcularCosto(){
 DTReserva* ReservaIndividual::getDT(){
     DTFecha* in = new DTFecha(this->getCheckIn()->getDia(),this->getCheckIn()->getMes(),this->getCheckIn()->getAnio(),this->getCheckIn()->getHora());
 	DTFecha* out = new DTFecha(this->getCheckOut()->getDia(),this->getCheckOut()->getMes(),this->getCheckOut()->getAnio(),this->getCheckOut()->getHora());
-    DTReservaIndividual* res = new DTReservaIndividual(this->getCodigo(),*in,*out,this->getEstado(),this->calcularCosto(),this->getHabitacion()->getNumero());
+    set<Huesped*>::iterator it = this->getHuespedes().begin();
+    Huesped* h = *it;
+    DTHuesped* huesped = h->getDTHuesped();
+    DTReservaIndividual* res = new DTReservaIndividual(this->getCodigo(),*in,*out,this->getEstado(),this->calcularCosto(),this->getHabitacion()->getNumero(), huesped);
     return res;
 }

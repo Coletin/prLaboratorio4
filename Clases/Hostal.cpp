@@ -89,6 +89,7 @@ set<DTHabitacion*> Hostal::getHabitaciones(){
 void Hostal::agregarHabitacion(int numero, float precio, int capacidad){
     Habitacion* hab = new Habitacion(numero,precio,capacidad);
     habitaciones.insert(hab);
+    hab->setHostal(this);
 }
 
 DTHostal* Hostal::getDT(){

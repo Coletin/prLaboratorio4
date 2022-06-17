@@ -607,29 +607,28 @@ ingresados, fecha y hora correspondientes al sistema.
                 };
             if (_estadiaH.size()==0)
             {
-               std::cout<<" NO HAY ESTADIAS ENCONTRADAS "<<endl;
+               std::cout<<" NO HAY ESTADIAS FINALIZADAS "<<endl;
                getch();
                break;
             }
-            
             valido=true;
-            while(valido){
-                std::cout<<"Digite Hostal Seleccionado: "<<endl;
-                std::cin>>numero;
-                if (numero>0 && numero<=hostales.size()) {
-                    valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
-            }
+                while(valido){
+                    std::cout<<"Digite Hostal Seleccionado: "<<endl;
+                    std::cin>>numero;
+                    if (numero>0 && numero<=_estadiaH.size()) {
+                        valido=false;} else { std::cout<<"Elija un numero de estadia valido por favor!"<<endl;};
+                }
             DTEstadia* nuevoE = *its;
             its= _estadiaH.begin();
             valor=0;
-            while ((valor)!=numero)
-            {
-                nuevoE = *its;
-                valor++;
-                ++its;
-            }
-            std::cout<<"Estadia Seleccionada:"<<nuevoE->getCodigo()<<endl;
+                while ((valor)!=numero)
+                {
+                    nuevoE = *its;
+                    valor++;
+                    ++its;
+                }
 
+            std::cout<<"Estadia Seleccionada:"<<nuevoE->getCodigo()<<endl;
             string comentario;
             std::cout<<"Ingrese su comentario:  "<<endl;
             cin>>comentario;
@@ -646,7 +645,7 @@ ingresados, fecha y hora correspondientes al sistema.
             }
 
 
-            controladorEstadia->crearCalificacion(emailr,nuevo->getNombre(),comentario,valorcalif, nuevoE->getCodigo());
+            controladorEstadia->crearCalificacion(emailr,nuevo->getNombre(),comentario,valorcalif,nuevoE->getCodigo());
             
            
             }
@@ -672,7 +671,7 @@ ingresados, fecha y hora correspondientes al sistema.
                     std::cout<<numero<<".: "<<actual->getComentario()<<endl;
                     ++it;
                 }
-                tipoUsuarioCrear = pedirEntero("Seleccione un comentario: ","Opcion incorrecta ",numero);
+                tipoUsuarioCrear = pedirEnteroSinLimpiarPantalla("Seleccione un comentario: ","Opcion incorrecta ",numero);
                 it = calis.begin();
                 for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
                 DTCalificacion* cali = *it;
@@ -880,18 +879,12 @@ ingresados, fecha y hora correspondientes al sistema.
             while (itres != reservas_Hostal.end())
                 {
                 DTReserva * actual_r = *itres;
-                if(dynamic_cast<DTReservaIndividual*>(actual_r)!= 0){DTReservaGrupal * rgrupal= dynamic_cast<DTReservaGrupal*>(actual_r); 
-                          set<DTHuesped*> huespedes_por_reserva =rgrupal->getHuespedes();
-                            auto itreserva= huespedes_por_reserva .begin();
-                            std::cout<<"Reserva INDIVIDUAL- Habitacion : "<<rgrupal->getHabitacion()<<endl;
-                            std::cout<<"Reserva INDIVIDUAL- Codigo : "<<rgrupal->getCodigo()<<endl;
+                if(dynamic_cast<DTReservaIndividual*>(actual_r)!= 0){DTReservaIndividual * rindividual= dynamic_cast<DTReservaIndividual*>(actual_r);
+                    DTHuesped* huespedes_por_reserva =rindividual->getHuesped();
+                    std::cout<<"Reserva INDIVIDUAL- Habitacion : "<<rindividual->getHabitacion()<<endl;
+                    std::cout<<"Reserva INDIVIDUAL- Codigo : "<<rindividual->getCodigo()<<endl;
+                    std::cout<<"Huesped INDIVIDUAL-"<<huespedes_por_reserva->getNombre()<<endl;
                             
-                                while (itreserva != huespedes_por_reserva .end())
-                                    {
-                                        DTHuesped * actual_hues = *itreserva;
-                                        std::cout<<"Huesped INDIVIDUAL-"<<actual_hues->getNombre()<<endl;
-                                        itreserva++;
-                                     }
                  } else {
                           DTReservaGrupal * rgrupal= dynamic_cast<DTReservaGrupal*>(actual_r); 
                           set<DTHuesped*> huespedes_por_reserva =rgrupal->getHuespedes();
@@ -1278,9 +1271,10 @@ ingresados, fecha y hora correspondientes al sistema.
             controladorHostal->seleccionarHostalVar("El Pony Pisador");
             controladorHostal->ingresarHabitacion(1,9,5);
             controladorHostal->persistirHabitacion();
-            
 
-             std::cout<<" \n == ASIGNAR EMPLEADOS: == \n"<<endl;
+
+            std::cout << "fallo 1";
+            std::cout<<" \n == ASIGNAR EMPLEADOS: == \n"<<endl;
             controladorHostal->seleccionarHostalVar("La posada del finger");
             controladorHostal->asignarEmpleado("emilia@mail.com", CargoEmpleado::Recepcion);
             controladorHostal->confirmarAsigncacion();
@@ -1416,7 +1410,7 @@ ingresados, fecha y hora correspondientes al sistema.
 
              std::cout<<" \n == RESPONDER CALIFICACIONES: == \n"<<endl;
             //agregar comentario C2
-       //     controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
+            controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
 
 
             } else {std::cout<<"CARGA INICIAL YA REALIZADA"<<endl;

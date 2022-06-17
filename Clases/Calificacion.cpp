@@ -46,7 +46,7 @@ DTCalificacion* Calificacion::getDT(){
     string _comentario = this->comentario;
     DTFecha* _fecha = new DTFecha(this->fecha->getDia(), this->fecha->getMes(), this->fecha->getAnio(), this->fecha->getHora());
     int _habitacion = this->habitacion;
-    int _estadia = getEstadia()->getCodigo(); 
+    int _estadia = this->estadia->getCodigo();
     DTCalificacion* resu = new DTCalificacion( _valor, _comentario, _fecha, _habitacion, _estadia);
     return resu;
 }

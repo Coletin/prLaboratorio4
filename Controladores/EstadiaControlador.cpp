@@ -111,6 +111,7 @@ void EstadiaControlador::crearCalificacion(string email, string hostal_, string 
     hostal->agregarCalificacion(cal);
     
     est->setCalificacion(cal);
+    cal->setEstadia(est);
     Notificacion* n = new Notificacion(false, nombre, valor, comentario);
     Notificador* notif = Notificador::getInstancia();
     notif->modificar(n);
