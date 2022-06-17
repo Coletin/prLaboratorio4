@@ -27,6 +27,28 @@ void limpiarPantalla(){
     system("cls");
 }
 
+string pedirStringNoVacio(string mensajeError, string mensajePedir, bool limpiaPantalla){
+    string respuesta = "";
+    bool primerMensaje = true;
+    cin.clear();
+    cin.sync();
+
+    do{
+        if(primerMensaje)
+            primerMensaje = false;
+        else{
+            if(limpiaPantalla)
+                limpiarPantalla();
+            cout << mensajeError;
+        }
+
+        cout << mensajePedir;
+        std::getline(std::cin,respuesta);
+    }while(respuesta == "");
+
+    return respuesta;
+}
+
 //pide un entero entre 1 y tope. mensajePedir es el mensaje que se muestra siempre mientras que mensajeError se muestra solamente cada vez que ingrese un numero mal.
 int pedirEntero(string mensajePedir, string mensajeError, int tope){
     int respuesta = 0;
@@ -45,7 +67,6 @@ int pedirEntero(string mensajePedir, string mensajeError, int tope){
     }
     return respuesta;
 }
-
 
 int pedirEnteroConCero(string mensajePedir, string mensajeError, int tope){
     int respuesta = -1;
@@ -133,12 +154,17 @@ int main(){
                 nombreUsuarioCrear = "";
                 claveUsuarioCrear = "";
                 
+                cin.clear();
+                cin.sync();
+                emailUsuarioCrear = "0";
+
                 do{
                     limpiarPantalla();
                     if(!emailDisponible)
                         cout << "El email indicado ya se encuentra en uso.\n";
-                    cout << "Ingrese email: ";
-                    cin >> emailUsuarioCrear;
+
+                    emailUsuarioCrear = pedirStringNoVacio("El email no puede ser vacio\n","Ingrese email: ",true);
+
                     emailDisponible = controladorUsuario->indicarEmail(emailUsuarioCrear);
                 }while(!emailDisponible);
                 emailUsuarioCrear = "";
@@ -173,11 +199,113 @@ int main(){
                 }
                 getch();//esperamos que ingrese cualquier caracter
             break;
-            case 2:
+            case 2:{
+                limpiarPantalla();
+                cin.clear();
+                cin.sync();
+
+                std::string nombreHostalCrear = "", direccionHostalCrear = "", telefonoHostalCrear = "";
+                bool existeNombreHostal = false;
+                do{
+                    limpiarPantalla();
+                    if(existeNombreHostal)
+                        cout << "El nombre del hostal ya se encuentra en uso.\n";
+                    nombreHostalCrear = pedirStringNoVacio("El nombre del hostal no puede ser vacio\n","Ingrese nombre: ",true);
+                    existeNombreHostal = controladorHostal->existeHostal(nombreHostalCrear);
+                }while(existeNombreHostal);
+
+                cout << "Direccion del hostal: ";
+                std::getline(std::cin,direccionHostalCrear);
+                cout << "Telefono del hostal: ";
+                std::getline(std::cin,telefonoHostalCrear);
+                controladorHostal->agregarHostal(nombreHostalCrear,direccionHostalCrear,telefonoHostalCrear);
+                cout << "Hostal persistido. Presione cualquier tecla para continuar";
+                getch();
+            }
             break;
             case 3:
             break;
-            case 4:
+            case 4:{
+                limpiarPantalla();
+                cin.clear();
+                cin.sync();
+
+                set<DTHostal*> listaHostales = controladorHostal->listarHostales();
+                if(listaHostales.size() == 0){
+                    cout << "No hay hostales cargados al sistema. Presione cualquier tecla para continuar.";
+                    getch();
+                    break;
+                }
+
+                set<DTEmpleado*> listaEmpleados = controladorUsuario->obtenerEmpleados();
+                if(listaEmpleados.size() == 0){
+                    cout << "No hay empleados cargados al sistema. Presione cualquier tecla para continuar.";
+                    getch();
+                    break;
+                }
+
+                bool existeHostal = true, existeEmpleado = true;
+                int contador = 1, tipoUsuarioCrear = 1;
+                string mensajeElegirHostal = "Indique el nombre de un hostal: \n", nombreHostalBuscar = "", mensajeElegirEmpleado = "Indique el email de un empleado: \n", emailEmpleadoBuscar = "";
+                for(set<DTHostal*>::iterator actual = listaHostales.begin(); actual != listaHostales.end(); actual ++, contador ++){
+                    DTHostal *elemento = *actual;
+                    mensajeElegirHostal += (std::to_string(contador) + ": " + elemento->getNombre() + "\n");
+                }
+
+                do{
+                    if(!existeHostal){
+                        limpiarPantalla();
+                        cout << "El hostal indicado no existe\n";
+                    }
+                    nombreHostalBuscar = pedirStringNoVacio("El nombre del hostal no puede ser vacio\n",mensajeElegirHostal,true);
+                    existeHostal = controladorHostal->existeHostal(nombreHostalBuscar);
+                }while(!existeHostal);
+                set<DTEmpleado*> listaEmpleadosHostal = controladorHostal->seleccionarHostal(nombreHostalBuscar);
+
+                if(listaEmpleadosHostal.size() == 0){
+                    cout << "No hay empleados cargados al hostal seleccionado. Presione cualquier tecla para continuar.";
+                    getch();
+                    break;
+                }
+
+                contador = 1;
+                for(set<DTEmpleado*>::iterator actual = listaEmpleadosHostal.begin(); actual != listaEmpleadosHostal.end(); actual++, contador ++){
+                    DTEmpleado *elemento = *actual;
+                    mensajeElegirEmpleado += (std::to_string(contador) + ": " + elemento->getEmail() + "\n");
+                }
+
+                do{
+                    if(!existeEmpleado){
+                        limpiarPantalla();
+                        cout << "El empleado indicado no existe o no fue registrado como empleado\n";
+                    }
+                    emailEmpleadoBuscar = pedirStringNoVacio("El email del empleado no puede ser vacio\n",mensajeElegirEmpleado,true);
+                    existeEmpleado = controladorUsuario->existeUsuario(emailEmpleadoBuscar);
+                }while(!existeEmpleado);
+
+                tipoUsuarioCrear = pedirEntero("1-Administracion \n2-Limpieza \n3-Recepcion \n4-Infraestructura \nIndique el cargo del empleado: ","Opcion incorrecta ",4);
+                if(tipoUsuarioCrear == 1)
+                    cargoCrear = Administracion;
+                else if(tipoUsuarioCrear == 2)
+                    cargoCrear = Limpieza;
+                else if(tipoUsuarioCrear == 3)
+                    cargoCrear = Recepcion;
+                else
+                    cargoCrear = Infraestructura;
+                
+                controladorHostal->asignarEmpleado(emailEmpleadoBuscar,cargoCrear);
+                
+                tipoUsuarioCrear = pedirEntero("1-Si \n2-No \nDesea persistir la asignacion? ","Opcion incorrecta ",2);
+                if(tipoUsuarioCrear == 1){
+                    controladorHostal->confirmarAsigncacion();
+                    cout << "Empleado asignado. Presione cualquier tecla para continuar.";
+                }
+                else{
+                    controladorHostal->cancelarAsignacion();
+                    cout << "Operacion cancelada. Presione cualquier tecla para continuar.";
+                }
+                getch();//esperamos que ingrese cualquier caracter
+            }                
             break;
             case 5:
             break;
