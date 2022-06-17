@@ -250,7 +250,7 @@ istream& operator>>(istream& i, DTFecha& f){
     int mesN = stoi(mesS);
     int anioN = stoi(anioS);
     if(horaN > 23 || horaN < 0 ||diaN > 31 || diaN < 1 || mesN > 12 || mesN < 1 || anioN < 1900) throw std::invalid_argument("Fecha fuera de rango");
-    DTFecha nueva(horaN, diaN, mesN, anioN);
+    DTFecha nueva(diaN, mesN, anioN, horaN);
     f = nueva;
     return i;
 };
