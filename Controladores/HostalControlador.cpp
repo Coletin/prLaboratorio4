@@ -90,7 +90,11 @@ void HostalControlador::seleccionarHostalVar(string nombre){
 }
 
 
-
+bool HostalControlador::habitacionEnHostal(int num ,string hostal){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Hostal* h = colecciones->getHostal(hostal);
+    return h->habPertenece(num);
+}
 
 
 

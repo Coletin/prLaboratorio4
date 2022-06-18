@@ -28,4 +28,5 @@ class IHostal{
         virtual set<DTCalificacion*> calificacionesHostal(string nom) = 0; 
         virtual void liberarMemoriaTop3(){};
         virtual bool existeHostal(string _nombre)=0;
+        virtual bool habitacionEnHostal(int, string) = 0;
 };

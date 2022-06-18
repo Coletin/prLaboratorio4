@@ -52,6 +52,7 @@ Habitacion* Hostal::getHabNum(int numeroHab){
         encontre = actual->getNumero() == numeroHab;
         if(!encontre) ++it;
     }
+    if(it == habitaciones.end())actual = nullptr;
     return actual;
 }
 
@@ -128,6 +129,11 @@ set<DTReserva*> Hostal::getReservasAsociadas(string _email){
         for(set<DTReserva*>::iterator it1 = resActuales.begin(); it1 != resActuales.end();++it1) resu.insert(*it1);
     } 
     return resu;
+}
+
+bool Hostal::habPertenece(int num){
+    Habitacion* hab = this->getHabNum(num);
+    return hab->getNumero() == num;
 }
 
 void Hostal::agregarCalificacion(Calificacion* cal){
