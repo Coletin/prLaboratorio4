@@ -1141,7 +1141,7 @@ ingresados, fecha y hora correspondientes al sistema.
                     {
                         DTReserva* _reserva = *it;
                         ++iteranumero;
-                        std::cout<<iteranumero<<".-Reserva: "<<_reserva->getCodigo()<<"  "<<".-Habitacion: "<<_reserva->getHabitacion();
+                        std::cout<<iteranumero<<".-Reserva: "<<_reserva->getCodigo()<<"  "<<".-Habitacion: "<<_reserva->getHabitacion()<<endl;
                         ++it;
                     }
                 }
