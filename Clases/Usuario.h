@@ -39,6 +39,7 @@ class Huesped : public Usuario{
         bool getEsFinger();
         DTHuesped* getDTHuesped();
         Estadia* getEstadia(int);
+        set<Estadia*> getEstadias();
         void agregarEstadia(Estadia* estadia);
         void eliminarEstadia(Estadia*);
 };
