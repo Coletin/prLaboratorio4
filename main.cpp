@@ -578,7 +578,70 @@ int main(){
             set<DTHostal*> hostalesEnsistema = controladorHostal->listarHostales();
             int cantidadHostalesEnSistema = hostalesEnsistema.size();
             std::cout<<"****************  6 - CONSULTAR TOP 3 HOSTALES  ************"<<endl;
-            if(cantidadHostalesEnSistema<3){std::cout<<"No hay suficientes hostales para hacer un top tres";}
+            if(cantidadHostalesEnSistema<3){
+                auto it = hostalesEnsistema.begin();
+                int opcion = 0;
+                DTHostal** array = new DTHostal*[cantidadHostalesEnSistema];
+                for(int i = 0; i<cantidadHostalesEnSistema;i++) array[i] = nullptr;
+                if(cantidadHostalesEnSistema == 1){
+                    array[0] = *it;
+                }else if(cantidadHostalesEnSistema == 2){
+                    while( it != hostalesEnsistema.end()){
+                        DTHostal* actual = *it;
+                        if(array[0] == nullptr){
+                            array[0] = actual;
+                        }else if(array[0]->getPromedioClasi() <= actual->getPromedioClasi()){
+                            array[1] = array[0];
+                            array[0] = actual;
+                        }else if(array[0]->getPromedioClasi() > actual->getPromedioClasi()){
+                            array[1] = actual;
+                        }else{
+                            array[1] = actual;
+                        }
+                        it++;
+                    }
+                }
+                for(int i = 0; i < cantidadHostalesEnSistema; i++){
+                    opcion++;
+                    std::cout<<i+1<<".-Nombre Hostal: "<<array[i]->getNombre()<<endl;
+                } 
+                opcion++;
+                std::cout<<opcion<<".-No mostrar mas informacion\n"<<endl;
+                std::cout<<"Elija el numero de hostal del cual desea tener mas informacion"<<endl; 
+                bool valido = false;
+                opcion = 0;
+                while (!valido){
+                    std::cin>>opcion;
+                    if(opcion>0 && opcion <= cantidadHostalesEnSistema + 1){
+                        valido = true;
+                    }else{ 
+                        std::cout<<"Elija una opcion valida"<<endl;
+                    }
+                }
+                if(opcion>0 && opcion <= cantidadHostalesEnSistema){
+                    DTHostal* actualH = array[opcion - 1];
+                    std::cout<<"Hostal: "<<actualH->getNombre()<<endl;
+                    set<DTCalificacion*> cali = actualH->getCaliHabi();
+                    if(cali.size() >0){
+                        set<DTCalificacion*>::iterator itcal = cali.begin();  
+                        std::cout<<"Calificaciones: "<<endl;
+                        while (itcal != cali.end()){
+                            DTCalificacion* calActual= *itcal; 
+                            std::cout<<"Valor: "<<calActual->getValor()<<endl;
+                            std::cout<<"Comentario:\n"<<calActual->getComentario()<<endl;
+                            ++itcal;
+                        }
+                    }else{
+                        std::cout<<"El hostal no tiene calificaciones"<<endl;                        
+                    }
+                    std::cout<<"Presione cualquier tecla para continuar."<<endl;
+                    getch();    
+                }
+                
+            } else if(cantidadHostalesEnSistema == 0){
+                std::cout<<"No hay Hostales en el sistema."<<endl;
+                getch(); 
+            }
             else
              {
             set<DTHostal*> top3 = controladorHostal->topTres();                
@@ -630,15 +693,20 @@ int main(){
                     DTHostal* actual = top3array[opcion - 1];
                     std::cout<<"Hostal: "<<actual->getNombre()<<endl;
                     set<DTCalificacion*> cali = actual->getCaliHabi();
-                    set<DTCalificacion*>::iterator itcal = cali.begin();  
-                    std::cout<<"Calificaciones: "<<endl;
-                    while (itcal != cali.end()){
-                        DTCalificacion* calActual= *itcal; 
-                        std::cout<<"Valor: "<<calActual->getValor()<<endl;
-                        std::cout<<"Comentario:\n"<<calActual->getComentario()<<endl;
-                        ++itcal;
+                    if(cali.size() > 0){
+                        set<DTCalificacion*>::iterator itcal = cali.begin();  
+                        std::cout<<"Calificaciones: "<<endl;
+                        while (itcal != cali.end()){
+                            DTCalificacion* calActual= *itcal; 
+                            std::cout<<"Valor: "<<calActual->getValor()<<endl;
+                            std::cout<<"Comentario:\n"<<calActual->getComentario()<<endl;
+                            ++itcal;
+                        }
+                    }else{
+                        std::cout<<"El hostal no tiene calificaciones"<<endl;                        
                     }
-                getch();    
+                    std::cout<<"Presione cualquier tecla para continuar."<<endl;
+                    getch();   
                 }
              }
              controladorHostal->liberarMemoriaTop3();
