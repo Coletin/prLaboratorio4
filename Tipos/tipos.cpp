@@ -37,7 +37,7 @@ bool DTHuesped::getEsFinger(){
 }
 
 void DTHuesped::toString(){
-    cout << "[nombre: " << this->getNombre() << "; email: " << this->getEmail() << "; Es Finger?: " << this->getEsFinger() << "]" << endl;
+    cout << "[nombre: " << this->getNombre() << "; email: " << this->getEmail() << "; " << (this->getEsFinger() ? "" : "no")  << " es finger]" << endl;
 };
 
 DTEmpleado::DTEmpleado(){
@@ -60,18 +60,21 @@ string DTEmpleado::getTrabajo(){
 void DTEmpleado::toString(){
     cout << "[nombre: " << this->getNombre() << "; email: " << this->getEmail() << "; cargo: ";
     if(this->getCargo()==CargoEmpleado::Recepcion){
-        cout << "Recepcion" << " en ";
+        cout << "Recepcion";
     }
     else if(this->getCargo()==CargoEmpleado::Administracion){
-        cout << "Administracion" << " en ";
+        cout << "Administracion";
     }
     else if(this->getCargo()==CargoEmpleado::Limpieza){
-        cout << "Limpieza" << " en ";
+        cout << "Limpieza";
     }
     else if(this->getCargo()==CargoEmpleado::Infraestructura){
-        cout << "Infraestructura" << " en ";
+        cout << "Infraestructura";
     };
-    cout << this->getTrabajo() << "]";
+    if(this->getTrabajo() != "")
+        cout << "; Hostal actual: " << this->getTrabajo() << "]";
+    else
+        cout << "]";
 };
 
 DTHabitacion::DTHabitacion(){};
@@ -219,7 +222,7 @@ ostream& operator<<(ostream& o, DTFecha& f){
 };
 
 istream& operator>>(istream& i, DTFecha& f){
-    char fLeer[15];
+    char fLeer[30];
     scanf("%s", fLeer);
     string horaS;
     string diaS;
@@ -241,18 +244,16 @@ istream& operator>>(istream& i, DTFecha& f){
         indice++;
     }
     indice++;
-    while (fLeer[indice]!='a' && fLeer[indice]!='p'){
+    while (fLeer[indice]!='.'){
       horaS = horaS + fLeer[indice];
       indice++;
     }
     int horaN = stoi(horaS);
-    if(fLeer[indice]=='p')
-        horaN = horaN + 12;
     int diaN = stoi(diaS);
     int mesN = stoi(mesS);
     int anioN = stoi(anioS);
     if(horaN > 23 || horaN < 0 ||diaN > 31 || diaN < 1 || mesN > 12 || mesN < 1 || anioN < 1900) throw std::invalid_argument("Fecha fuera de rango");
-    DTFecha nueva(horaN, diaN, mesN, anioN);
+    DTFecha nueva(diaN, mesN, anioN, horaN);
     f = nueva;
     return i;
 };
@@ -354,8 +355,9 @@ ostream& operator<<(ostream& o, DTReservaGrupal& rg){
     o << "Habitacion: " << rg.getHabitacion() << endl;
     o << "Costo: $" << rg.getCosto() << endl;
     o << "Huespedes: ";
-    set<DTHuesped*>::iterator it = rg.getHuespedes().begin();
-    while(it != rg.getHuespedes().end()){
+    set<DTHuesped*> huespedes = rg.getHuespedes();
+    set<DTHuesped*>::iterator it = huespedes.begin();
+    while(it != huespedes.end()){
         DTHuesped* actual = *it;
         o << actual->getNombre() << " - " << actual->getEmail();
         if(actual->getEsFinger()) 

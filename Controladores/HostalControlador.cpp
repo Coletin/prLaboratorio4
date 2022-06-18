@@ -90,7 +90,11 @@ void HostalControlador::seleccionarHostalVar(string nombre){
 }
 
 
-
+bool HostalControlador::habitacionEnHostal(int num ,string hostal){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Hostal* h = colecciones->getHostal(hostal);
+    return h->habPertenece(num);
+}
 
 
 
@@ -100,6 +104,12 @@ void HostalControlador::ingresarHabitacion(int numero, float precio, int capacid
     this->capacidad = capacidad;
 }
 
+
+set<DTHabitacion*> HostalControlador::listarHabitacionesHostal(string hostal){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Hostal* h = colecciones->getHostal(hostal);
+    return h->getHabitaciones();
+}
 
 
 
@@ -189,4 +199,21 @@ void HostalControlador::liberarMemoriaTop3(){
         delete(actual);
     }
     t3.clear();
+}
+
+bool HostalControlador::existeHostal(string _nombre){
+    bool encontre = false;
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    set<DTHostal*> listaHostales = colecciones->getHostalCol();
+    for(set<DTHostal*>::iterator actual = listaHostales.begin(); actual != listaHostales.end() && !encontre; actual ++){
+        DTHostal *elemento = *actual;
+        encontre = _nombre.compare(elemento->getNombre()) == 0;
+    }
+    /*
+    for(set<DTUsuario*>::iterator actual = listaUsuarios.begin(); actual != listaUsuarios.end() && !encontre; ++actual){
+        DTUsuario *elemento = *actual;
+        encontre = email.compare(elemento->getEmail()) == 0;
+    }
+    */
+    return encontre;
 }

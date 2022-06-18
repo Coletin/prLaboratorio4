@@ -36,6 +36,7 @@ class Hostal{
         Habitacion* getHabNum(int numeroHab);
         float getPromCal();
         set<DTCalificacion*> getCalifs();
+        set<DTCalificacion*> getCalifsSinReponder();
         set<DTHabitacion*> getHabitaciones();
         DTHostal* getDT();
         bool existeEstadiasActivas(string email);
@@ -44,4 +45,5 @@ class Hostal{
         void agregarCalificacion(Calificacion* cal);
         int getHabEstadia(Estadia* est);
         void eliminarCalificacion(Calificacion* cal);
+        bool habPertenece(int);
 };
