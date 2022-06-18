@@ -305,21 +305,17 @@ int main(){
                 }
 
                 bool existeHostal = true, existeEmpleado = true;
-                int contador = 1, tipoUsuarioCrear = 1;
-                string mensajeElegirHostal = "Indique el nombre de un hostal: \n", nombreHostalBuscar = "", mensajeElegirEmpleado = "Indique el email de un empleado: \n", emailEmpleadoBuscar = "";
+                int contador = 1, tipoUsuarioCrear = 1, posicionSeleccionada = 0;
+                string mensajeElegirHostal = "Indique el hostal: \n", nombreHostalBuscar = "", mensajeElegirEmpleado = "Indique el empleado: \n", emailEmpleadoBuscar = "";
                 for(set<DTHostal*>::iterator actual = listaHostales.begin(); actual != listaHostales.end(); actual ++, contador ++){
                     DTHostal *elemento = *actual;
                     mensajeElegirHostal += (std::to_string(contador) + ": " + elemento->getNombre() + "\n");
                 }
-
-                do{
-                    if(!existeHostal){
-                        limpiarPantalla();
-                        cout << "El hostal indicado no existe\n";
-                    }
-                    nombreHostalBuscar = pedirStringNoVacio("El nombre del hostal no puede ser vacio\n",mensajeElegirHostal,true);
-                    existeHostal = controladorHostal->existeHostal(nombreHostalBuscar);
-                }while(!existeHostal);
+                posicionSeleccionada = pedirEntero(mensajeElegirHostal,"Opcion incorrecta",contador - 1);
+                set<DTHostal*>::iterator actual = listaHostales.begin();
+                std::advance(actual,posicionSeleccionada - 1);
+                DTHostal *elemento = *actual;
+                nombreHostalBuscar = elemento->getNombre();
                 set<DTEmpleado*> listaEmpleadosHostal = controladorHostal->seleccionarHostal(nombreHostalBuscar);
 
                 if(listaEmpleadosHostal.size() == 0){
@@ -333,15 +329,11 @@ int main(){
                     DTEmpleado *elemento = *actual;
                     mensajeElegirEmpleado += (std::to_string(contador) + ": " + elemento->getEmail() + "\n");
                 }
-
-                do{
-                    if(!existeEmpleado){
-                        limpiarPantalla();
-                        cout << "El empleado indicado no existe o no fue registrado como empleado\n";
-                    }
-                    emailEmpleadoBuscar = pedirStringNoVacio("El email del empleado no puede ser vacio\n",mensajeElegirEmpleado,true);
-                    existeEmpleado = controladorUsuario->existeUsuario(emailEmpleadoBuscar);
-                }while(!existeEmpleado);
+                posicionSeleccionada = pedirEntero(mensajeElegirEmpleado,"Opcion incorrecta",contador - 1);
+                set<DTEmpleado*>::iterator actualEmpleado = listaEmpleadosHostal.begin();
+                std::advance(actualEmpleado,posicionSeleccionada - 1);
+                DTEmpleado *elementoEmpelado = *actualEmpleado;
+                emailEmpleadoBuscar = elementoEmpelado->getEmail();
 
                 tipoUsuarioCrear = pedirEntero("1-Administracion \n2-Limpieza \n3-Recepcion \n4-Infraestructura \nIndique el cargo del empleado: ","Opcion incorrecta ",4);
                 if(tipoUsuarioCrear == 1)
@@ -919,63 +911,31 @@ ingresados, fecha y hora correspondientes al sistema.
             getch();
             }
             break;
-            case 11:{
-/*****************************************************************************************/
-/******************************  11 - CONSULTA DE USUARIO ********************************/
-/*****************************************************************************************/ 
-            std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
-            std::cout<<"****************  11 - CONSULTA DE USUARIO  ************"<<endl; 
-            int numero=0; 
-            set<DTUsuario*> usuarios= controladorUsuario->listarUsuarios();
-            if(usuarios.size()==0){ std::cout<<"NO HAY USUARIOS EN EL SISTEMA"<<endl;}
-            else{ 
-            auto it= usuarios.begin();
-                while (it != usuarios.end())
-                {
-                    DTUsuario* actual = *it;
-                    ++numero;
-                    std::cout<<numero<<".-Usuario: "<<actual->getNombre()<<endl;
-                    ++it;
+            case 11:{ //Consulta de usuario
+                int contador = 1, seleccionado = 0; 
+                string mensajeElegirUsuario = "";               
+                set<DTUsuario*> listaUsuarios= controladorUsuario->listarUsuarios();
+
+                if(listaUsuarios.size() == 0){
+                    cout << "No hay usuarios cargados al sistema. Presione cualquier tecla para continuar.";
+                    getch();
+                    break;
                 }
-            bool valido=true;
-                while(valido){
-                    std::cout<<"Seleccione Usuario"<<endl;
-                    std::cin>>numero;
-                    if (numero>0 && numero<=usuarios.size()) {
-                        valido=false;} else { std::cout<<"Elija un numero de usuario valido por favor!"<<endl;};
+
+                for(set<DTUsuario*>::iterator actual = listaUsuarios.begin(); actual != listaUsuarios.end(); actual++, contador ++){
+                    DTUsuario *elemento = *actual;
+                    mensajeElegirUsuario += (std::to_string(contador) + ": " + elemento->getEmail() + "\n");
                 }
-            DTUsuario* nuevo = *it;
-            it= usuarios.begin();
-            int valor=0;
-                while ((valor)!=numero)
-                {
-                    nuevo = *it;
-                    valor++;
-                    ++it;
-                }
-            
-        DTEmpleado * actual_e =controladorUsuario->datosEmpleado( nuevo->getEmail());
-        if(dynamic_cast<DTEmpleado*>(actual_e) != 0){
-            std::cout<<"Empleado : "<<actual_e->getNombre()<<endl;
-            std::cout<<"Email : "<<actual_e->getEmail()<<endl;
-            std::cout<<"Cargo : "<<actual_e->getCargo()<<endl;
-           // NECESITRAIA UNA FUNCION GET HOSTAL
-            system("pause");
-            } ;
-        
-        DTHuesped * actual_h =controladorUsuario->datosHuesped( nuevo->getEmail());
-        if(dynamic_cast<DTHuesped*>(actual_h) != 0){ 
-            std::cout<<"Huesped : "<<actual_h->getNombre()<<endl;
-            std::cout<<"Email : "<<actual_h->getEmail()<<endl;
-            string resultado="";
-            if(actual_h->getEsFinger()){resultado="SI";} else{resultado="NO";};
-            std::cout<<"Finger : "<<actual_h->getEsFinger()<<endl;
-           // NECESITRAIA UNA FUNCION GET HOSTAL
-        }  
-     }
-     system("pause");
-     }
-    break;
+                seleccionado = pedirEntero(mensajeElegirUsuario,"Opcion incorrecta",contador - 1);
+
+                set<DTUsuario*>::iterator actualUsuario = listaUsuarios.begin();
+                std::advance(actualUsuario,seleccionado - 1);
+                DTUsuario *elementoUsuario = *actualUsuario;
+                elementoUsuario->toString();
+                cout << "\nPresione cualquier tecla para continuar";
+                getch();
+            }
+            break;
 
 
 
