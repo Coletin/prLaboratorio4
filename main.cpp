@@ -778,7 +778,7 @@ int main(){
                         cout << "Ingrese mail del huesped:"<<endl;
                         cin >> mailHuesped;
                     };
-                    if(controladorEstadia->existenEstadiasActivas(mailHuesped, seleccionado->getNombre())){
+                    if(!controladorEstadia->existenEstadiasActivas(mailHuesped, seleccionado->getNombre())){
                         set<DTReserva*> reservas = controladorEstadia->listarReservas(mailHuesped, seleccionado->getNombre());
                         if(reservas.size() >0){
                             cout << "Codigos, fechas de inicio y habitaciones de las reservas:" << endl;
