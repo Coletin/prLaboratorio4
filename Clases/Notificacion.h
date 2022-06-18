@@ -11,7 +11,7 @@ class Notificacion{
     public:
         Notificacion();
         Notificacion(bool visto, string autor, int puntaje, string comentario);
-        ~Notificacion();
+        ~Notificacion(){};
         void setVisto(bool);
         void setAutor(string);
         void setPuntaje(int);

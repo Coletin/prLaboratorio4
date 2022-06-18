@@ -46,12 +46,14 @@ set<DTHabitacion*> Hostal::getHabDis(DataR* data){
 Habitacion* Hostal::getHabNum(int numeroHab){
     bool encontre = false;
     set<Habitacion*>::iterator it = habitaciones.begin();
+    Habitacion* actual;
     while (it != habitaciones.end() && !encontre){
-        Habitacion* actual = *it;
+        actual = *it;
         encontre = actual->getNumero() == numeroHab;
         if(!encontre) ++it;
     }
-    return *it;
+    if(it == habitaciones.end())actual = nullptr;
+    return actual;
 }
 
 float Hostal::getPromCal(){
@@ -68,8 +70,9 @@ float Hostal::getPromCal(){
 
 set<DTCalificacion*> Hostal::getCalifs(){
     set<DTCalificacion*> respuesta;
+    Calificacion* actual;
     for(set<Calificacion*>::iterator it = calificaciones.begin();it != calificaciones.end();++it){
-        Calificacion* actual = *it;
+        actual = *it;
         respuesta.insert(actual->getDT());
     }
     return respuesta;
@@ -87,6 +90,7 @@ set<DTHabitacion*> Hostal::getHabitaciones(){
 void Hostal::agregarHabitacion(int numero, float precio, int capacidad){
     Habitacion* hab = new Habitacion(numero,precio,capacidad);
     habitaciones.insert(hab);
+    hab->setHostal(this);
 }
 
 DTHostal* Hostal::getDT(){
@@ -101,7 +105,7 @@ bool Hostal::existeEstadiasActivas(string _email){
     set<Habitacion*>::iterator it =  habitaciones.begin();
     while (it != habitaciones.end() && !existe){
         Habitacion* actual = *it;
-        existe = actual->existeEstadiasActivas(_email);
+        existe = existe||actual->existeEstadiasActivas(_email);
         ++it;
     }    
     return existe;
@@ -127,8 +131,14 @@ set<DTReserva*> Hostal::getReservasAsociadas(string _email){
     return resu;
 }
 
+bool Hostal::habPertenece(int num){
+    Habitacion* hab = this->getHabNum(num);
+    return hab->getNumero() == num;
+}
+
 void Hostal::agregarCalificacion(Calificacion* cal){
-    calificaciones.insert(cal);
+    Calificacion* add = cal;
+    calificaciones.insert(add);
 }
 
 //si no encuentra habitacion asosciada a est devuelve -1

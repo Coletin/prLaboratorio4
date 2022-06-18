@@ -30,6 +30,7 @@ class Habitacion{
      void setPrecio(float _precio);
      int getCapacidad();
      void setCapacidad(int _capacidad);
+     void setHostal(Hostal*);
      bool esDeHostal(string nomH);
      bool estaLibre(DataR* data); 
      DTHabitacion* getDT();

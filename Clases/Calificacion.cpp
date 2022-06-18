@@ -17,8 +17,8 @@ Calificacion::Calificacion(int valor,string comentario,DTFecha* fecha,int hab){
     this->comentario = comentario;
     this->fecha = fecha;
     this->habitacion = hab;
-    this->estadia = NULL;
-    this->respuesta =NULL;
+    this->estadia = nullptr;
+    this->respuesta =nullptr;
 }
 
 void Calificacion::setEstadia(Estadia* estadia){
@@ -42,12 +42,15 @@ void Calificacion::setHabitacion(int habitacion){
 }
 
 DTCalificacion* Calificacion::getDT(){
-    int _valor = this->valor;
-    string _comentario = this->comentario;
-    DTFecha* _fecha = new DTFecha(this->fecha->getDia(), this->fecha->getMes(), this->fecha->getAnio(), this->fecha->getHora());
-    int _habitacion = this->habitacion;
-    int _estadia = getEstadia()->getCodigo(); 
-    DTCalificacion* resu = new DTCalificacion( _valor, _comentario, _fecha, _habitacion, _estadia);
+    DTCalificacion* resu = nullptr;
+    if(this!=nullptr){
+        int _valor = this->valor;
+        string _comentario = this->comentario;
+        DTFecha* _fecha = new DTFecha(this->fecha->getDia(), this->fecha->getMes(), this->fecha->getAnio(), this->fecha->getHora());
+        int _habitacion = this->habitacion;
+        int _estadia = this->estadia->getCodigo();
+        resu = new DTCalificacion( _valor, _comentario, _fecha, _habitacion, _estadia);
+    }
     return resu;
 }
 
@@ -76,19 +79,24 @@ RespuestaCalificacion* Calificacion::getRespuestaCalificacion(){
 }
 
 DTRespuestaCalificacion* Calificacion::obtenerRespuestaCalificacion(){
-    return respuesta->getDTRespuestaCalificacion();
+    if(this->respuesta != nullptr) return respuesta->getDTRespuestaCalificacion();
+    else{
+        DTRespuestaCalificacion* nueva = new DTRespuestaCalificacion("");
+        return nueva;
+    }
 }
 
 //void setHostal(string nombre){}; no existe asociacion clasificacion hostal
 
 Calificacion::~Calificacion(){
-    delete(this->respuesta);
+    if(this->respuesta!=nullptr)delete(this->respuesta);
     ColeccionesHandler * col = ColeccionesHandler::getInstancia();
-
-    set<Hostal*>::iterator it = col->getHostales().begin(); 
-    while (it != col->getHostales().end()){
+    set<Hostal*> hostales = col->getHostales();
+    set<Hostal*>::iterator it = hostales.begin(); 
+    while (it != hostales.end()){
         Hostal* host = *it;
         host->eliminarCalificacion(this);
+        ++it;
     };
 }
 

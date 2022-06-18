@@ -11,6 +11,7 @@
 #include "../Clases/Hostal.h"
 #include "../Clases/Estadia.h"
 #include "../Clases/Calificacion.h"
+#include "../Clases/Notificador.h"
 #include "../Tipos/tipos.h"
 
 
@@ -37,6 +38,11 @@ void UsuarioControlador::crearHuesped(bool esFinger){
     usuarioACrear = new DTHuesped(nombreACrear,emailACrear,contraseniaACrear,esFinger);
 }
 
+set<DTEmpleado*> UsuarioControlador::obtenerEmpleados(){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    set<DTEmpleado*> listaEmpleados = colecciones->getEmpleados();
+    return listaEmpleados;
+}
 
 void UsuarioControlador::crearEmpleado(CargoEmpleado cargo){
     usuarioACrear = new DTEmpleado(nombreACrear,emailACrear,contraseniaACrear,"",cargo);
@@ -44,14 +50,14 @@ void UsuarioControlador::crearEmpleado(CargoEmpleado cargo){
 
 
 bool UsuarioControlador::indicarEmail(string email){
-    bool encontre = false;
-    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
-    set<DTUsuario*> listaUsuarios = colecciones->getUsuarios();
+    bool encontre = this->existeUsuario(email);
+    //ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    //set<DTUsuario*> listaUsuarios = colecciones->getUsuarios();
 
-    for(set<DTUsuario*>::iterator actual = listaUsuarios.begin(); actual != listaUsuarios.end() && !encontre; ++actual){
-        DTUsuario *elemento = *actual;
-        encontre = email.compare(elemento->getEmail()) == 0;
-    }
+    // for(set<DTUsuario*>::iterator actual = listaUsuarios.begin(); actual != listaUsuarios.end() && !encontre; ++actual){
+    //     DTUsuario *elemento = *actual;
+    //     encontre = email.compare(elemento->getEmail()) == 0;
+    // }
 
     if(!encontre)
         emailACrear = email;        
@@ -118,7 +124,7 @@ set<DTCalificacion*> UsuarioControlador::listarCalificacion(string mail){
 
     Empleado* empleado = colecciones->getEmpleado(mail);
     Hostal *hostal = empleado->getTrabajo();
-    respuesta = hostal->getCalifs();
+    if(hostal != nullptr) respuesta = hostal->getCalifs();
     return respuesta;
 }
 
@@ -138,4 +144,59 @@ void UsuarioControlador::limpiarMemoria(){
     contraseniaACrear = "";
     delete usuarioACrear;
     usuarioACrear = NULL;
+}
+
+void UsuarioControlador::eliminarNotificaciones(string email){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Empleado* empleado = colecciones->getEmpleado(email);
+    empleado->eliminarNotificaciones();
+}
+
+void UsuarioControlador::subscribirseANotificaciones(string email){
+    Notificador* notificador = Notificador::getInstancia();
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    IObserver* empleado = colecciones->getEmpleado(email);
+    notificador->agregar(empleado);
+}
+
+void UsuarioControlador::desubscribirseDeNotificaciones(string email){
+    Notificador* notificador = Notificador::getInstancia();
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    IObserver* empleado = colecciones->getEmpleado(email);
+    notificador->eliminar(empleado);
+}
+
+set<DTNotificacion*> UsuarioControlador::listarNotificaciones(string email){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Empleado* empleado = colecciones->getEmpleado(email);
+    return empleado->getNotificaciones();
+}
+
+//Devuelve un booleano que indica si existe un usuario de cualquier tipo con el email indicado
+bool UsuarioControlador::existeUsuario(string _email){
+    return this->existeEmpleado(_email) || this->existeHuesped(_email);
+}
+
+//Devuelve un booleano que indica si existe un usuario del tipo HUESPED con el email indicado
+bool UsuarioControlador::existeHuesped(string _email){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    set<DTHuesped*> listaUsuarios = colecciones->getHuespedes();
+    bool encontre = false;
+    for(set<DTHuesped*>::iterator actual = listaUsuarios.begin(); actual != listaUsuarios.end() && !encontre; ++actual){
+        DTUsuario *elemento = *actual;
+        encontre = _email.compare(elemento->getEmail()) == 0;
+    }
+    return encontre;
+}
+
+//Devuelve un booleano que indica si existe un usuario del tipo EMPLEADO con el email indicado
+bool UsuarioControlador::existeEmpleado(string _email){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    set<DTEmpleado*> listaUsuarios = colecciones->getEmpleados();
+    bool encontre = false;
+    for(set<DTEmpleado*>::iterator actual = listaUsuarios.begin(); actual != listaUsuarios.end() && !encontre; ++actual){
+        DTUsuario *elemento = *actual;
+        encontre = _email.compare(elemento->getEmail()) == 0;
+    }
+    return encontre;
 }

@@ -66,6 +66,10 @@ set<DTEstadia*> Habitacion::getEstadiasDT(){
     return respuesta;
 }
 
+void Habitacion::setHostal(Hostal* h){
+    hostal = h;
+}
+
 set<DTEstadia*> Habitacion::getReservasFinalizadasAsociadas(string email){  
     set<DTEstadia*> respuesta;
     set<DTEstadia*> aux;
@@ -83,7 +87,7 @@ bool Habitacion::existeEstadiasActivas(string email){
     set<Reserva*>::iterator it =  reservas.begin();
     while (it != reservas.end() && !existe){
         Reserva* actual = *it;
-        existe = actual->existeEstadiasActivas(email);
+        existe = existe||actual->existeEstadiasActivas(email);
         ++it;
     }    
     return existe;

@@ -22,14 +22,14 @@ set<Huesped*> Reserva::getHuespedes(){ return huespedes; }
 Reserva::~Reserva(){
     string hostal = this->habitacion->getNomHostal();
     this->habitacion->eliminarReserva(this);
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    col->eliminarReserva(this->getCodigo());
     for(set<Estadia*>::iterator it = estadias.begin(); it != estadias.end();++it){
         Estadia *actual = *it;
         actual->elimCalHostal(hostal);
-        estadias.erase(it);
         delete(actual);
     }
-    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
-    col->eliminarReserva(this->getCodigo());
+    estadias.clear();
 }
 
 bool Reserva::esReservaHostal(string nom){
@@ -39,13 +39,14 @@ bool Reserva::esReservaHostal(string nom){
 
 bool Reserva::huespedPertenece(string email){
     set<Huesped*>::iterator it;
-    it = this->getHuespedes().begin();
+    set<Huesped*> huespedes = this->getHuespedes();
+    it = huespedes.begin();
     Huesped *current = *it;
-    while (current->getEmail() != email){
-        current = *it;
+    while ((current->getEmail() != email)&&(it!=huespedes.end())){
         ++it;
+        if(it!=huespedes.end()) current = *it;
     }
-    return it != this->getHuespedes().end();
+    return it != huespedes.end();
 }
 
 Reserva::Reserva(){
@@ -54,6 +55,7 @@ Reserva::Reserva(){
     DTFecha* fechaAgregar = new DTFecha(1,1,1,2000);
     checkIn = fechaAgregar;
     checkOut = fechaAgregar;
+    huespedes.clear();
 }
 
 Reserva::Reserva(DTFecha* _checkIn, DTFecha* _checkOut, EstadoReserva _estado){
@@ -84,19 +86,23 @@ void Reserva::asociarHuespedRev(Huesped* h){
 set<DTEstadia*> Reserva::getEstadiasDT(){
     set<DTEstadia*> resu;
     for(set<Estadia*>::iterator it = estadias.begin(); it != estadias.end();++it){
-        Estadia actual = **it;
-        DTEstadia* agregar = actual.getDTEstadia();
+        Estadia* actual = *it;
+        DTEstadia* agregar = actual->getDTEstadia();
         resu.insert(agregar);
     }
     return resu;
 }
 
+int Reserva::getNumeroHabitacion(){
+    return habitacion->getNumero();
+}
+
 set<DTEstadia*> Reserva::getReservasFinalizadasAsociadas(string email){
     set<DTEstadia*> resu;
     for(set<Estadia*>::iterator it = estadias.begin(); it != estadias.end();++it){
-        Estadia actual = **it;
-        if((actual.getHuesped()->getEmail() == email)&&(actual.getCheckOut()!=nullptr)){
-            DTEstadia* agregar = actual.getDTEstadia();
+        Estadia* actual = *it;
+        if((actual->getHuesped()->getEmail() == email)&&(actual->getCheckOut()!=nullptr)){
+            DTEstadia* agregar = actual->getDTEstadia();
             resu.insert(agregar);
         };
     }
@@ -106,9 +112,9 @@ set<DTEstadia*> Reserva::getReservasFinalizadasAsociadas(string email){
 bool Reserva::existeEstadiasActivas(string email){
     bool resu = false;
     for(set<Estadia*>::iterator it = estadias.begin(); it != estadias.end();++it){
-        Estadia actual = **it;
-        if((actual.getHuesped()->getEmail() == email)){
-            resu = resu || actual.existeEstadiaActiva();
+        Estadia* actual = *it;
+        if((actual->getHuesped()->getEmail() == email)){
+            resu = resu || actual->existeEstadiaActiva();
         };
     }
     return resu;
@@ -131,8 +137,9 @@ float ReservaGrupal::calcularCosto(){
     int fing = 0;
     int i = 0;
     set<Huesped*>::iterator it;
-    it = this->getHuespedes().begin();
-    while (it != this->getHuespedes().end()){
+    set<Huesped*> huespedes = this->getHuespedes();
+    it = huespedes.begin();
+    while (it != huespedes.end()){
         Huesped *current = *it;
         ++i;
         if(current->getEsFinger()) fing++;
@@ -159,9 +166,10 @@ int ReservaGrupal::cantidadHuespedes(){
 
 DTReserva* ReservaGrupal::getDT(){
     set<DTHuesped*> huespedesDT;
-    for(set<Huesped*>::iterator it = this->getHuespedes().begin(); it != this->getHuespedes().end();++it){
-        Huesped actual = **it;
-        DTHuesped* agregar = actual.getDTHuesped(); 
+    set<Huesped*> huespedes = this->getHuespedes();
+    for(set<Huesped*>::iterator it = huespedes.begin(); it != huespedes.end();++it){
+        Huesped* actual = *it;
+        DTHuesped* agregar = actual->getDTHuesped();
         huespedesDT.insert(agregar);
     }
     DTFecha* in = new DTFecha(this->getCheckIn()->getDia(),this->getCheckIn()->getMes(),this->getCheckIn()->getAnio(),this->getCheckIn()->getHora());
@@ -194,6 +202,10 @@ float ReservaIndividual::calcularCosto(){
 DTReserva* ReservaIndividual::getDT(){
     DTFecha* in = new DTFecha(this->getCheckIn()->getDia(),this->getCheckIn()->getMes(),this->getCheckIn()->getAnio(),this->getCheckIn()->getHora());
 	DTFecha* out = new DTFecha(this->getCheckOut()->getDia(),this->getCheckOut()->getMes(),this->getCheckOut()->getAnio(),this->getCheckOut()->getHora());
-    DTReservaIndividual* res = new DTReservaIndividual(this->getCodigo(),*in,*out,this->getEstado(),this->calcularCosto(),this->getHabitacion()->getNumero());
+    set<Huesped*> huespedes = this->getHuespedes();
+    set<Huesped*>::iterator it = huespedes.begin(); 
+    Huesped* h = *it;
+    DTHuesped* huesped = h->getDTHuesped();
+    DTReservaIndividual* res = new DTReservaIndividual(this->getCodigo(),*in,*out,this->getEstado(),this->calcularCosto(),this->getHabitacion()->getNumero(), huesped);
     return res;
 }
