@@ -9,6 +9,7 @@ class DTHostal;
 class DTEmpleado;
 class DTReserva;
 class DTCalificacion;
+class DTHabitacion;
 
 class IHostal{
     public:
@@ -29,4 +30,5 @@ class IHostal{
         virtual void liberarMemoriaTop3(){};
         virtual bool existeHostal(string _nombre)=0;
         virtual bool habitacionEnHostal(int, string) = 0;
+        virtual set<DTHabitacion*> listarHabitacionesHostal(string) = 0;
 };
