@@ -29,6 +29,7 @@ class UsuarioControlador:public IUsuario{
         DTEmpleado* datosEmpleado(string email);
         DTHuesped* datosHuesped(string email);
         set<DTCalificacion*> listarCalificacion(string mail);
+        set<DTCalificacion*> listarCalificacionSinResponder(string mail);
         void seleccionarCalificacion(int codigo);//codigo = Codigo de la estadia
         void responderComentario(string comentario);
         set<DTEmpleado*> obtenerEmpleados();
