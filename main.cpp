@@ -462,9 +462,9 @@ int main(){
                   DTHabitacion* actualHab = *ithab;
                   habNumero++;
                   std::cout<<"-----------------------------------------"<<endl;
-                  std::cout<<habNumero<<".-Numero Habitacion: "<<actualHab->getNumero()<<endl;
+                  std::cout<<habNumero<<"."<<endl << " Numero Habitacion: "<<actualHab->getNumero()<<endl;
                   std::cout<<" Capacidad: "<<actualHab->getCapacidad()<<endl;
-                  std::cout<<" Presio: "<<actualHab->getPrecio()<<endl;
+                  std::cout<<" Precio: "<<actualHab->getPrecio()<<endl;
                   ++ithab;
               }
              //Selecciona Habitancion
