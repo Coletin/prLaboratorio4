@@ -952,9 +952,15 @@ ingresados, fecha y hora correspondientes al sistema.
                 //+++++++++++++++++++++++
                 limpiarPantalla();
                 cout << "Ingrese email del empleado: ";
-                cin >> emailUsuarioCrear;
-                set<DTCalificacion*> calis = controladorUsuario->listarCalificacion(emailUsuarioCrear);
-            if(calis.size()==0){ std::cout<<"No existen comentarios"<<endl;}
+                bool valido = false;
+                while (!valido)
+                {
+                    cin >> emailUsuarioCrear;
+                    valido = controladorUsuario->existeEmpleado(emailUsuarioCrear);
+                    if(!valido)cout << "No existe ningun empleado con ese email" <<endl;
+                }
+                set<DTCalificacion*> calis = controladorUsuario->listarCalificacionSinResponder(emailUsuarioCrear);
+            if(calis.size()==0){ std::cout<<"No existen comentarios sin responder"<<endl;}
             else{ 
                 int numero=0; 
                 set<DTCalificacion*>::iterator it = calis.begin();
