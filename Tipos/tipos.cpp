@@ -37,7 +37,7 @@ bool DTHuesped::getEsFinger(){
 }
 
 void DTHuesped::toString(){
-    cout << "[nombre: " << this->getNombre() << "; email: " << this->getEmail() << "; Es Finger?: " << this->getEsFinger() << "]" << endl;
+    cout << "[nombre: " << this->getNombre() << "; email: " << this->getEmail() << "; " << (this->getEsFinger() ? "" : "no")  << " es finger]" << endl;
 };
 
 DTEmpleado::DTEmpleado(){
@@ -60,18 +60,21 @@ string DTEmpleado::getTrabajo(){
 void DTEmpleado::toString(){
     cout << "[nombre: " << this->getNombre() << "; email: " << this->getEmail() << "; cargo: ";
     if(this->getCargo()==CargoEmpleado::Recepcion){
-        cout << "Recepcion" << " en ";
+        cout << "Recepcion";
     }
     else if(this->getCargo()==CargoEmpleado::Administracion){
-        cout << "Administracion" << " en ";
+        cout << "Administracion";
     }
     else if(this->getCargo()==CargoEmpleado::Limpieza){
-        cout << "Limpieza" << " en ";
+        cout << "Limpieza";
     }
     else if(this->getCargo()==CargoEmpleado::Infraestructura){
-        cout << "Infraestructura" << " en ";
+        cout << "Infraestructura";
     };
-    cout << this->getTrabajo() << "]";
+    if(this->getTrabajo() != "")
+        cout << "; Hostal actual: " << this->getTrabajo() << "]";
+    else
+        cout << "]";
 };
 
 DTHabitacion::DTHabitacion(){};

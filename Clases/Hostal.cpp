@@ -78,6 +78,16 @@ set<DTCalificacion*> Hostal::getCalifs(){
     return respuesta;
 }
 
+set<DTCalificacion*> Hostal::getCalifsSinReponder(){
+    set<DTCalificacion*> respuesta;
+    Calificacion* actual;
+    for(set<Calificacion*>::iterator it = calificaciones.begin();it != calificaciones.end();++it){
+        actual = *it;
+        if(actual->getRespuestaCalificacion() == nullptr)respuesta.insert(actual->getDT());
+    }
+    return respuesta;
+}
+
 set<DTHabitacion*> Hostal::getHabitaciones(){
     set<DTHabitacion*> respuesta;
     for(set<Habitacion*>::iterator it = habitaciones.begin();it != habitaciones.end();++it){
@@ -133,7 +143,7 @@ set<DTReserva*> Hostal::getReservasAsociadas(string _email){
 
 bool Hostal::habPertenece(int num){
     Habitacion* hab = this->getHabNum(num);
-    return hab->getNumero() == num;
+    return (hab!=nullptr)&&(hab->getNumero() == num);
 }
 
 void Hostal::agregarCalificacion(Calificacion* cal){

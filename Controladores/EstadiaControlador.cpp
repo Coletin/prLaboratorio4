@@ -73,12 +73,20 @@ bool EstadiaControlador::existenEstadiasActivas(string email, string hostal){
 
 
 /* Se busca la estadia para setearle hora de checkOut*/
-void EstadiaControlador::finalizarEstadia(int codigo){
+void EstadiaControlador::finalizarEstadia(string mail){
     bool existe = false;
     ColeccionesHandler * col = ColeccionesHandler::getInstancia();
     RelojControlador * reloj = RelojControlador::getInstancia();
-    Estadia* est = col->getEstadia(codigo);
-    est->setCheckOut(reloj->getFecha());
+    Huesped* huesped = col->getHuesped(mail);
+    set<Estadia*> est = huesped->getEstadias();
+    set<Estadia*>::iterator it = est.begin();
+    while(it != est.end() && !existe){
+        Estadia* actual = *it;
+        if(actual->getCheckOut() == nullptr){
+            actual->setCheckOut(reloj->getFecha());
+            existe = true;
+        }
+    }
 }
 
 
