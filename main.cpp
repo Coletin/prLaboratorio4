@@ -845,11 +845,16 @@ int main(){
 
                     cout << endl;
                     cout << "Ingrese mail del huesped:";
-                    cin >> mailHuesped8; 
+                    cin >> mailHuesped8;
                     if(controladorUsuario->existeHuesped(mailHuesped8)){
                         if(controladorEstadia->existenEstadiasActivas(mailHuesped8, seleccionado->getNombre())){
-                            controladorEstadia->finalizarEstadia(mailHuesped8);
-                            cout << "Operacion realizada con exito.\n Presione cualquier caracter para continuar.";
+                            cout << "Se encontro una estadia activa, desde finalizarla? 1-Si 2-No ";
+                            cin >> numero;
+                            if(numero == 1){
+                                controladorEstadia->finalizarEstadia(mailHuesped8);
+                                cout << "Operacion realizada con exito.\n Presione cualquier caracter para continuar.";
+                            }
+                            else cout << "Operacion cancelada.\n Presione cualquier caracter para continuar.";
                         }else{
                             cout << "No existen estadias activas en el sistema para este Huesped.\n Presione cualquier caracter para continuar.";
                         }
@@ -880,7 +885,7 @@ ingresados, fecha y hora correspondientes al sistema.
             else{ 
             std::cout<<"****************  9 - CALIFICAR ESTADIA  ************"<<endl;
 
-            std::cout<<" \n \n \n Seleccione Hostal: \n"<<endl;   
+            std::cout<<" \n Seleccione Hostal: \n"<<endl;   
         
             std::cout<<" \n == HOSTALES: == \n"<<endl;
            //std::cout<<"Digite Hostal Seleccionado: "<<endl;
@@ -1112,7 +1117,7 @@ ingresados, fecha y hora correspondientes al sistema.
                 std::cout<<" \n == HABITACIONES: == \n"<<endl;
                 for(set<DTHabitacion*>::iterator it = habitaciones.begin(); it != habitaciones.end(); ++it){
                     habi = *it;
-                    cout <<" Numero Habitacion: "<< habi->getNumero() << endl;
+                    cout <<"Numero Habitacion: "<< habi->getNumero() << endl;
                     cout << "Precio: " << habi->getPrecio() << endl;
                     cout << "Capacidad: " << habi->getCapacidad() << endl;
                 }
@@ -1137,7 +1142,7 @@ ingresados, fecha y hora correspondientes al sistema.
                     {
                         DTReserva* _reserva = *it;
                         ++iteranumero;
-                        std::cout<<iteranumero<<".-Reserva: "<<_reserva->getCodigo()<<"  "<<".-Habitacion: "<<_reserva->getHabitacion()<<".-Estado: "<<_reserva->getEstadoReserva()<<endl;
+                        std::cout<<iteranumero<<".-Reserva: "<<_reserva->getCodigo()<<"  "<<".-Habitacion: "<<_reserva->getHabitacion();
                         ++it;
                     }
                 }
@@ -1204,9 +1209,15 @@ ingresados, fecha y hora correspondientes al sistema.
                 DTReserva * actual_r = *itres;
                 if(dynamic_cast<DTReservaIndividual*>(actual_r)!= 0){DTReservaIndividual * rindividual= dynamic_cast<DTReservaIndividual*>(actual_r);
                     DTHuesped* huespedes_por_reserva =rindividual->getHuesped();
-                    std::cout<<"Reserva INDIVIDUAL- Habitacion : "<<rindividual->getHabitacion()<<endl;
-                    std::cout<<"Reserva INDIVIDUAL- Codigo : "<<rindividual->getCodigo()<<endl;
-                    std::cout<<"Huesped INDIVIDUAL-"<<huespedes_por_reserva->getNombre()<<endl;
+                    std::cout<<"Reserva Individual- Habitacion : "<<rindividual->getHabitacion()<<endl;
+                    std::cout<<"Reserva Individual- Codigo : "<<rindividual->getCodigo()<<endl;
+                    std::cout<<"Reserva Individual- Check-In : ";
+                    DTFecha in = rindividual->getcheckIn();
+                    cout << in << endl;
+                    std::cout<<"Reserva Individual- Check-Out : ";
+                    DTFecha out = rindividual->getcheckOut();
+                    cout << out << endl;
+                    std::cout<<"Huesped Individual-"<<huespedes_por_reserva->getNombre()<<endl;
                             
                  } else {
                           DTReservaGrupal * rgrupal= dynamic_cast<DTReservaGrupal*>(actual_r); 
@@ -1214,7 +1225,12 @@ ingresados, fecha y hora correspondientes al sistema.
                             auto itreserva= huespedes_por_reserva .begin();
                             std::cout<<"Reserva Grupal- Habitacion : "<<rgrupal->getHabitacion()<<endl;
                             std::cout<<"Reserva Grupal- Codigo : "<<rgrupal->getCodigo()<<endl;
-                            std::cout<<"Reserva Grupal- Huespedes : "<<rgrupal->getCodigo()<<endl;
+                            std::cout<<"Reserva Grupal- Check-In : ";
+                            DTFecha in = rgrupal->getcheckIn();
+                            cout << in << endl;
+                            std::cout<<"Reserva Grupal- Check-Out : ";
+                            DTFecha out =rgrupal->getcheckOut();
+                            cout << out << endl;
 
                                 while (itreserva != huespedes_por_reserva .end())
                                     {
@@ -1255,6 +1271,7 @@ ingresados, fecha y hora correspondientes al sistema.
                 it = hostales.begin();
                 for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
                 DTHostal* h = *it;
+                limpiarPantalla();
                 set<DTEstadia*> estadias = controladorEstadia->listarEstadias(h->getNombre());
                 if(estadias.size()==0){ std::cout<<"No existen estadias en el hostal"<<endl;}
             else{ 
@@ -1269,6 +1286,7 @@ ingresados, fecha y hora correspondientes al sistema.
                 }
                 tipoUsuarioCrear = pedirEnteroSinLimpiarPantalla("Seleccione una estadia: ","Opcion incorrecta ",numero);
                 ite = estadias.begin();
+                limpiarPantalla();
                 for(int i = 1; i < tipoUsuarioCrear; i++) ++ite;
                 DTEstadia* e = *ite;
                 cout << "Hostal: " << h->getNombre() << endl;
