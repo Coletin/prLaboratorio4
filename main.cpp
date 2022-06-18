@@ -269,11 +269,10 @@ int main(){
                 int capacidad = pedirEntero("Ingrese la capacidad de la habitacion:\n","Capacidad no valida(>100)",100);
                 int opcion = 0;
                 controladorHostal->ingresarHabitacion(numero, precio, capacidad);
-                cout << "Desea confirmar la habitacion: 1-No 2-Si \n";
+                cout << "Desea confirmar la habitacion: 1-Si 2-No \n";
                 cin >> opcion;
-                if(opcion == 2){
-                    controladorHostal->persistirHabitacion();
-                    if(controladorHostal->habitacionEnHostal(numero, nombreHostalBuscar)){
+                if(opcion == 1){
+                    if(!controladorHostal->habitacionEnHostal(numero, nombreHostalBuscar)){
                         controladorHostal->persistirHabitacion();
                         cout << "Habitacion confirmada \n Presione cualquier caracter para continuar"<<endl;
                     }
@@ -830,11 +829,13 @@ ingresados, fecha y hora correspondientes al sistema.
                
                set<DTEstadia*> _estadiaH=controladorEstadia->obtenerEstadiasFinalizadas(emailr,nuevo->getNombre());
                auto its= _estadiaH.begin();
+               int index = 1;
                 while (its != _estadiaH.end())
                 {
                     DTEstadia* actual_estadia = *its;
-                    std::cout<<numero<<".-Estadia Finalizada: "<< actual_estadia->getCodigo()<<endl;
+                    std::cout<<index<<".-Estadia Finalizada: "<< actual_estadia->getCodigo()<<endl;
                     ++its;
+                    index++;
                 };
             if (_estadiaH.size()==0)
             {
@@ -1120,7 +1121,7 @@ ingresados, fecha y hora correspondientes al sistema.
                     ++it;
                 }
             
-            std::cout<<"/n ===HOTEL=== "<<nuevo->getNombre()<<endl;
+            std::cout<<"===HOSTAL=== "<<nuevo->getNombre()<<endl;
             std::cout<<"Nombre: "<<nuevo->getNombre()<<endl;
             std::cout<<"Direccion: "<<nuevo->getDireccion()<<endl;
             std::cout<<"Telefono: "<<nuevo->getTelefono()<<endl;
@@ -1157,7 +1158,6 @@ ingresados, fecha y hora correspondientes al sistema.
                  };
                 ++itres;
                 }
-                std::cout<<"sALI"<<endl;
                 }
                
             }
