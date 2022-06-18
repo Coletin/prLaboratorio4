@@ -745,43 +745,40 @@ int main(){
                     mailHuesped = "";
                     while(!controladorUsuario->existeHuesped(mailHuesped)){
                         cout << "Ingrese mail del huesped:"<<endl;
-                       cin >> mailHuesped; //no se checkea que el email exista en el sistema y puede romper le metodo de listarReservas
+                        cin >> mailHuesped;
                     };
-                    set<DTReserva*> reservas = controladorEstadia->listarReservas(mailHuesped, seleccionado->getNombre());
-                    cout << "Codigos, fechas de inicio y habitaciones de las reservas:" << endl;
-                    set<DTReserva*>::iterator it2 = reservas.begin();
-                    numero = 0;
-                    set<int> reservasCods;
-                    while(it2 != reservas.end()){
-                        DTReserva* reserva = *it2;
-                        DTFecha checkIn = reserva->getcheckIn();
-                        cout << numero<<"- Codigo: "<<reserva->getCodigo()<<", Dia de checkIn: "<<checkIn.getDia()<<"/"<<checkIn.getMes()<<"/"<<checkIn.getAnio()<<", Habitacion: "<<reserva->getHabitacion()<<endl;
-                        reservasCods.insert(reserva->getCodigo());
-                        numero++;
-                        it2++;
-                    };
-                    bool valido = false;
-                    while(!valido){
-                        cout << "Ingrese el codigo de la reserva:";
-                        cin >> numSeleccionado;
-                        valido = reservasCods.find(numSeleccionado) != reservasCods.end();
-                        if(!valido) cout << "Numero invalido, ingrese que aparece en la lista "<<endl;
+                    if(controladorEstadia->existenEstadiasActivas(mailHuesped, seleccionado->getNombre())){
+                        set<DTReserva*> reservas = controladorEstadia->listarReservas(mailHuesped, seleccionado->getNombre());
+                        if(reservas.size() >0){
+                            cout << "Codigos, fechas de inicio y habitaciones de las reservas:" << endl;
+                            set<DTReserva*>::iterator it2 = reservas.begin();
+                            numero = 0;
+                            set<int> reservasCods;
+                            while(it2 != reservas.end()){
+                                DTReserva* reserva = *it2;
+                                DTFecha checkIn = reserva->getcheckIn();
+                                cout <<"Codigo: "<<reserva->getCodigo()<<", Dia de checkIn: "<<checkIn.getDia()<<"/"<<checkIn.getMes()<<"/"<<checkIn.getAnio()<<", Habitacion: "<<reserva->getHabitacion()<<endl;
+                                reservasCods.insert(reserva->getCodigo());
+                                it2++;
+                            };
+                            bool valido = false;
+                            while(!valido){
+                                cout << "Ingrese el codigo de la reserva:";
+                                cin >> numSeleccionado;
+                                valido = reservasCods.find(numSeleccionado) != reservasCods.end();
+                                if(!valido) cout << "Numero invalido, ingrese que aparece en la lista "<<endl;
+                            }
+
+                            controladorEstadia->registrarEstadia(mailHuesped, numSeleccionado);
+
+                            cout << "Operacion hecha con exito! Ingrese cualquier caracter para continuar.";
+                        }else{
+                            cout << "Este huesped no tiene reservas en el hostal. \n Presione cualquier caracter para continuar.";
+                        } 
+                    }else{
+                        cout << "Ya existen estadias activas para este huesped. \n Presione cualquier caracter para continuar.";
                     }
-
-                    // por si lo quiero hacer con el numero que aparece en la lista
-                    // numero = 0; 
-                    // it = reservas.begin();
-                    // DTReserva* seleccionadoRes = *it;
-                    // while(numero != numSeleccionado){
-                    //     seleccionadoRes = *it;
-                    //     numero++;
-                    //     it++;
-                    // };
-                    // controladorEstadia->registrarEstadia(mailHuesped, seleccionadoRes->getCodigo());
-
-                    controladorEstadia->registrarEstadia(mailHuesped, numSeleccionado);
-
-                    cout << "Operacion hecha con exito! Ingrese cualquier caracter para continuar.";
+                                       
                     getch();//esperamos que ingrese cualquier caracter;
                 }
             };          
@@ -817,14 +814,13 @@ int main(){
 
                     cout << endl;
                     cout << "Ingrese mail del huesped:";
-                    cin >> mailHuesped8; //no se checkea que el email exista en el sistema y puede romper le metodo de listarReservas
+                    cin >> mailHuesped8; 
                     if(controladorUsuario->existeHuesped(mailHuesped8)){
                         if(controladorEstadia->existenEstadiasActivas(mailHuesped8, seleccionado->getNombre())){
-                            int codigo = pedirEnteroSinLimpiarPantalla("Ingrese el codigo de la estadia:\n", "Numero invalido \n", 250);
-                            controladorEstadia->finalizarEstadia(codigo);
+                            controladorEstadia->finalizarEstadia(mailHuesped8);
                             cout << "Operacion realizada con exito.\n Presione cualquier caracter para continuar.";
                         }else{
-                            cout << "No existen estadias activas en el sistema.\n Presione cualquier caracter para continuar.";
+                            cout << "No existen estadias activas en el sistema para este Huesped.\n Presione cualquier caracter para continuar.";
                         }
                     }else cout<< "No se encontro el huesped. \n Presione cualquier caracter para continuar";
                     getch();//esperamos que ingrese cualquier caracter;                    
@@ -1659,17 +1655,17 @@ ingresados, fecha y hora correspondientes al sistema.
             fechaSistema = new DTFecha(10,5,2022,9);
             controladorReloj->setFecha(fechaSistema);
             //finalizar ES1
-            controladorEstadia->finalizarEstadia(1);
+            controladorEstadia->finalizarEstadia("sofia@mail.com");
 
             fechaSistema = new DTFecha(5,1,2001,2);
             controladorReloj->setFecha(fechaSistema);
             //finalizar ES2
-            controladorEstadia->finalizarEstadia(2);
+            controladorEstadia->finalizarEstadia("frodo@mail.com");
 
             fechaSistema = new DTFecha(15,6,2022,22);
             controladorReloj->setFecha(fechaSistema);
             //finalizar ES6
-            controladorEstadia->finalizarEstadia(6);
+            controladorEstadia->finalizarEstadia("seba@mail.com");
 
 
              std::cout<<" \n == CALIFICAR ESTADIAS: == \n"<<endl;
