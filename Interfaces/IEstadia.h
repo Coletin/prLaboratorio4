@@ -14,7 +14,7 @@ class IEstadia{
         virtual set<DTReserva*> listarReservas(string email, string hostal) = 0;
         virtual void registrarEstadia(string email, int codigo){};
         virtual bool existenEstadiasActivas(string email, string hostal) = 0;
-        virtual void finalizarEstadia(int codigo){};
+        virtual void finalizarEstadia(string email){};
         virtual set<DTEstadia*> obtenerEstadiasFinalizadas(string email, string hostal) = 0;
         virtual void crearCalificacion(string email, string hostal, string comentario, int valor, int codigo){};
         virtual set<DTEstadia*> listarEstadias(string)=0;
