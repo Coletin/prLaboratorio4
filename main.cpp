@@ -957,9 +957,10 @@ ingresados, fecha y hora correspondientes al sistema.
                 auto it= hostales.begin();
                 std::cout<<" \n == HOSTALES: == \n"<<endl;
                 std::cout<<"Digite Hostal Seleccionado: "<<endl;
+                DTHostal* actual;
                     while (it != hostales.end())
                     { 
-                        DTHostal* actual = *it;
+                        actual = *it;
                         ++numero;
                         std::cout<<numero<<".-Nombre Hostal: "<<actual->getNombre()<<endl;
                         ++it;
@@ -972,10 +973,7 @@ ingresados, fecha y hora correspondientes al sistema.
                         if (numero>0 && numero<=hostales.size()) {
                             valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
                     } 
-                DTHostal* nuevo = *it;
-            
-
-            
+                DTHostal* nuevo = actual;
                 it= hostales.begin();
                 int valor=0;
                     while ((valor)!=numero)
@@ -984,6 +982,33 @@ ingresados, fecha y hora correspondientes al sistema.
                         valor++;
                         ++it;
                     }
+            
+                cout<<"Nombre: "<<nuevo->getNombre()<<endl;
+                cout<<"Direccion: "<<nuevo->getDireccion()<<endl;
+                cout<<"Telefono: "<<nuevo->getTelefono()<<endl;
+                cout<<"Promedio calificaciones: "<<nuevo->getPromedioClasi()<<endl;
+                set<DTCalificacion*> calis = nuevo->getCaliHabi();
+                int index = 1;
+                DTCalificacion* cal;
+                set<DTHabitacion*> habitaciones = controladorHostal->listarHabitacionesHostal(nuevo->getNombre());
+                DTHabitacion* habi;
+                std::cout<<endl <<" \n == CALIFICACIONES: == \n"<<endl;
+                for(set<DTCalificacion*>::iterator it = calis.begin(); it != calis.end(); ++it){
+                    cal = *it;
+                    cout << index << "-Valor: "<< cal->getValor() << endl;
+                    cout << "Habitacion: " << cal->getHabitacion()<<endl;
+                    cout << "Comentario: " << cal->getComentario()<<endl ;
+                    index++;
+                }
+                cout << endl;
+                std::cout<<" \n == HABITACIONES: == \n"<<endl;
+                for(set<DTHabitacion*>::iterator it = habitaciones.begin(); it != habitaciones.end(); ++it){
+                    habi = *it;
+                    cout <<" Numero Habitacion: "<< habi->getNumero() << endl;
+                    cout << "Precio: " << habi->getPrecio() << endl;
+                    cout << "Capacidad: " << habi->getCapacidad() << endl;
+                }
+                cout << endl;
                 set<DTReserva*> reservas=  controladorReserva->listarReservasHostal(nuevo->getNombre());
                 
 

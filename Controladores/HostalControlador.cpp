@@ -105,6 +105,12 @@ void HostalControlador::ingresarHabitacion(int numero, float precio, int capacid
 }
 
 
+set<DTHabitacion*> HostalControlador::listarHabitacionesHostal(string hostal){
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+    Hostal* h = colecciones->getHostal(hostal);
+    return h->getHabitaciones();
+}
+
 
 
 void HostalControlador::persistirHabitacion(){
