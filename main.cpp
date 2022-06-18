@@ -1278,81 +1278,56 @@ ingresados, fecha y hora correspondientes al sistema.
             }
             break;
             case 15:{
-/*****************************************************************************************/
-/******************************  15 - BAJA RESERVA  ********************************/
-/*****************************************************************************************/ 
-            std::cout<<"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n "<<endl;
-            set<DTHostal*> hostales = controladorReserva->listarHostales();
-        //////////////////////////////////Seleccionar Hostal///////////////////////////////////////   
-            if(hostales.size() == 0) std::cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;
-            else
-             {
-             std::cout<<"****************  15 - BAJA RESERVA  ************"<<endl;
-            
-             std::cout<<" \n \n \n Seleccione Hostal: \n" <<endl;
-             //lista hostales
-             auto it= hostales.begin();
-             int hostalNumero = 0;
-             while (it != hostales.end()){
-                 DTHostal* actualHos = *it;
-                 hostalNumero++;
-                 std::cout<<hostalNumero<<".-Nombre Hostal: "<<actualHos->getNombre()<<endl;
-                 ++it;
-             }
-             //selecciona hostal
-             bool valido = false;
-                 while(!valido){
-                     std::cout<<"Digite Hostal Seleccionado: "<<endl;
-                     std::cin>>hostalNumero;
-                     if (hostalNumero>0 && hostalNumero<=hostales.size()) {
-                         valido=true;} else { std::cout<<"Elija un numero de hostal valido"<<endl;};
-                 }
-             it = hostales.begin();
-             int i = 1;
-             while(i < hostalNumero){
-                 i++;
-                 ++it;
-             }
-             DTHostal* hostalSelecionado = *it;
-             string nomHostal = hostalSelecionado->getNombre();
-             //listar reservas
-             set<DTReserva*> reservas = controladorReserva->listarReservasHostal(nomHostal);
-             if(reservas.size() == 0){std::cout<<"NO HAY RESERVAS SOBRE EL HOSTAL SELECCIONADO"<<endl;}
-             else
-              {
-              std::cout<<" \n \n \n Seleccione Reserva: \n" <<endl;
-              auto itr=reservas.begin();
-              int reservaNumero = 0;
-              while (itr != reservas.end()){
-                DTReserva* actualRes = *itr;
-                reservaNumero++;
-                std::cout<<"-----------------------------------------"<<endl;
-                std::cout<<reservaNumero<<".-Codigo Reserva: "<<actualRes->getCodigo()<<endl;
-                std::cout<<" Estado "<<actualRes->getEstadoReserva()<<endl;
-                ++itr;
-              }
-              valido = false;
-              int codR;
-              while (!valido){
-                std::cout<<"Ingrese un codigo valido que corresponda con el de la reserva a eliminar"<<endl;
-                std::cin>>codR;
-                bool encontre = false;
-                itr=reservas.begin();
-                while (itr != reservas.end() && !encontre){
-                    DTReserva* actualRes = *itr;
-                    encontre = actualRes->getCodigo() == codR;
-                    ++itr;
+                set<DTHostal*> listaHostales = controladorReserva->listarHostales();
+                string mensajeElegirHostal = "Indique el hostal: \n", nombreHostal = "", mensajeElegirReserva = "Indique la reserva: \n";
+                int contador = 1, posicionSeleccionada = 0, codigoReserva = 0;
+
+                if(listaHostales.size() == 0){
+                    cout << "No hay Hostales cargados al sistema. Presione cualquier tecla para continuar.";
+                    getch();
+                    break;
                 }
-                valido = encontre;
-              }
-              limpiarPantalla();
-              //Confirmar Baja o canselar
-              controladorReserva->seleccionarReserva(codR);
-              int confirmarN = pedirEntero("1-Si \n2-No \nDesea Confirmar La Baja Reserva? ","Opcion incorrecta ",2);
-              if(confirmarN == 1)controladorReserva->confirmarBajaReserva();
-              else controladorReserva->cancelarBajaReserva();
-              }
-             }               
+
+                for(set<DTHostal*>::iterator actual = listaHostales.begin(); actual != listaHostales.end(); actual ++, contador ++){
+                    DTHostal *elemento = *actual;
+                    mensajeElegirHostal += (std::to_string(contador) + ": " + elemento->getNombre() + "\n");
+                }
+                posicionSeleccionada = pedirEntero(mensajeElegirHostal,"Opcion incorrecta",contador - 1);
+                set<DTHostal*>::iterator actual = listaHostales.begin();
+                std::advance(actual,posicionSeleccionada - 1);
+                DTHostal *elemento = *actual;
+                nombreHostal = elemento->getNombre();
+
+                set<DTReserva*> listaReservas = controladorReserva->listarReservasHostal(nombreHostal);
+
+                if(listaReservas.size() == 0){
+                    cout << "No hay reservas cargadas para el Hostal seleccionado. Presione cualquier tecla para continuar.";
+                    getch();
+                    break;
+                }
+
+                contador = 1;
+                for(set<DTReserva*>::iterator actual = listaReservas.begin();actual != listaReservas.end(); actual++, contador++){
+                    DTReserva* elemento = *actual;
+                    mensajeElegirReserva += (std::to_string(contador) + ": Codigo " + std::to_string(elemento->getCodigo()) + "\n");
+                }
+                posicionSeleccionada = pedirEntero(mensajeElegirReserva,"Opcion incorrecta",contador - 1);
+                set<DTReserva*>::iterator actualReserva = listaReservas.begin();
+                std::advance(actualReserva,posicionSeleccionada - 1);
+                DTReserva *elementoReserva = *actualReserva;
+                codigoReserva = elementoReserva->getCodigo();
+                controladorReserva->seleccionarReserva(codigoReserva);
+
+                int confirmarN = pedirEntero("1-Si \n2-No \nDesea Confirmar La Baja Reserva? ","Opcion incorrecta ",2);
+                if(confirmarN == 1){
+                    controladorReserva->confirmarBajaReserva();
+                    cout << "Baja finalizada. Presione cualquier tecla para continuar.";
+                }
+                else{
+                    controladorReserva->cancelarBajaReserva();
+                    cout << "Baja cancelada. Presione cualquier tecla para continuar.";
+                }                
+                getch();    
             }//case 15
             break;
             case 16:{
