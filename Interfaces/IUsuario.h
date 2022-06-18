@@ -32,8 +32,8 @@ class IUsuario{
         virtual void desubscribirseDeNotificaciones(string){};
         virtual set<DTNotificacion*> listarNotificaciones(string)=0;
         virtual void eliminarNotificaciones(string){};
-        virtual bool existeUsuario(string email){};
-        virtual bool existeEmpleado(string email){};
-        virtual bool existeHuesped(string email){};
+        virtual bool existeUsuario(string email)=0;
+        virtual bool existeEmpleado(string email)=0;
+        virtual bool existeHuesped(string email)=0;
 };
 #endif

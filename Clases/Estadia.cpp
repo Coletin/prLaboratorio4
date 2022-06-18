@@ -13,15 +13,23 @@
 int Estadia::contador = 0;
 
 Estadia::Estadia(){
+    Estadia::contador++;
+    this->codigo=Estadia::contador;
     this->checkIn = nullptr;
     this->checkOut = nullptr;
+    this->huesped = nullptr;
+    this->calificacion = nullptr;
+    this->promo = "";
 }
 
 Estadia::Estadia(DTFecha* _cIn){
     Estadia::contador++;
-    this->codigo = Estadia::contador + 1;
+    this->codigo = Estadia::contador;
     this->checkIn = _cIn;
     this->checkOut = nullptr;
+    this->huesped = nullptr;
+    this->calificacion = nullptr;
+    this->promo = "";
 }
 
 Estadia::~Estadia(){
@@ -105,7 +113,7 @@ DTEstadia* Estadia::getDTEstadia(){
     return dt;
 }
 bool Estadia::existeEstadiaActiva(){
-    return this->checkOut != nullptr; 
+    return this->checkOut == nullptr; 
 }
 
 Calificacion* Estadia::getCalificacion(){ return this->calificacion;}

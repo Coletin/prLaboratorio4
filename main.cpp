@@ -123,6 +123,14 @@ int main(){
 
     while(i!=21){
         limpiarPantalla();
+        cout << "***||||||****|||||||*******||||***|||||||***||||||***||**********||***||*****|||||||||||||***|||||||***||**********||||*******" <<endl;
+        cout << "***||***||***||*********||||******||********||***||***||********||***||||*********||*********||********||********||****||*****"<<endl;
+        cout << "***||**||****||********||*********||********||**||*****||******||***||**||********||*********||********||******||********||***"<<endl;
+        cout << "***||||******|||||******||||******|||||*****||||********||****||***||****||*******||*********|||||*****||******||********||***"<<endl;
+        cout << "***||*||*****||*************||****||********||*||********||**||***||||||||||******||*********||********||******||********||***"<<endl;
+        cout << "***||**||****||**********||||*****||********||**||********||||***||********||*****||*********||********||********||****||*****"<<endl;
+        cout << "***||***||***|||||||***||||*******|||||||***||***||********||***||**********||****||*********|||||||***||||||||****||||*******"<<endl;
+        cout << "DREAMTEAM Inc." << endl;
         cout << "1-Alta de Usuario" << "\n";
         cout << "2-Alta de Hostal" << "\n";
         cout << "3-Alta de Habitacion"<< "\n";
@@ -226,7 +234,57 @@ int main(){
                 getch();
             }
             break;
-            case 3:
+            case 3:{
+                limpiarPantalla();
+                cin.clear();
+                cin.sync();
+
+                set<DTHostal*> listaHostales = controladorHostal->listarHostales();
+                if(listaHostales.size() == 0){
+                    cout << "No hay hostales cargados al sistema. Presione cualquier tecla para continuar.";
+                    getch();
+                    break;
+                }
+                bool existeHostal = true, existeEmpleado = true;
+                int contador = 1, tipoUsuarioCrear = 1;
+                string mensajeElegirHostal = "Indique el nombre de un hostal: \n", nombreHostalBuscar = "", emailEmpleadoBuscar = "";
+                for(set<DTHostal*>::iterator actual = listaHostales.begin(); actual != listaHostales.end(); actual ++, contador ++){
+                    DTHostal *elemento = *actual;
+                    mensajeElegirHostal += (std::to_string(contador) + ": " + elemento->getNombre() + "\n");
+                }
+
+                do{
+                    if(!existeHostal){
+                        limpiarPantalla();
+                        cout << "El hostal indicado no existe\n";
+                    }
+                    nombreHostalBuscar = pedirStringNoVacio("El nombre del hostal no puede ser vacio\n",mensajeElegirHostal,true);
+                    existeHostal = controladorHostal->existeHostal(nombreHostalBuscar);
+                }while(!existeHostal);
+                controladorHostal->seleccionarHostalVar(nombreHostalBuscar);
+                int numero = pedirEntero("Ingrese el numero de la habitacion:\n","Numero no valido",5000);
+                float precio;
+                cout << "Ingrese el costo de la habitacion: \n";
+                cin >> precio;
+                int capacidad = pedirEntero("Ingrese la capacidad de la habitacion:\n","Capacidad no valida(>100)",100);
+                int opcion = 0;
+                controladorHostal->ingresarHabitacion(numero, precio, capacidad);
+                cout << "Desea confirmar la habitacion: 1-No 2-Si \n";
+                cin >> opcion;
+                if(opcion == 2){
+                    controladorHostal->persistirHabitacion();
+                    if(controladorHostal->habitacionEnHostal(numero, nombreHostalBuscar)){
+                        controladorHostal->persistirHabitacion();
+                        cout << "Habitacion confirmada \n Presione cualquier caracter para continuar"<<endl;
+                    }
+                    else cout << "Habitacion ya esta en el hostal \n Presione cualquier caracter para continuar"<<endl;
+                }
+                else {
+                    controladorHostal->cancelarCreacionHabitacion();
+                    cout << "Habitacion no confirmada \n Presione cualquier caracter para continuar"<<endl;
+                }
+                getch();
+            }
             break;
             case 4:{
                 limpiarPantalla();
@@ -266,7 +324,7 @@ int main(){
                 set<DTEmpleado*> listaEmpleadosHostal = controladorHostal->seleccionarHostal(nombreHostalBuscar);
 
                 if(listaEmpleadosHostal.size() == 0){
-                    cout << "No hay empleados cargados al hostal seleccionado. Presione cualquier tecla para continuar.";
+                    cout << "No hay empleados no asignados al hostal seleccionado. Presione cualquier tecla para continuar.";
                     getch();
                     break;
                 }
@@ -319,7 +377,7 @@ int main(){
             set<DTHostal*> hostales = controladorReserva->listarHostales();
             DTFecha fechaNula(0,0,0,0);
         //////////////////////////////////Datos Base///////////////////////////////////////   
-            if(hostales.size() == 0) std:cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;
+            if(hostales.size() == 0){std:cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;getch();}
             else
              {
              std::cout<<"****************  5 - REALIZAR RESERVA  ************"<<endl;
@@ -328,14 +386,15 @@ int main(){
              //lista hostales
              auto it= hostales.begin();
              int hostalNumero = 0;
+             std::cout<<"-----------------------------------------"<<endl;
              while (it != hostales.end()){
                  DTHostal* actualHos = *it;
                  hostalNumero++;
-                 std::cout<<"-----------------------------------------"<<endl;
                  std::cout<<hostalNumero<<".-Nombre Hostal: "<<actualHos->getNombre()<<endl;
                  std::cout<<" Direccion: "<<actualHos->getDireccion()<<endl;
                  std::cout<<" Promedio de calificacion: "<<actualHos->getPromedioClasi()<<endl;
                  ++it;
+                 std::cout<<"-----------------------------------------"<<endl;
              }
              //selecciona hostal
              bool valido = false;
@@ -353,24 +412,32 @@ int main(){
                  desde = fechaNula;
                  hasta = fechaNula;
                  while (desde == fechaNula){
-                     std::cout<<"Ingrese fecha de entrada (DD/MM/AA-HH@m): " <<endl;
-                     std::cin>>desde;  
+                     std::cout<<"Ingrese fecha de entrada (DD/MM/AAAA-HH.): " <<endl;
+                     try{
+                        std::cin>>desde;  
+                     }catch(exception e){
+                        cout<<"\nFecha fuera de rango";
+                     }
                  }
                  while (hasta == fechaNula){
-                     std::cout<<"Ingrese fecha de salida (DD/MM/AA-HH@m): " <<endl;
-                     std::cin>>hasta;  
+                     std::cout<<"Ingrese fecha de salida (DD/MM/AAAA-HH.): " <<endl;
+                     try{
+                        std::cin>>hasta;  
+                     }catch(exception e){
+                        cout<<"\nFecha fuera de rango";
+                     } 
                  }
                  valido = desde < hasta;
                 
-                 if(!valido) std::cout<<"Fechas no validad, endrada tiene que ser anterior a salida: " <<endl;
+                 if(!valido) std::cout<<"Fechas no validas, endrada tiene que ser anterior a salida: " <<endl;
              }
              limpiarPantalla();
-             //seleccina el tipo de reserva
+             //selecciona el tipo de reserva
              int tipoReserva = pedirEntero("1-Grupal\n2-Individual\nSeleccione Tipo de Reserva: ","Opcion incorrecta ",2);
             
              //armo el dataR
              it = hostales.begin();
-             int i = 0;
+             int i = 1;
              while(i < hostalNumero){
                  i++;
                  ++it;
@@ -384,7 +451,10 @@ int main(){
         /////////////////////////////////Habitacion///////////////////////////////////////
              //Listar Habitacion
              set<DTHabitacion*> habitaciones = controladorReserva->obtenerHabitacionesDisponiblesEnFecha();
-             if(habitaciones.size()==0){std::cout<<"No hay habitaciones disponibles para estas fechas" <<endl;}
+             if(habitaciones.size()==0){
+                std::cout<<"No hay habitaciones disponibles para estas fechas" <<endl;
+                getch();
+                }
              else
               {
               std::cout<<" \n \n \n Seleccione Habitacion: \n" <<endl;
@@ -403,13 +473,13 @@ int main(){
               valido = false;
               while (!valido){
                   std::cout<<"Digite Habitacion Seleccionada: "<<endl;
-                  std::cin>>hostalNumero;
-                  if (hostalNumero>0 && hostalNumero<=hostales.size()) {
+                  std::cin>>habNumero;
+                  if (habNumero>0 && habNumero<=habitaciones.size()) {
                       valido=true;} else { std::cout<<"Elija un numero de habitacion valido"<<endl;};
               }
               limpiarPantalla();
               ithab = habitaciones.begin();
-              i = 0;
+              i = 1;
               while(i < habNumero){
                   i++;
                   ++ithab;
@@ -420,7 +490,8 @@ int main(){
         /////////////////////////////////Huesped///////////////////////////////////////    
              //Listar Huesped
               set<DTHuesped*> huespedes = controladorReserva->listarHuespedes();
-              if(huespedes.size()==0 && (esGrupal && huespedes.size()<2)){std::cout<<"No hay suficientes huespedes en el sistema"<<endl;}
+              if(huespedes.size()==0 && (esGrupal && huespedes.size()<2)){
+                std::cout<<"No hay suficientes huespedes en el sistema"<<endl;getch();}
               else
                {
                std::cout<<" \n \n \n Seleccione Huesped Prinsipal: \n" <<endl;
@@ -432,7 +503,7 @@ int main(){
                    std::cout<<"-----------------------------------------"<<endl;
                    std::cout<<hueNumero<<".-Nombre: "<<actualHue->getNombre()<<endl;
                    std::cout<<" Email: "<<actualHue->getEmail()<<endl;
-                   ++ithab;
+                   ++ithue;
                }
              //Seleccionar Huesped
                valido = false;
@@ -443,7 +514,7 @@ int main(){
                        valido = true;}else{ std::cout<<"Elija un numero de huesped valido"<<endl;};
                }
                ithue = huespedes.begin();
-               i = 0;
+               i = 1;
                while (i < hueNumero){
                    i++;
                    ++ithue;
@@ -459,7 +530,7 @@ int main(){
                  bool seguir = true; 
                  while(seguir)
                  {
-                     if(huespedes.size()==0){std::cout<<"No hay mas huespedes en el sistema"<<endl;seguir=false;}
+                     if(huespedes.size()==0){std::cout<<"No hay mas huespedes en el sistema"<<endl;seguir=false;getch();}
                      else
                      {
              //Lista los huespedes que quedan
@@ -472,7 +543,7 @@ int main(){
                          std::cout<<"-----------------------------------------"<<endl;
                          std::cout<<hueNumero<<".-Nombre: "<<actualHue->getNombre()<<endl;
                          std::cout<<" Email: "<<actualHue->getEmail()<<endl;
-                         ++ithab;
+                         ++ithue;
                      }
              //Selecciona huesped        
                      valido = false;
@@ -484,7 +555,7 @@ int main(){
                      }
                      limpiarPantalla();
                      ithue = huespedes.begin();
-                     i = 0;
+                     i = 1;
                      while (i < hueNumero){
                         i++;
                         ++ithue;
@@ -502,7 +573,7 @@ int main(){
                 }
                int confirmarN = pedirEntero("1-Si \n2-No \nDesea Confirmar La Reserva? ","Opcion incorrecta ",2);
                if(confirmarN == 1)controladorReserva->confirmarReserva();
-               else controladorReserva->cancelarReserva(); 
+               else controladorReserva->cancelarReserva();
                }//if de Huespedes
               }//if de Habitacines
              }//if de Hostales
@@ -522,12 +593,39 @@ int main(){
             set<DTHostal*> top3 = controladorHostal->topTres();                
              auto it= top3.begin();
              int opcion = 0;
+             DTHostal** top3array = new DTHostal*[3];
+             for(int i = 0; i<3;i++) top3array[i] = nullptr;
              while (it != top3.end()){
                 DTHostal* actualHos = *it;
-                opcion++;
-                std::cout<<opcion<<".-Nombre Hostal: "<<actualHos->getNombre()<<endl;
+                if(top3array[0]==nullptr){
+                    top3array[0]=actualHos;
+                }
+                else{
+                    if(top3array[0]->getPromedioClasi()>=actualHos->getPromedioClasi()){
+                        if(top3array[1]==nullptr){
+                            top3array[1]=actualHos;
+                        }
+                        else{
+                            if(top3array[1]->getPromedioClasi()>=actualHos->getPromedioClasi()){
+                                    top3array[2]=actualHos;
+                            }
+                            else{
+                                top3array[2] = top3array[1];
+                                top3array[1] = actualHos;
+                            }
+                        }
+                    }
+                    else{
+                        if(top3array[1]==nullptr){
+                            top3array[1]=top3array[0];
+                            top3array[0]=actualHos;
+                        }
+                        else top3array[2]=actualHos;
+                    }
+                }
                 ++it;
-             }
+            }
+            for(int i = 0; i<3;i++) std::cout<<i+1<<".-Nombre Hostal: "<<top3array[i]->getNombre()<<endl;
              std::cout<<"4.-No mostrar mas informacion\n"<<endl;
              std::cout<<"Elija el numero de hostal del cual desea tener mas informacion"<<endl; 
             //Seleccionar Opcion
@@ -537,27 +635,22 @@ int main(){
                 if(opcion>0 && opcion <= top3.size() + 1){
                     valido = true;}else{ std::cout<<"Elija una opcion valida"<<endl;}
                 }
-             if(opcion <= top3.size()){
-                limpiarPantalla();
-                it = top3.begin();
-                int i = 0;
-                while (i < opcion){
-                    i++;
-                    ++it;
+                if(opcion>0 && opcion <= top3.size()){
+                    DTHostal* actual = top3array[opcion - 1];
+                    std::cout<<"Hostal: "<<actual->getNombre()<<endl;
+                    set<DTCalificacion*> cali = actual->getCaliHabi();
+                    set<DTCalificacion*>::iterator itcal = cali.begin();  
+                    std::cout<<"Calificaciones: "<<endl;
+                    while (itcal != cali.end()){
+                        DTCalificacion* calActual= *itcal; 
+                        std::cout<<"Valor: "<<calActual->getValor()<<endl;
+                        std::cout<<"Comentario:\n"<<calActual->getComentario()<<endl;
+                        ++itcal;
+                    }
+                getch();    
                 }
-                DTHostal* actual = *it;
-                std::cout<<opcion<<"º hostal: "<<actual->getNombre()<<endl;
-                set<DTCalificacion*> cali = actual->getCaliHabi();
-                set<DTCalificacion*>::iterator itcal = cali.begin();  
-                std::cout<<"Calificaciones: "<<endl;
-                while (itcal != cali.end()){
-                    DTCalificacion* calActual= *itcal; 
-                    std::cout<<"Valor: "<<calActual->getValor()<<endl;
-                    std::cout<<"Comentario:\n"<<calActual->getComentario()<<endl;
-                    ++itcal;
-                }      
-             }else{controladorHostal->liberarMemoriaTop3();}
              }
+             controladorHostal->liberarMemoriaTop3();
             }//case 6
             break;
             case 7:{
@@ -570,7 +663,7 @@ int main(){
                 if(hostales7.size() == 0){
                     cout << "No hay hostales en el sistema.";
                 }else{
-                    cout << "Nombres de hostales:";
+                    cout << "Nombres de hostales:"<<endl;
                     set<DTHostal*>::iterator it = hostales7.begin();
                     while(it != hostales7.end()){
                         DTHostal* hostal = *it;
@@ -590,22 +683,31 @@ int main(){
                     };
 
                     cout << endl;
-                    cout << "Ingrese mail del huesped:";
-                    cin >> mailHuesped; //no se checkea que el email exista en el sistema y puede romper le metodo de listarReservas
-
+                    mailHuesped = "";
+                    while(!controladorUsuario->existeHuesped(mailHuesped)){
+                        cout << "Ingrese mail del huesped:"<<endl;
+                       cin >> mailHuesped; //no se checkea que el email exista en el sistema y puede romper le metodo de listarReservas
+                    };
                     set<DTReserva*> reservas = controladorEstadia->listarReservas(mailHuesped, seleccionado->getNombre());
-                    cout << "Codigos, fechas de inicio y habitaciones de las reservas:";
+                    cout << "Codigos, fechas de inicio y habitaciones de las reservas:" << endl;
                     set<DTReserva*>::iterator it2 = reservas.begin();
-                    numero = 1;
+                    numero = 0;
+                    set<int> reservasCods;
                     while(it2 != reservas.end()){
                         DTReserva* reserva = *it2;
                         DTFecha checkIn = reserva->getcheckIn();
                         cout << numero<<"- Codigo: "<<reserva->getCodigo()<<", Dia de checkIn: "<<checkIn.getDia()<<"/"<<checkIn.getMes()<<"/"<<checkIn.getAnio()<<", Habitacion: "<<reserva->getHabitacion()<<endl;
+                        reservasCods.insert(reserva->getCodigo());
                         numero++;
                         it2++;
                     };
-
-                    numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el codigo de la reserva:", "Numero invalido, ingrese que aparece en la lista ", 250);
+                    bool valido = false;
+                    while(!valido){
+                        cout << "Ingrese el codigo de la reserva:";
+                        cin >> numSeleccionado;
+                        valido = reservasCods.find(numSeleccionado) != reservasCods.end();
+                        if(!valido) cout << "Numero invalido, ingrese que aparece en la lista "<<endl;
+                    }
 
                     // por si lo quiero hacer con el numero que aparece en la lista
                     // numero = 0; 
@@ -635,7 +737,7 @@ int main(){
                 if(hostales.size() == 0){
                     cout << "No hay hostales en el sistema.";
                 }else{
-                    cout << "Nombres de hostales:";
+                    cout << "Nombres de hostales:"<<endl;
                     set<DTHostal*>::iterator it = hostales.begin();
                     while(it != hostales.end()){
                         DTHostal* hostal = *it;
@@ -644,7 +746,7 @@ int main(){
                         it++;
                     };
 
-                    numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el numero del hostal:", "Numero invalido, ingrese que aparece en la lista ", numero - 1);
+                    numSeleccionado = pedirEnteroSinLimpiarPantalla("Ingrese el numero del hostal:\n", "Numero invalido, ingrese que aparece en la lista \n", numero - 1);
                     numero = 0; 
                     it = hostales.begin();
                     DTHostal* seleccionado = *it;
@@ -657,17 +759,18 @@ int main(){
                     cout << endl;
                     cout << "Ingrese mail del huesped:";
                     cin >> mailHuesped8; //no se checkea que el email exista en el sistema y puede romper le metodo de listarReservas
-
-                    if(controladorEstadia->existenEstadiasActivas(mailHuesped8, seleccionado->getNombre())){
-                        int codigo = pedirEnteroSinLimpiarPantalla("Ingrese el codigo de la estadia:", "Numero invalido ", 250);
-                        controladorEstadia->finalizarEstadia(codigo);
-                        cout << "Operacion realisada con exito. Presione cualquier caracter para continuar.";
-                    }else{
-                        cout << "No existen estadias activas en el sistema. Presione cualquier caracter para continuar.";
-                    }
+                    if(controladorUsuario->existeHuesped(mailHuesped8)){
+                        if(controladorEstadia->existenEstadiasActivas(mailHuesped8, seleccionado->getNombre())){
+                            int codigo = pedirEnteroSinLimpiarPantalla("Ingrese el codigo de la estadia:\n", "Numero invalido \n", 250);
+                            controladorEstadia->finalizarEstadia(codigo);
+                            cout << "Operacion realizada con exito.\n Presione cualquier caracter para continuar.";
+                        }else{
+                            cout << "No existen estadias activas en el sistema.\n Presione cualquier caracter para continuar.";
+                        }
+                    }else cout<< "No se encontro el huesped. \n Presione cualquier caracter para continuar";
                     getch();//esperamos que ingrese cualquier caracter;                    
                 }
-            };        
+            };
             break;
             case 9:{
 
@@ -741,7 +844,7 @@ ingresados, fecha y hora correspondientes al sistema.
             }
             valido=true;
                 while(valido){
-                    std::cout<<"Digite Hostal Seleccionado: "<<endl;
+                    std::cout<<"Digite Estadia Seleccionada: "<<endl;
                     std::cin>>numero;
                     if (numero>0 && numero<=_estadiaH.size()) {
                         valido=false;} else { std::cout<<"Elija un numero de estadia valido por favor!"<<endl;};
@@ -758,8 +861,10 @@ ingresados, fecha y hora correspondientes al sistema.
 
             std::cout<<"Estadia Seleccionada:"<<nuevoE->getCodigo()<<endl;
             string comentario;
+            
             std::cout<<"Ingrese su comentario:  "<<endl;
-            cin>>comentario;
+            cin.ignore();
+            getline(cin,comentario);
 
             std::cout<<"Ingrese su Calificacion (1-5):  "<<endl;
             int valorcalif=-1;
@@ -947,7 +1052,7 @@ ingresados, fecha y hora correspondientes al sistema.
             }
             
             
-            
+            getch();
             }
             break;
             case 13:{
@@ -1025,7 +1130,7 @@ ingresados, fecha y hora correspondientes al sistema.
                                         itreserva++;
                                      }
                  };
-
+                ++itres;
                 }
                 std::cout<<"sALI"<<endl;
                 }
@@ -1051,10 +1156,10 @@ ingresados, fecha y hora correspondientes al sistema.
                 {
                     DTHostal* actual = *it;
                     ++numero;
-                    std::cout<<numero<<".: "<<actual->getNombre();
+                    std::cout<<numero<<".: "<<actual->getNombre()<<endl;
                     ++it;
                 }
-                tipoUsuarioCrear = pedirEntero("Seleccione un empleado: ","Opcion incorrecta ",numero);
+                tipoUsuarioCrear = pedirEnteroSinLimpiarPantalla("Seleccione un hostal: ","Opcion incorrecta ",numero);
                 it = hostales.begin();
                 for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
                 DTHostal* h = *it;
@@ -1067,10 +1172,10 @@ ingresados, fecha y hora correspondientes al sistema.
                 {
                     DTEstadia* actual = *ite;
                     ++numero;
-                    std::cout<<numero<<".: "<<actual->getCodigo();
+                    std::cout<<numero<<".: "<<actual->getCodigo()<<" "<<actual->getHuesped()<<endl;
                     ++ite;
                 }
-                tipoUsuarioCrear = pedirEntero("Seleccione una estadia: ","Opcion incorrecta ",numero);
+                tipoUsuarioCrear = pedirEnteroSinLimpiarPantalla("Seleccione una estadia: ","Opcion incorrecta ",numero);
                 ite = estadias.begin();
                 for(int i = 1; i < tipoUsuarioCrear; i++) ++ite;
                 DTEstadia* e = *ite;
@@ -1079,30 +1184,32 @@ ingresados, fecha y hora correspondientes al sistema.
                 int habEstadia = controladorEstadia->getHabitacionEstadia(e->getCodigo());
                 int resEstadia = controladorEstadia->getReservaEstadia(e->getCodigo());
                 cout << "Habitacion: " << habEstadia << endl;
-                cout << "Check-In: " << e->getCheckIn().getDia()<<"/"<<e->getCheckIn().getMes()<<"/"<<e->getCheckIn().getAnio()<< "  " << e->getCheckIn().getHora() << " hs";
+                cout << "Check-In: " << e->getCheckIn().getDia()<<"/"<<e->getCheckIn().getMes()<<"/"<<e->getCheckIn().getAnio()<< "  " << e->getCheckIn().getHora() << " hs" << endl;
                 if(e->getCheckOut().getDia() != -1){
                     cout << "Check-Out: ";
-                    cout << e->getCheckIn().getDia()<<"/"<<e->getCheckIn().getMes()<<"/"<<e->getCheckIn().getAnio()<< "  " << e->getCheckIn().getHora() << " hs";
+                    cout << e->getCheckOut().getDia()<<"/"<<e->getCheckOut().getMes()<<"/"<<e->getCheckOut().getAnio()<< "  " << e->getCheckOut().getHora() << " hs" << endl;
                 }
                 else cout << "No ha sido finalizada aun" << endl;
-                cout << "Promo: " << e->getPromo();
+                cout << "Promo: " << e->getPromo() << endl;
                 cout << "Reserva: " << resEstadia << endl;
-                cout << "Desea ver la calificacion de esta estadia? 1.Si 2.No :" << endl;
                 int opcion = 0;
-                cin >> opcion;
-                if(opcion == 1){
-                    DTCalificacion* cali = controladorEstadia->getCalificacion(e->getCodigo());
-                    DTRespuestaCalificacion* resp = controladorEstadia->getRespuestaCalificacion(e->getCodigo());
-                    std::cout<<"Valor: "<<cali->getValor()<<endl;
-                    std::cout<<"Comentario:\n"<<cali->getComentario()<<endl;
-                    std::cout<<"Respuesta:\n"<<resp->getComentario()<<endl;
+                DTCalificacion* cali = controladorEstadia->getCalificacion(e->getCodigo());
+                if(cali != nullptr){
+                    cout << "Desea ver la calificacion de esta estadia? 1.Si 2.No :" << endl;
+                    cin >> opcion;
+                    if(opcion == 1){
+                        DTRespuestaCalificacion* resp = controladorEstadia->getRespuestaCalificacion(e->getCodigo());
+                        std::cout<<"Valor: "<<cali->getValor()<<endl;
+                        std::cout<<"Comentario:\n"<<cali->getComentario()<<endl;
+                        std::cout<<"Respuesta:\n"<<resp->getComentario()<<endl;
+                    }
                 }
                 cout << "Desea ver la reserva asociada a esta estadia? 1.Si 2.No :" << endl;
                 opcion = 0;
                 cin >> opcion;
                 if(opcion == 1){
                     DTReserva* res = controladorEstadia->getReservaDT(resEstadia);
-                    cout << res;
+                    cout << *res<<endl;
                 }
                 }
                 getch();
@@ -1140,7 +1247,7 @@ ingresados, fecha y hora correspondientes al sistema.
                          valido=true;} else { std::cout<<"Elija un numero de hostal valido"<<endl;};
                  }
              it = hostales.begin();
-             int i = 0;
+             int i = 1;
              while(i < hostalNumero){
                  i++;
                  ++it;
@@ -1161,6 +1268,7 @@ ingresados, fecha y hora correspondientes al sistema.
                 std::cout<<"-----------------------------------------"<<endl;
                 std::cout<<reservaNumero<<".-Codigo Reserva: "<<actualRes->getCodigo()<<endl;
                 std::cout<<" Estado "<<actualRes->getEstadoReserva()<<endl;
+                ++itr;
               }
               valido = false;
               int codR;
@@ -1172,6 +1280,7 @@ ingresados, fecha y hora correspondientes al sistema.
                 while (itr != reservas.end() && !encontre){
                     DTReserva* actualRes = *itr;
                     encontre = actualRes->getCodigo() == codR;
+                    ++itr;
                 }
                 valido = encontre;
               }
@@ -1198,7 +1307,7 @@ ingresados, fecha y hora correspondientes al sistema.
                     std::cout<<numero<<".: "<<actual->getNombre()<<" "<<actual->getEmail()<<endl;
                     ++it;
                 }
-                tipoUsuarioCrear = pedirEntero("Seleccione un empleado: ","Opcion incorrecta ",numero);
+                tipoUsuarioCrear = pedirEnteroSinLimpiarPantalla("Seleccione un empleado: ","Opcion incorrecta ",numero);
                 it = empleados.begin();
                 for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
                 DTEmpleado* e = *it;
@@ -1223,7 +1332,7 @@ ingresados, fecha y hora correspondientes al sistema.
                     std::cout<<numero<<".: "<<actual->getNombre()<<" "<<actual->getEmail()<<endl;
                     ++it;
                 }
-                tipoUsuarioCrear = pedirEntero("Seleccione un empleado: ","Opcion incorrecta ",numero);
+                tipoUsuarioCrear = pedirEnteroSinLimpiarPantalla("Seleccione un empleado: ","Opcion incorrecta ",numero);
                 it = empleados.begin();
                 for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
                 DTEmpleado* e = *it;
@@ -1251,7 +1360,7 @@ ingresados, fecha y hora correspondientes al sistema.
                     std::cout<<numero<<".: "<<actual->getNombre()<<" "<<actual->getEmail()<<endl;
                     ++it;
                 }
-                tipoUsuarioCrear = pedirEntero("Seleccione un empleado: ","Opcion incorrecta ",numero);
+                tipoUsuarioCrear = pedirEnteroSinLimpiarPantalla("Seleccione un empleado: ","Opcion incorrecta ",numero);
                 it = empleados.begin();
                 for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
                 DTEmpleado* e = *it;
@@ -1440,7 +1549,7 @@ ingresados, fecha y hora correspondientes al sistema.
             controladorReserva->agregarHuespedAReserva("frodo@mail.com");
             controladorReserva->agregarHuespedAReserva("sam@mail.com");
             controladorReserva->agregarHuespedAReserva("merry@mail.com");
-            controladorReserva->agregarHuespedAReserva("pipin@mail.com");
+            controladorReserva->agregarHuespedAReserva("pippin@mail.com");
             controladorReserva->confirmarReserva();
             //R3
             DTFecha desder3(7,6,2022,14);  
@@ -1535,8 +1644,9 @@ ingresados, fecha y hora correspondientes al sistema.
 
              std::cout<<" \n == RESPONDER CALIFICACIONES: == \n"<<endl;
             //agregar comentario C2
-            controladorUsuario->responderComentario("Desapareció y se fue sin pagar");
-
+            controladorUsuario->listarCalificacion("barli@mail.com");
+            controladorUsuario->seleccionarCalificacion(2);
+            controladorUsuario->responderComentario("Desaparecio y se fue sin pagar");
 
             } else {std::cout<<"CARGA INICIAL YA REALIZADA"<<endl;
               cout << "La opcion seleccionada no es valida \n"<<endl;

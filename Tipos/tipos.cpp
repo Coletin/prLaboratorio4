@@ -219,7 +219,7 @@ ostream& operator<<(ostream& o, DTFecha& f){
 };
 
 istream& operator>>(istream& i, DTFecha& f){
-    char fLeer[15];
+    char fLeer[30];
     scanf("%s", fLeer);
     string horaS;
     string diaS;
@@ -241,18 +241,16 @@ istream& operator>>(istream& i, DTFecha& f){
         indice++;
     }
     indice++;
-    while (fLeer[indice]!='a' && fLeer[indice]!='p'){
+    while (fLeer[indice]!='.'){
       horaS = horaS + fLeer[indice];
       indice++;
     }
     int horaN = stoi(horaS);
-    if(fLeer[indice]=='p')
-        horaN = horaN + 12;
     int diaN = stoi(diaS);
     int mesN = stoi(mesS);
     int anioN = stoi(anioS);
     if(horaN > 23 || horaN < 0 ||diaN > 31 || diaN < 1 || mesN > 12 || mesN < 1 || anioN < 1900) throw std::invalid_argument("Fecha fuera de rango");
-    DTFecha nueva(horaN, diaN, mesN, anioN);
+    DTFecha nueva(diaN, mesN, anioN, horaN);
     f = nueva;
     return i;
 };
@@ -354,8 +352,9 @@ ostream& operator<<(ostream& o, DTReservaGrupal& rg){
     o << "Habitacion: " << rg.getHabitacion() << endl;
     o << "Costo: $" << rg.getCosto() << endl;
     o << "Huespedes: ";
-    set<DTHuesped*>::iterator it = rg.getHuespedes().begin();
-    while(it != rg.getHuespedes().end()){
+    set<DTHuesped*> huespedes = rg.getHuespedes();
+    set<DTHuesped*>::iterator it = huespedes.begin();
+    while(it != huespedes.end()){
         DTHuesped* actual = *it;
         o << actual->getNombre() << " - " << actual->getEmail();
         if(actual->getEsFinger()) 
