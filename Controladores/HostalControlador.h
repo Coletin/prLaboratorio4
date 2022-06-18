@@ -40,4 +40,5 @@ class HostalControlador: public IHostal{
         void liberarMemoriaTop3();
         bool existeHostal(string _nombre);
         bool habitacionEnHostal(int, string);
+        set<DTHabitacion*> listarHabitacionesHostal(string);
 };
