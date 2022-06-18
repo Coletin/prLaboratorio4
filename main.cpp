@@ -103,6 +103,17 @@ int pedirEnteroSinLimpiarPantalla(string mensajePedir, string mensajeError, int 
     return respuesta;
 }
 
+DTFecha pedirFechaValida(){
+    int hora = 0, dia = 1, mes = 1, anio = 1900;
+    hora = pedirEnteroConCero("Ingrese hora (0-23): ","Dato incorrecto",23);
+    dia = pedirEnteroSinLimpiarPantalla("Ingrese dia (1-30): ","Dato incorrecto",30);
+    mes = pedirEnteroSinLimpiarPantalla("Ingrese mes (1-12): ","Dato incorrecto",12);
+    do{
+        anio = pedirEnteroSinLimpiarPantalla("Ingrese anio (>1900): ","Dato incorrecto",9999); //ponemos un tope?
+    }while(anio < 1900);
+    return DTFecha(dia,mes,anio,hora);
+}
+
 int main(){
     Fabrica* f = new Fabrica();
     IHostal* controladorHostal = f->getIHostal();
@@ -115,6 +126,8 @@ int main(){
     int i = 0;
     int _cargaInicial=1;
 
+    string mensajeMenu = "";
+
     //variables para creacion de empleado
     string nombreUsuarioCrear = "", claveUsuarioCrear = "", emailUsuarioCrear = "";
     bool emailDisponible = true, esFinger = false;
@@ -123,36 +136,38 @@ int main(){
 
     while(i!=21){
         limpiarPantalla();
-        cout << "***||||||****|||||||*******||||***|||||||***||||||***||**********||***||*****|||||||||||||***|||||||***||**********||||*******" <<endl;
-        cout << "***||***||***||*********||||******||********||***||***||********||***||||*********||*********||********||********||****||*****"<<endl;
-        cout << "***||**||****||********||*********||********||**||*****||******||***||**||********||*********||********||******||********||***"<<endl;
-        cout << "***||||******|||||******||||******|||||*****||||********||****||***||****||*******||*********|||||*****||******||********||***"<<endl;
-        cout << "***||*||*****||*************||****||********||*||********||**||***||||||||||******||*********||********||******||********||***"<<endl;
-        cout << "***||**||****||**********||||*****||********||**||********||||***||********||*****||*********||********||********||****||*****"<<endl;
-        cout << "***||***||***|||||||***||||*******|||||||***||***||********||***||**********||****||*********|||||||***||||||||****||||*******"<<endl;
-        cout << "DREAMTEAM Inc." << endl;
-        cout << "1-Alta de Usuario" << "\n";
-        cout << "2-Alta de Hostal" << "\n";
-        cout << "3-Alta de Habitacion"<< "\n";
-        cout << "4-Asignar empleado a hostal"<< "\n";
-        cout << "5-Realizar Reserva"<< "\n";
-        cout << "6-Consultar top 3 hostales"<< "\n";
-        cout << "7-Registrar Estadia"<< "\n";
-        cout << "8-Finalizar Estadia"<< "\n";
-        cout << "9-Calificar Estadia"<< "\n";
-        cout << "10-Comentar Calificacion"<< "\n";
-        cout << "11-Consulta de Usuario"<< "\n";
-        cout << "12-Consulta de Hostal"<< "\n";
-        cout << "13-Consulta de Reserva"<< "\n";
-        cout << "14-Consulta de Estadia"<< "\n";
-        cout << "15-Baja de Reserva"<< "\n";
-        cout << "16-Subscribirse a notificaciones"<< "\n";
-        cout << "17-Consulta de notificaciones"<< "\n";
-        cout << "18-Eliminar Subscripcion"<< "\n";
-        cout << "19-Modificar fecha del sistema"<< "\n";
-        cout << "20-Cargar datos predefinidos"<< "\n";
-        cout << "21-Salir"<< "\n";
-        cin >> i;
+        mensajeMenu = "";
+        mensajeMenu += "***||||||****|||||||*******||||***|||||||***||||||***||**********||***||*****|||||||||||||***|||||||***||**********||||*******\n";
+        mensajeMenu += "***||***||***||*********||||******||********||***||***||********||***||||*********||*********||********||********||****||*****\n";
+        mensajeMenu += "***||**||****||********||*********||********||**||*****||******||***||**||********||*********||********||******||********||***\n";
+        mensajeMenu += "***||||******|||||******||||******|||||*****||||********||****||***||****||*******||*********|||||*****||******||********||***\n";
+        mensajeMenu += "***||*||*****||*************||****||********||*||********||**||***||||||||||******||*********||********||******||********||***\n";
+        mensajeMenu += "***||**||****||**********||||*****||********||**||********||||***||********||*****||*********||********||********||****||*****\n";
+        mensajeMenu += "***||***||***|||||||***||||*******|||||||***||***||********||***||**********||****||*********|||||||***||||||||****||||*******\n";
+        mensajeMenu += "\nDREAMTEAM Inc.\n\n";
+        mensajeMenu += "1-Alta de Usuario\n";
+        mensajeMenu += "2-Alta de Hostal\n";
+        mensajeMenu += "3-Alta de Habitacion\n";
+        mensajeMenu += "4-Asignar empleado a hostal\n";
+        mensajeMenu += "5-Realizar Reserva\n";
+        mensajeMenu += "6-Consultar top 3 hostales\n";
+        mensajeMenu += "7-Registrar Estadia\n";
+        mensajeMenu += "8-Finalizar Estadia\n";
+        mensajeMenu += "9-Calificar Estadia\n";
+        mensajeMenu += "10-Comentar Calificacion\n";
+        mensajeMenu += "11-Consulta de Usuario\n";
+        mensajeMenu += "12-Consulta de Hostal\n";
+        mensajeMenu += "13-Consulta de Reserva\n";
+        mensajeMenu += "14-Consulta de Estadia\n";
+        mensajeMenu += "15-Baja de Reserva\n";
+        mensajeMenu += "16-Subscribirse a notificaciones\n";
+        mensajeMenu += "17-Consulta de notificaciones\n";
+        mensajeMenu += "18-Eliminar Subscripcion\n";
+        mensajeMenu += "19-Modificar fecha del sistema\n";
+        mensajeMenu += "20-Cargar datos predefinidos\n";
+        mensajeMenu += "21-Salir\n\n";
+        cout << mensajeMenu;
+        i = pedirEnteroSinLimpiarPantalla("Ingrese opcion: ","Opcion incorrecta",21);
         switch(i){
             case 1:
                 limpiarPantalla();
@@ -402,25 +417,12 @@ int main(){
              while (!valido){
                  desde = fechaNula;
                  hasta = fechaNula;
-                 while (desde == fechaNula){
-                     std::cout<<"Ingrese fecha de entrada (DD/MM/AAAA-HH.): " <<endl;
-                     try{
-                        std::cin>>desde;  
-                     }catch(exception e){
-                        cout<<"\nFecha fuera de rango";
-                     }
-                 }
-                 while (hasta == fechaNula){
-                     std::cout<<"Ingrese fecha de salida (DD/MM/AAAA-HH.): " <<endl;
-                     try{
-                        std::cin>>hasta;  
-                     }catch(exception e){
-                        cout<<"\nFecha fuera de rango";
-                     } 
-                 }
-                 valido = desde < hasta;
-                
-                 if(!valido) std::cout<<"Fechas no validas, endrada tiene que ser anterior a salida: " <<endl;
+                cout << "Fecha de entrada\n";
+                desde = pedirFechaValida();
+                cout << "Fecha de salida\n";
+                hasta = pedirFechaValida();
+                valido = desde < hasta;                
+                if(!valido) std::cout<<"Fechas no validas: la fecha de entrada debe ser anterior a la fecha de salida\n";
              }
              limpiarPantalla();
              //selecciona el tipo de reserva
