@@ -26,7 +26,7 @@ bool checkNumeroFloat(const string s){
 }
 //cambiar por su version en linux al subir el codigo
 void limpiarPantalla(){
-    system("cls");
+    system("clear");
 }
 
 string pedirStringNoVacio(string mensajeError, string mensajePedir, bool limpiaPantalla){
@@ -974,7 +974,7 @@ ingresados, fecha y hora correspondientes al sistema.
             
            
             }
-             system("pause");
+             cin>>dummy;
             
             }
             break;
@@ -1243,7 +1243,7 @@ ingresados, fecha y hora correspondientes al sistema.
                 }
                
             }
-            system("pause");
+            cin>>dummy;
 
 
             }
@@ -1734,7 +1734,7 @@ ingresados, fecha y hora correspondientes al sistema.
 
             } else {std::cout<<"CARGA INICIAL YA REALIZADA"<<endl;
               cout << "La opcion seleccionada no es valida \n"<<endl;
-              system("pause");
+              cin>>dummy;
             };
             break;
             }
