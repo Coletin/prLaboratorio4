@@ -58,7 +58,11 @@ Estadia* ColeccionesHandler::getEstadia(int codigo){
         if(!encontre)
             ++it;
     }
-    return actual;
+    if(!encontre){
+        return nullptr;
+    }else{
+        return actual;
+    }    
 }
 
 set<DTEmpleado*> ColeccionesHandler::getEmpleadoNoAsigCol(string nom){

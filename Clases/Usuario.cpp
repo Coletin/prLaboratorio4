@@ -79,6 +79,10 @@ void Huesped::eliminarEstadia(Estadia* _estadia){
     estadia.erase(_estadia);
 }
 
+set<Estadia*> Huesped::getEstadias(){
+    return this->estadia;
+}
+
 
 //EMPLEADO
 
