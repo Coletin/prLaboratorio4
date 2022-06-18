@@ -455,14 +455,15 @@ int main(){
                 }
              else
               {
-              std::cout<<" \n \n \n Seleccione Habitacion: \n" <<endl;
+                limpiarPantalla();
+              std::cout<<" Seleccione Habitacion: \n";
               auto ithab = habitaciones.begin();
               int habNumero = 0;
               while (ithab != habitaciones.end()){
                   DTHabitacion* actualHab = *ithab;
                   habNumero++;
                   std::cout<<"-----------------------------------------"<<endl;
-                  std::cout<<habNumero<<"."<<endl << " Numero Habitacion: "<<actualHab->getNumero()<<endl;
+                  std::cout<<habNumero<<".-" << " Numero Habitacion: "<<actualHab->getNumero()<<endl;
                   std::cout<<" Capacidad: "<<actualHab->getCapacidad()<<endl;
                   std::cout<<" Precio: "<<actualHab->getPrecio()<<endl;
                   ++ithab;
@@ -492,7 +493,7 @@ int main(){
                 std::cout<<"No hay suficientes huespedes en el sistema"<<endl;getch();}
               else
                {
-               std::cout<<" \n \n \n Seleccione Huesped Prinsipal: \n" <<endl;
+               std::cout<<" Seleccione Huesped Principal: \n" <<endl;
                auto ithue = huespedes.begin();
                int hueNumero = 0;
                while (ithue != huespedes.end()){
@@ -517,6 +518,7 @@ int main(){
                    i++;
                    ++ithue;
                 }
+                limpiarPantalla();
              //Lo pasa al controlador y lo borra de la lista 
                 DTHuesped* huespedSeleccionado = *ithue;
                 huespedes.erase(ithue);
@@ -532,7 +534,7 @@ int main(){
                      else
                      {
              //Lista los huespedes que quedan
-                     std::cout<<" \n \n \n Seleccione Huesped: \n" <<endl;
+                     std::cout<<" Seleccione Huesped: \n" <<endl;
                      ithue = huespedes.begin();
                      hueNumero = 0;
                      while (ithue != huespedes.end()){
@@ -558,13 +560,14 @@ int main(){
                         i++;
                         ++ithue;
                      }
+                     limpiarPantalla();
              //Lo pasa al controlador y lo borra de la lista 
                      DTHuesped* huespedSeleccionado = *ithue;
                      huespedes.erase(ithue);
                      controladorReserva->agregarHuespedAReserva(huespedSeleccionado->getEmail());
                      delete huespedSeleccionado;
              //Pregunta si seguir
-                     int seguirN = pedirEntero("1-Si \n2-No \nDesea Sguir Agregando Huespedes? ","Opcion incorrecta ",2);
+                     int seguirN = pedirEntero("1-Si \n2-No \nDesea Seguir Agregando Huespedes? ","Opcion incorrecta ",2);
                      seguir = seguirN == 1;
                      }
                  }
