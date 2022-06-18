@@ -103,6 +103,17 @@ int pedirEnteroSinLimpiarPantalla(string mensajePedir, string mensajeError, int 
     return respuesta;
 }
 
+DTFecha pedirFechaValida(){
+    int hora = 0, dia = 1, mes = 1, anio = 1900;
+    hora = pedirEnteroConCero("Ingrese hora (0-23): ","Dato incorrecto",23);
+    dia = pedirEnteroSinLimpiarPantalla("Ingrese dia (1-30): ","Dato incorrecto",30);
+    mes = pedirEnteroSinLimpiarPantalla("Ingrese mes (1-12): ","Dato incorrecto",12);
+    do{
+        anio = pedirEnteroSinLimpiarPantalla("Ingrese anio (>1900): ","Dato incorrecto",9999); //ponemos un tope?
+    }while(anio < 1900);
+    return DTFecha(dia,mes,anio,hora);
+}
+
 int main(){
     Fabrica* f = new Fabrica();
     IHostal* controladorHostal = f->getIHostal();
@@ -407,25 +418,12 @@ int main(){
              while (!valido){
                  desde = fechaNula;
                  hasta = fechaNula;
-                 while (desde == fechaNula){
-                     std::cout<<"Ingrese fecha de entrada (DD/MM/AAAA-HH.): " <<endl;
-                     try{
-                        std::cin>>desde;  
-                     }catch(exception e){
-                        cout<<"\nFecha fuera de rango";
-                     }
-                 }
-                 while (hasta == fechaNula){
-                     std::cout<<"Ingrese fecha de salida (DD/MM/AAAA-HH.): " <<endl;
-                     try{
-                        std::cin>>hasta;  
-                     }catch(exception e){
-                        cout<<"\nFecha fuera de rango";
-                     } 
-                 }
-                 valido = desde < hasta;
-                
-                 if(!valido) std::cout<<"Fechas no validas, endrada tiene que ser anterior a salida: " <<endl;
+                cout << "Fecha de entrada\n";
+                desde = pedirFechaValida();
+                cout << "Fecha de salida\n";
+                hasta = pedirFechaValida();
+                valido = desde < hasta;                
+                if(!valido) std::cout<<"Fechas no validas: la fecha de entrada debe ser anterior a la fecha de salida\n";
              }
              limpiarPantalla();
              //selecciona el tipo de reserva
