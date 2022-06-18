@@ -44,4 +44,5 @@ class Hostal{
         void agregarCalificacion(Calificacion* cal);
         int getHabEstadia(Estadia* est);
         void eliminarCalificacion(Calificacion* cal);
+        bool habPertenece(int);
 };

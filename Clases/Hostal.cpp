@@ -131,6 +131,11 @@ set<DTReserva*> Hostal::getReservasAsociadas(string _email){
     return resu;
 }
 
+bool Hostal::habPertenece(int num){
+    Habitacion* hab = this->getHabNum(num);
+    return hab->getNumero() == num;
+}
+
 void Hostal::agregarCalificacion(Calificacion* cal){
     Calificacion* add = cal;
     calificaciones.insert(add);

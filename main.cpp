@@ -271,10 +271,13 @@ int main(){
                 controladorHostal->ingresarHabitacion(numero, precio, capacidad);
                 cout << "Desea confirmar la habitacion: 1-No 2-Si \n";
                 cin >> opcion;
-                if(opcion == 1){
+                if(opcion == 2){
                     controladorHostal->persistirHabitacion();
-                    if(controladorHostal->)
-                    cout << "Habitacion confirmada \n Presione cualquier caracter para continuar"<<endl;
+                    if(controladorHostal->habitacionEnHostal(numero, nombreHostalBuscar)){
+                        controladorHostal->persistirHabitacion();
+                        cout << "Habitacion confirmada \n Presione cualquier caracter para continuar"<<endl;
+                    }
+                    else cout << "Habitacion ya esta en el hostal \n Presione cualquier caracter para continuar"<<endl;
                 }
                 else {
                     controladorHostal->cancelarCreacionHabitacion();
