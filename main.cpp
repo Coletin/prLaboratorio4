@@ -978,38 +978,44 @@ ingresados, fecha y hora correspondientes al sistema.
                 //Responder calificacion
                 //+++++++++++++++++++++++
                 limpiarPantalla();
-                cout << "Ingrese email del empleado: ";
-                bool valido = false;
-                while (!valido)
+                set<DTEmpleado*> empleadosSistema = controladorUsuario->obtenerEmpleados();    
+                if(empleadosSistema.size() == 0){cout << "No hay empleados en el sistema" << endl;getch();}
+                else
                 {
-                    cin >> emailUsuarioCrear;
-                    valido = controladorUsuario->existeEmpleado(emailUsuarioCrear);
-                    if(!valido)cout << "No existe ningun empleado con ese email" <<endl;
+                    cout << "Ingrese email del empleado: ";
+                    bool valido = false;
+                    while (!valido)
+                    {
+                        cin >> emailUsuarioCrear;
+                        valido = controladorUsuario->existeEmpleado(emailUsuarioCrear);
+                        if(!valido)cout << "No existe ningun empleado con ese email" <<endl;
+                    }
+                    set<DTCalificacion*> calis = controladorUsuario->listarCalificacionSinResponder(emailUsuarioCrear);
+                if(calis.size()==0){ std::cout<<"No existen comentarios sin responder"<<endl;}
+                else
+                { 
+                    int numero=0; 
+                    set<DTCalificacion*>::iterator it = calis.begin();
+                    while (it != calis.end())
+                    {
+                        DTCalificacion* actual = *it;
+                        ++numero;
+                        std::cout<<numero<<".: "<<actual->getComentario()<<endl;
+                        ++it;
+                    }
+                    tipoUsuarioCrear = pedirEnteroSinLimpiarPantalla("Seleccione un comentario: ","Opcion incorrecta ",numero);
+                    it = calis.begin();
+                    for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
+                    DTCalificacion* cali = *it;
+                    controladorUsuario->seleccionarCalificacion(cali->getEstadia());
+                    emailUsuarioCrear = "";
+                    cout << "Ingrese la respuesta al comentario seleccionado: ";
+                    cin.ignore();
+                    getline(cin,emailUsuarioCrear);
+                    controladorUsuario->responderComentario(emailUsuarioCrear);
                 }
-                set<DTCalificacion*> calis = controladorUsuario->listarCalificacionSinResponder(emailUsuarioCrear);
-            if(calis.size()==0){ std::cout<<"No existen comentarios sin responder"<<endl;}
-            else{ 
-                int numero=0; 
-                set<DTCalificacion*>::iterator it = calis.begin();
-                while (it != calis.end())
-                {
-                    DTCalificacion* actual = *it;
-                    ++numero;
-                    std::cout<<numero<<".: "<<actual->getComentario()<<endl;
-                    ++it;
-                }
-                tipoUsuarioCrear = pedirEnteroSinLimpiarPantalla("Seleccione un comentario: ","Opcion incorrecta ",numero);
-                it = calis.begin();
-                for(int i = 1; i < tipoUsuarioCrear; i++) ++it;
-                DTCalificacion* cali = *it;
-                controladorUsuario->seleccionarCalificacion(cali->getEstadia());
-                emailUsuarioCrear = "";
-                cout << "Ingrese la respuesta al comentario seleccionado: ";
-                cin.ignore();
-                getline(cin,emailUsuarioCrear);
-                controladorUsuario->responderComentario(emailUsuarioCrear);
-            }
             getch();
+                }
             }
             break;
             case 11:{ //Consulta de usuario
