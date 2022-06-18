@@ -247,26 +247,22 @@ int main(){
                 }
                 bool existeHostal = true, existeEmpleado = true;
                 int contador = 1, tipoUsuarioCrear = 1;
-                string mensajeElegirHostal = "Indique el nombre de un hostal: \n", nombreHostalBuscar = "", emailEmpleadoBuscar = "";
+                string mensajeElegirHostal = "Seleccione un hostal: \n", nombreHostalBuscar = "", emailEmpleadoBuscar = "";
                 for(set<DTHostal*>::iterator actual = listaHostales.begin(); actual != listaHostales.end(); actual ++, contador ++){
                     DTHostal *elemento = *actual;
                     mensajeElegirHostal += (std::to_string(contador) + ": " + elemento->getNombre() + "\n");
                 }
-
-                do{
-                    if(!existeHostal){
-                        limpiarPantalla();
-                        cout << "El hostal indicado no existe\n";
-                    }
-                    nombreHostalBuscar = pedirStringNoVacio("El nombre del hostal no puede ser vacio\n",mensajeElegirHostal,true);
-                    existeHostal = controladorHostal->existeHostal(nombreHostalBuscar);
-                }while(!existeHostal);
+                int opcion1 = pedirEnteroSinLimpiarPantalla(mensajeElegirHostal,"Selecione una opcion valida\n",contador);
+                set<DTHostal*>::iterator it = listaHostales.begin();
+                for(int i = 1;i<opcion1;i++)++it;
+                DTHostal* elem = *it;
+                nombreHostalBuscar = elem->getNombre();
                 controladorHostal->seleccionarHostalVar(nombreHostalBuscar);
                 int numero = pedirEntero("Ingrese el numero de la habitacion:\n","Numero no valido",5000);
                 float precio;
                 cout << "Ingrese el costo de la habitacion: \n";
                 cin >> precio;
-                int capacidad = pedirEntero("Ingrese la capacidad de la habitacion:\n","Capacidad no valida(>100)",100);
+                int capacidad = pedirEnteroSinLimpiarPantalla("Ingrese la capacidad de la habitacion:\n","Capacidad no valida(>100)",100);
                 int opcion = 0;
                 controladorHostal->ingresarHabitacion(numero, precio, capacidad);
                 cout << "Desea confirmar la habitacion: 1-Si 2-No \n";
@@ -317,44 +313,53 @@ int main(){
                 DTHostal *elemento = *actual;
                 nombreHostalBuscar = elemento->getNombre();
                 set<DTEmpleado*> listaEmpleadosHostal = controladorHostal->seleccionarHostal(nombreHostalBuscar);
+                bool finalizar = false;
+                while(listaEmpleadosHostal.size()!=0&&!finalizar){
+                    listaEmpleadosHostal.clear();
+                    listaEmpleadosHostal = controladorHostal->seleccionarHostal(nombreHostalBuscar);
 
-                if(listaEmpleadosHostal.size() == 0){
-                    cout << "No hay empleados no asignados al hostal seleccionado. Presione cualquier tecla para continuar.";
-                    getch();
-                    break;
-                }
+                    if(listaEmpleadosHostal.size() == 0){
+                        cout << "No hay empleados no asignados al hostal seleccionado. Presione cualquier tecla para continuar.";
+                        getch();
+                        break;
+                    }
+                    mensajeElegirEmpleado = "";
+                    contador = 1;
+                    for(set<DTEmpleado*>::iterator actual = listaEmpleadosHostal.begin(); actual != listaEmpleadosHostal.end(); actual++, contador ++){
+                        DTEmpleado *elemento = *actual;
+                        mensajeElegirEmpleado += (std::to_string(contador) + ": " + elemento->getEmail() + "\n");
+                    }
+                    posicionSeleccionada = pedirEntero(mensajeElegirEmpleado,"Opcion incorrecta",contador - 1);
+                    set<DTEmpleado*>::iterator actualEmpleado = listaEmpleadosHostal.begin();
+                    std::advance(actualEmpleado,posicionSeleccionada - 1);
+                    DTEmpleado *elementoEmpelado = *actualEmpleado;
+                    emailEmpleadoBuscar = elementoEmpelado->getEmail();
 
-                contador = 1;
-                for(set<DTEmpleado*>::iterator actual = listaEmpleadosHostal.begin(); actual != listaEmpleadosHostal.end(); actual++, contador ++){
-                    DTEmpleado *elemento = *actual;
-                    mensajeElegirEmpleado += (std::to_string(contador) + ": " + elemento->getEmail() + "\n");
-                }
-                posicionSeleccionada = pedirEntero(mensajeElegirEmpleado,"Opcion incorrecta",contador - 1);
-                set<DTEmpleado*>::iterator actualEmpleado = listaEmpleadosHostal.begin();
-                std::advance(actualEmpleado,posicionSeleccionada - 1);
-                DTEmpleado *elementoEmpelado = *actualEmpleado;
-                emailEmpleadoBuscar = elementoEmpelado->getEmail();
-
-                tipoUsuarioCrear = pedirEntero("1-Administracion \n2-Limpieza \n3-Recepcion \n4-Infraestructura \nIndique el cargo del empleado: ","Opcion incorrecta ",4);
-                if(tipoUsuarioCrear == 1)
-                    cargoCrear = Administracion;
-                else if(tipoUsuarioCrear == 2)
-                    cargoCrear = Limpieza;
-                else if(tipoUsuarioCrear == 3)
-                    cargoCrear = Recepcion;
-                else
-                    cargoCrear = Infraestructura;
-                
-                controladorHostal->asignarEmpleado(emailEmpleadoBuscar,cargoCrear);
-                
-                tipoUsuarioCrear = pedirEntero("1-Si \n2-No \nDesea persistir la asignacion? ","Opcion incorrecta ",2);
-                if(tipoUsuarioCrear == 1){
-                    controladorHostal->confirmarAsigncacion();
-                    cout << "Empleado asignado. Presione cualquier tecla para continuar.";
-                }
-                else{
-                    controladorHostal->cancelarAsignacion();
-                    cout << "Operacion cancelada. Presione cualquier tecla para continuar.";
+                    tipoUsuarioCrear = pedirEntero("1-Administracion \n2-Limpieza \n3-Recepcion \n4-Infraestructura \nIndique el cargo del empleado: ","Opcion incorrecta ",4);
+                    if(tipoUsuarioCrear == 1)
+                        cargoCrear = Administracion;
+                    else if(tipoUsuarioCrear == 2)
+                        cargoCrear = Limpieza;
+                    else if(tipoUsuarioCrear == 3)
+                        cargoCrear = Recepcion;
+                    else
+                        cargoCrear = Infraestructura;
+                    
+                    controladorHostal->asignarEmpleado(emailEmpleadoBuscar,cargoCrear);
+                    
+                    tipoUsuarioCrear = pedirEntero("1-Si \n2-No \nDesea persistir la asignacion? ","Opcion incorrecta ",2);
+                    if(tipoUsuarioCrear == 1){
+                        controladorHostal->confirmarAsigncacion();
+                        cout << "Empleado asignado." << endl;
+                    }
+                    else{
+                        controladorHostal->cancelarAsignacion();
+                        cout << "Operacion cancelada."<<endl;
+                    }
+                    cout << "Desea agregar mas empleados al hostal " << nombreHostalBuscar << "? 1-Si 2-No"<<endl;
+                    int opcion;
+                    cin >> opcion;
+                    finalizar = opcion == 2;        
                 }
                 getch();//esperamos que ingrese cualquier caracter
             }                
