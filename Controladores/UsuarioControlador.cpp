@@ -128,6 +128,17 @@ set<DTCalificacion*> UsuarioControlador::listarCalificacion(string mail){
     return respuesta;
 }
 
+set<DTCalificacion*> UsuarioControlador::listarCalificacionSinResponder(string mail){
+    set<DTCalificacion*> respuesta;
+    
+    ColeccionesHandler* colecciones = ColeccionesHandler::getInstancia();
+
+    Empleado* empleado = colecciones->getEmpleado(mail);
+    Hostal *hostal = empleado->getTrabajo();
+    if(hostal != nullptr) respuesta = hostal->getCalifsSinReponder();
+    return respuesta;
+}
+
 void UsuarioControlador::seleccionarCalificacion(int codigo){
     estadiaMem = codigo;
 }
