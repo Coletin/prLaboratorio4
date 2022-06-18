@@ -22,6 +22,9 @@ bool checkNumero(const string s){
   return s.find_first_not_of("0123456789") == string::npos; 
 }
 
+bool checkNumeroFloat(const string s){
+  return s.find_first_not_of("0123456789.") == string::npos; 
+}
 //cambiar por su version en linux al subir el codigo
 void limpiarPantalla(){
     system("cls");
@@ -49,6 +52,24 @@ string pedirStringNoVacio(string mensajeError, string mensajePedir, bool limpiaP
     return respuesta;
 }
 
+
+float pedirFloatsinCero(string mensajePedir, string mensajeError, float tope){
+    float respuesta = 0;
+    bool primerMensaje = true;
+    string lectura = "";
+    while(respuesta > tope || respuesta < 0.0001){
+        limpiarPantalla();
+        if(primerMensaje)
+            primerMensaje = false;
+        else
+            cout << mensajeError << "\n";
+        cout << mensajePedir;
+        cin >> lectura;
+        if(checkNumeroFloat(lectura))
+            respuesta = std::stof(lectura); //stoi convierte un string a un float
+    }
+    return respuesta;
+}
 //pide un entero entre 1 y tope. mensajePedir es el mensaje que se muestra siempre mientras que mensajeError se muestra solamente cada vez que ingrese un numero mal.
 int pedirEntero(string mensajePedir, string mensajeError, int tope){
     int respuesta = 0;
@@ -274,10 +295,10 @@ int main(){
                 nombreHostalBuscar = elem->getNombre();
                 controladorHostal->seleccionarHostalVar(nombreHostalBuscar);
                 int numero = pedirEntero("Ingrese el numero de la habitacion:\n","Numero no valido",5000);
-                float precio;
-                cout << "Ingrese el costo de la habitacion: \n";
-                cin >> precio;
-                int capacidad = pedirEnteroSinLimpiarPantalla("Ingrese la capacidad de la habitacion:\n","Capacidad no valida(>100)",100);
+                float precio=pedirFloatsinCero("ingrese costo de la habitacion :","Numero no valido",999999);
+                // cout <<precio<<"El precio es: \n";
+                //cin >> precio;
+                int capacidad = pedirEntero("Ingrese la capacidad de la habitacion:\n","Capacidad no valida(>100)",100);
                 int opcion = 0;
                 controladorHostal->ingresarHabitacion(numero, precio, capacidad);
                 cout << "Desea confirmar la habitacion: 1-Si 2-No \n";
