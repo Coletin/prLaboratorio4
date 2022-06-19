@@ -312,7 +312,7 @@ int main(){
                     DTHostal *elemento = *actual;
                     mensajeElegirHostal += (std::to_string(contador) + ": " + elemento->getNombre() + "\n");
                 }
-                int opcion1 = pedirEnteroSinLimpiarPantalla(mensajeElegirHostal,"Selecione una opcion valida\n",contador);
+                int opcion1 = pedirEnteroSinLimpiarPantalla(mensajeElegirHostal,"Selecione una opcion valida\n",contador - 1);
                 set<DTHostal*>::iterator it = listaHostales.begin();
                 for(int i = 1;i<opcion1;i++)++it;
                 DTHostal* elem = *it;
