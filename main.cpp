@@ -1797,9 +1797,3 @@ ingresados, fecha y hora correspondientes al sistema.
     }
     return 0;
 }
-
-
-void visualizarUsuarios(){
-
-
-}
