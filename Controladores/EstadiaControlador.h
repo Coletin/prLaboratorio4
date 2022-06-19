@@ -28,4 +28,5 @@ class EstadiaControlador:public IEstadia{
         DTCalificacion* getCalificacion(int);
         DTRespuestaCalificacion* getRespuestaCalificacion(int);
         DTReserva* getReservaDT(int);
+        bool EstadiaCalificada(int);
 };
