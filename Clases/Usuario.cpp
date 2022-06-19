@@ -138,6 +138,5 @@ set<DTNotificacion*> Empleado::getNotificaciones(){
 }
 
 void Empleado::eliminarNotificaciones(){
-    for(set<Notificacion*>::iterator it = this->notificaciones.begin();it != this->notificaciones.end(); ++it){delete(*it);};
     this->notificaciones.clear();
 }
