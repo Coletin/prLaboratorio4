@@ -86,6 +86,7 @@ void EstadiaControlador::finalizarEstadia(string mail){
             actual->setCheckOut(reloj->getFecha());
             existe = true;
         }
+        ++it;
     }
 }
 
