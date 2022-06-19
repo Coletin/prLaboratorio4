@@ -1078,13 +1078,16 @@ ingresados, fecha y hora correspondientes al sistema.
                         ++it;
                     }
                 bool valido=true;
-
+                    /*
                     while(valido){
                         std::cout<<"Seleccione el Hostal"<<endl;
                         std::cin>>numero;
                         if (numero>0 && numero<=hostales.size()) {
                             valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
-                    } 
+                    } */
+
+                numero= pedirEnteroSinLimpiarPantalla("Digite Hostal Seleccionado: ","Elija un numero de hostal valido por favor!",hostales.size());
+            
                 DTHostal* nuevo = actual;
                 it= hostales.begin();
                 int valor=0;
@@ -1175,13 +1178,16 @@ ingresados, fecha y hora correspondientes al sistema.
                     ++it;
                 }
             bool valido=true;
-
+            /*
                 while(valido){
                     std::cout<<"Seleccione el Hostal"<<endl;
                     std::cin>>numero;
                     if (numero>0 && numero<=hostales.size()) {
                         valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
                 }
+                */
+            numero= pedirEnteroSinLimpiarPantalla("Digite Hostal Seleccionado: ","Elija un numero de hostal valido por favor!",hostales.size());
+            
             DTHostal* nuevo = *it;
             it= hostales.begin();
             int valor=0;
