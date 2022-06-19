@@ -128,7 +128,10 @@ set<DTEstadia*> Hostal::getReservasFinalizadasAsociadas(string _email){
     for(set<Habitacion*>::iterator it = habitaciones.begin(); it != habitaciones.end();++it){ 
         Habitacion* habActual = *it;
         set<DTEstadia*> resActuales = habActual->getReservasFinalizadasAsociadas(_email);
-        for(set<DTEstadia*>::iterator it1 = resActuales.begin(); it1 != resActuales.end();++it1) resu.insert(*it1);
+        for(set<DTEstadia*>::iterator it1 = resActuales.begin(); it1 != resActuales.end();++it1){
+            DTEstadia* est = *it1;
+            resu.insert(est);
+        } 
     }
     return resu;
 }
@@ -138,7 +141,10 @@ set<DTReserva*> Hostal::getReservasAsociadas(string _email){
     for(set<Habitacion*>::iterator it = habitaciones.begin(); it != habitaciones.end();++it){ 
         Habitacion* habActual = *it;
         set<DTReserva*> resActuales = habActual->getReservasAsociadas(_email);
-        for(set<DTReserva*>::iterator it1 = resActuales.begin(); it1 != resActuales.end();++it1) resu.insert(*it1);
+        for(set<DTReserva*>::iterator it1 = resActuales.begin(); it1 != resActuales.end();++it1){
+            DTReserva* rev = *it1;
+            resu.insert(rev);
+        } 
     } 
     return resu;
 }
