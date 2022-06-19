@@ -1319,9 +1319,11 @@ ingresados, fecha y hora correspondientes al sistema.
                         std::cout<<"Respuesta:\n"<<resp->getComentario()<<endl;
                     }
                 }
-                cout << "Desea ver la reserva asociada a esta estadia? 1.Si 2.No :" << endl;
+                //cout << "Desea ver la reserva asociada a esta estadia? 1.Si 2.No :" << endl;
                 opcion = 0;
-                cin >> opcion;
+                opcion = pedirEnteroSinLimpiarPantalla("Desea ver la reserva asociada a esta estadia? 1.Si 2.No : ","Elija opcion valida!",2);
+            
+               // cin >> opcion;
                 if(opcion == 1){
                     DTReserva* res = controladorEstadia->getReservaDT(resEstadia);
                     cout << *res<<endl;
