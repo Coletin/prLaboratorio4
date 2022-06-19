@@ -60,8 +60,10 @@ set<DTEstadia*> Habitacion::getEstadiasDT(){
     for(set<Reserva*>::iterator i = reservas.begin();i != reservas.end();++i){
         Reserva* actual = *i; 
         aux = actual->getEstadiasDT();
-        for(set<DTEstadia*>::iterator it = aux.begin();it != aux.end();++it)
-            respuesta.insert(*it);    
+        for(set<DTEstadia*>::iterator it = aux.begin();it != aux.end();++it){
+            DTEstadia* est = *it;
+            respuesta.insert(est);
+        }
     }
     return respuesta;
 }
