@@ -981,29 +981,30 @@ ingresados, fecha y hora correspondientes al sistema.
                     valor++;
                     ++its;
                 }
+            if(!controladorEstadia->EstadiaCalificada(nuevoE->getCodigo())){
+                std::cout<<"Estadia Seleccionada:"<<nuevoE->getCodigo()<<endl;
+                string comentario;
+                
+                std::cout<<"Ingrese su comentario:  "<<endl;
+                cin.ignore();
+                getline(cin,comentario);
 
-            std::cout<<"Estadia Seleccionada:"<<nuevoE->getCodigo()<<endl;
-            string comentario;
+                std::cout<<"Ingrese su Calificacion (1-5):  "<<endl;
+                int valorcalif=-1;
+                cin>>valorcalif;
+                while  (1>valorcalif || valorcalif>5){
+                    
+                    std::cout<<"Calificacion Incorrecta  "<<endl;        
+                    std::cout<<"Ingrese su Calificacion (1-5)  "<<endl;
+                    cin>>valorcalif;
+                
+                }
+
+
+                controladorEstadia->crearCalificacion(emailr,nuevo->getNombre(),comentario,valorcalif,nuevoE->getCodigo());
+                
             
-            std::cout<<"Ingrese su comentario:  "<<endl;
-            cin.ignore();
-            getline(cin,comentario);
-
-            std::cout<<"Ingrese su Calificacion (1-5):  "<<endl;
-            int valorcalif=-1;
-            cin>>valorcalif;
-            while  (1>valorcalif || valorcalif>5){
-                 
-                  std::cout<<"Calificacion Incorrecta  "<<endl;        
-                  std::cout<<"Ingrese su Calificacion (1-5)  "<<endl;
-                  cin>>valorcalif;
-            
-            }
-
-
-            controladorEstadia->crearCalificacion(emailr,nuevo->getNombre(),comentario,valorcalif,nuevoE->getCodigo());
-            
-           
+                }else cout << "Estadia ya calificada";
             }
             cout << "\nPresione cualquier tecla para continuar";
              presioneParaContinuar(false,"");

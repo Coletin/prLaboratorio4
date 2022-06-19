@@ -70,6 +70,12 @@ bool EstadiaControlador::existenEstadiasActivas(string email, string hostal){
 }
 
 
+bool EstadiaControlador::EstadiaCalificada(int codigo){
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    Estadia* est = col->getEstadia(codigo);
+    return(est->getCalificacion() != nullptr);
+}
+
 
 
 /* Se busca la estadia para setearle hora de checkOut*/
