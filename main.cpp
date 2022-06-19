@@ -931,12 +931,7 @@ ingresados, fecha y hora correspondientes al sistema.
                     ++it;
                 }
             bool valido=true;
-                while(valido){
-                    std::cout<<"Digite Hostal Seleccionado: "<<endl;
-                    std::cin>>numero;
-                    if (numero>0 && numero<=hostales.size()) {
-                        valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
-                }
+            numero= pedirEnteroSinLimpiarPantalla("Digite Hostal Seleccionado: ","Elija un numero de hostal valido por favor!",hostales.size());
             DTHostal* nuevo = *it;
             it= hostales.begin();
             int valor=0;
@@ -1029,8 +1024,10 @@ ingresados, fecha y hora correspondientes al sistema.
                         cin >> emailUsuarioCrear;
                         valido = controladorUsuario->existeEmpleado(emailUsuarioCrear);
                         if(!valido)cout << "No existe ningun empleado con ese email" <<endl;
+                        valido= true;
                     }
-                    set<DTCalificacion*> calis = controladorUsuario->listarCalificacionSinResponder(emailUsuarioCrear);
+                if(controladorUsuario->existeEmpleado(emailUsuarioCrear))  {
+                set<DTCalificacion*> calis = controladorUsuario->listarCalificacionSinResponder(emailUsuarioCrear);
                 if(calis.size()==0){ std::cout<<"No existen comentarios sin responder"<<endl;}
                 else
                 { 
@@ -1115,13 +1112,16 @@ ingresados, fecha y hora correspondientes al sistema.
                         ++it;
                     }
                 bool valido=true;
-
+                    /*
                     while(valido){
                         std::cout<<"Seleccione el Hostal"<<endl;
                         std::cin>>numero;
                         if (numero>0 && numero<=hostales.size()) {
                             valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
-                    } 
+                    } */
+
+                numero= pedirEnteroSinLimpiarPantalla("Digite Hostal Seleccionado: ","Elija un numero de hostal valido por favor!",hostales.size());
+            
                 DTHostal* nuevo = actual;
                 it= hostales.begin();
                 int valor=0;
@@ -1212,13 +1212,16 @@ ingresados, fecha y hora correspondientes al sistema.
                     ++it;
                 }
             bool valido=true;
-
+            /*
                 while(valido){
                     std::cout<<"Seleccione el Hostal"<<endl;
                     std::cin>>numero;
                     if (numero>0 && numero<=hostales.size()) {
                         valido=false;} else { std::cout<<"Elija un numero de hostal valido por favor!"<<endl;};
                 }
+                */
+            numero= pedirEnteroSinLimpiarPantalla("Digite Hostal Seleccionado: ","Elija un numero de hostal valido por favor!",hostales.size());
+            
             DTHostal* nuevo = *it;
             it= hostales.begin();
             int valor=0;
@@ -1352,9 +1355,11 @@ ingresados, fecha y hora correspondientes al sistema.
                         std::cout<<"Respuesta:\n"<<resp->getComentario()<<endl;
                     }
                 }
-                cout << "Desea ver la reserva asociada a esta estadia? 1.Si 2.No :" << endl;
+                //cout << "Desea ver la reserva asociada a esta estadia? 1.Si 2.No :" << endl;
                 opcion = 0;
-                cin >> opcion;
+                opcion = pedirEnteroSinLimpiarPantalla("Desea ver la reserva asociada a esta estadia? 1.Si 2.No : ","Elija opcion valida!",2);
+            
+               // cin >> opcion;
                 if(opcion == 1){
                     DTReserva* res = controladorEstadia->getReservaDT(resEstadia);
                     cout << *res<<endl;
