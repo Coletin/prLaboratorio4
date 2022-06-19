@@ -213,7 +213,7 @@ int main(){
         cout << mensajeMenu;
         i = pedirEnteroSinLimpiarPantalla("Ingrese opcion: ","Opcion incorrecta",21);
         switch(i){
-            case 1:
+            case 1:{
                 limpiarPantalla();
                 cout << "Ingrese nombre: ";
                 cin.ignore();
@@ -268,6 +268,7 @@ int main(){
                     cout << "Operacion cancelada. Presione cualquier tecla para continuar.";
                 }
                 presioneParaContinuar(false,"");
+            }
             break;
             case 2:{
                 limpiarPantalla();
@@ -1055,6 +1056,7 @@ ingresados, fecha y hora correspondientes al sistema.
             presioneParaContinuar(false,"");
                 }
             }
+            }
             break;
             case 11:{ //Consulta de usuario
                 int contador = 1, seleccionado = 0; 
@@ -1797,6 +1799,7 @@ ingresados, fecha y hora correspondientes al sistema.
     }
     return 0;
 }
+    
 
 
 void visualizarUsuarios(){
