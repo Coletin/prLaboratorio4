@@ -1,8 +1,4 @@
-#include "EstadiaControlador.h"
-#include "HostalControlador.h"
-#include "RelojControlador.h"
 #include "ReservaControlador.h"
-#include "UsuarioControlador.h"
 
 #include "../Clases/Reserva.h"
 #include "../Clases/ColeccionesHandler.h"

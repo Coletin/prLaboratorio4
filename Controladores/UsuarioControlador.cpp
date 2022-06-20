@@ -1,8 +1,4 @@
 #include <cstdio>
-#include "EstadiaControlador.h"
-#include "HostalControlador.h"
-#include "RelojControlador.h"
-#include "ReservaControlador.h"
 #include "UsuarioControlador.h"
     
 #include "../Clases/Usuario.h"

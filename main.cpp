@@ -353,7 +353,7 @@ int main(){
                     break;
                 }
 
-                set<DTEmpleado*> listaEmpleados = controladorUsuario->obtenerEmpleados();
+                set<DTEmpleado*> listaEmpleados = controladorHostal->obtenerEmpleados();
                 if(listaEmpleados.size() == 0){
                     cout << "No hay empleados cargados al sistema. Presione cualquier tecla para continuar.";
                     presioneParaContinuar(false,"");
@@ -808,7 +808,7 @@ int main(){
 
                     cout << endl;
                     mailHuesped = "";
-                    while(!controladorUsuario->existeHuesped(mailHuesped)){
+                    while(!controladorEstadia->existeHuesped(mailHuesped)){
                         cout << "Ingrese mail del huesped:"<<endl;
                         cin >> mailHuesped;
                     };
@@ -880,7 +880,7 @@ int main(){
                     cout << endl;
                     cout << "Ingrese mail del huesped:";
                     cin >> mailHuesped8;
-                    if(controladorUsuario->existeHuesped(mailHuesped8)){
+                    if(controladorEstadia->existeHuesped(mailHuesped8)){
                         if(controladorEstadia->existenEstadiasActivas(mailHuesped8, seleccionado->getNombre())){
                             cout << "Se encontro una estadia activa, desde finalizarla? 1-Si 2-No ";
                             cin >> numero;
@@ -914,7 +914,7 @@ ingresados, fecha y hora correspondientes al sistema.
             limpiarPantalla();
             int numero=0;
             string emailr;
-            set<DTHostal*> hostales= controladorHostal->listarHostales();
+            set<DTHostal*> hostales= controladorEstadia->listarHostales();
             if(hostales.size()==0){ std::cout<<"NO HAY HOSTALES EN EL SISTEMA"<<endl;}
             else{ 
             std::cout<<"****************  9 - CALIFICAR ESTADIA  ************"<<endl;
@@ -1161,7 +1161,7 @@ ingresados, fecha y hora correspondientes al sistema.
                     cout << "Capacidad: " << habi->getCapacidad() << endl;
                 }
                 cout << endl;
-                set<DTReserva*> reservas=  controladorReserva->listarReservasHostal(nuevo->getNombre());
+                set<DTReserva*> reservas=  controladorHostal->listarReservasHostal(nuevo->getNombre());
                 
 
 
@@ -1239,7 +1239,7 @@ ingresados, fecha y hora correspondientes al sistema.
             std::cout<<"Nombre: "<<nuevo->getNombre()<<endl;
             std::cout<<"Direccion: "<<nuevo->getDireccion()<<endl;
             std::cout<<"Telefono: "<<nuevo->getTelefono()<<endl;
-            set<DTReserva*> reservas_Hostal=controladorReserva->listarReservasHostal(nuevo->getNombre());
+            set<DTReserva*> reservas_Hostal=controladorHostal->listarReservasHostal(nuevo->getNombre());
            
             if(reservas_Hostal.size()==0){
                 std::cout<<"EL HOSTAL NO TIENE RESERVAS----->"<<nuevo->getNombre()<<endl;
@@ -1295,7 +1295,7 @@ ingresados, fecha y hora correspondientes al sistema.
 
             break;
             case 14:{
-                set<DTHostal*> hostales = controladorHostal->listarHostales();
+                set<DTHostal*> hostales = controladorEstadia->listarHostales();
                 if(hostales.size()==0){ 
                     std::cout<<"No existen hostales en el sistema"<<endl;
                     cout << "\nPresione cualquier tecla para continuar";
@@ -1796,7 +1796,9 @@ ingresados, fecha y hora correspondientes al sistema.
             default:
             cout << "La opcion seleccionada no es valida \n";
         };
-
+    
     }
+    delete f;
+    delete fechaSistemaArranque;
     return 0;
 }
