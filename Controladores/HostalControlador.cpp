@@ -1,5 +1,7 @@
 #include <cstdio>
 #include "HostalControlador.h"
+#include "../Interfaces/IUsuario.h"
+#include "../Interfaces/IReserva.h"
 
 #include "../Clases/Hostal.h"
 #include "../Clases/Fabrica.h"
@@ -24,6 +26,11 @@ HostalControlador * HostalControlador::getInstancia(){
 	return instancia;
 }
 
+set<DTEmpleado*> HostalControlador::obtenerEmpleados(){
+    Fabrica* fabrica = new Fabrica();
+    IUsuario* controladorUsuario = fabrica->getIUsuario();
+    return controladorUsuario->obtenerEmpleados();
+}
 
 
 
@@ -70,7 +77,12 @@ set<DTHostal*> HostalControlador::listarHostales(){
 }
 
 
-
+set<DTReserva*> HostalControlador::listarReservasHostal(string hostal){
+    Fabrica* fabrica = new Fabrica();
+    IReserva* controladorReserva = fabrica->getIReserva();
+    return controladorReserva->listarReservasHostal(hostal);
+    delete fabrica;
+}
 
 
 set<DTEmpleado*> HostalControlador::seleccionarHostal(string nom){

@@ -31,4 +31,6 @@ class IHostal{
         virtual bool existeHostal(string _nombre)=0;
         virtual bool habitacionEnHostal(int, string) = 0;
         virtual set<DTHabitacion*> listarHabitacionesHostal(string) = 0;
+        virtual set<DTEmpleado*> obtenerEmpleados() = 0;
+        virtual set<DTReserva*> listarReservasHostal(string) = 0;
 };

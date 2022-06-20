@@ -2,11 +2,8 @@
 #include <string>
 #include <set>
 #include "EstadiaControlador.h"
-#include "HostalControlador.h"
-#include "RelojControlador.h"
-#include "ReservaControlador.h"
-#include "UsuarioControlador.h"
-
+#include "../Interfaces/IReloj.h"
+#include "../Interfaces/IUsuario.h"
 #include "../Clases/Estadia.h"
 #include "../Clases/Fabrica.h"
 #include "../Clases/Hostal.h"
@@ -49,7 +46,8 @@ set<DTReserva*> EstadiaControlador::listarReservas(string email, string hostal){
 
 void EstadiaControlador::registrarEstadia(string email, int codigo){
     ColeccionesHandler * col = ColeccionesHandler::getInstancia();
-    RelojControlador * reloj = RelojControlador::getInstancia();
+    Fabrica* fabrica = new Fabrica();
+    IReloj * reloj = fabrica->getIReloj();
     DTFecha* fecha = reloj->getFecha();
     Reserva* reserva = col->getReserva(codigo);
     Estadia* est = new Estadia(fecha);
@@ -58,6 +56,7 @@ void EstadiaControlador::registrarEstadia(string email, int codigo){
     Huesped* huesped = col->getHuesped(email);
     est->setHuesped(huesped);
     huesped->agregarEstadia(est);
+    delete fabrica;
 }
 
 
@@ -69,6 +68,19 @@ bool EstadiaControlador::existenEstadiasActivas(string email, string hostal){
     return existe;
 }
 
+bool EstadiaControlador::existeHuesped(string email){
+    Fabrica* fabrica = new Fabrica();
+    IUsuario* controladorUsuario = fabrica->getIUsuario();
+    return controladorUsuario->existeHuesped(email);
+    delete fabrica;
+}
+
+
+bool EstadiaControlador::EstadiaCalificada(int codigo){
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    Estadia* est = col->getEstadia(codigo);
+    return(est->getCalificacion() != nullptr);
+}
 
 
 
@@ -76,7 +88,8 @@ bool EstadiaControlador::existenEstadiasActivas(string email, string hostal){
 void EstadiaControlador::finalizarEstadia(string mail){
     bool existe = false;
     ColeccionesHandler * col = ColeccionesHandler::getInstancia();
-    RelojControlador * reloj = RelojControlador::getInstancia();
+    Fabrica* fabrica = new Fabrica();
+    IReloj * reloj = fabrica->getIReloj();
     Huesped* huesped = col->getHuesped(mail);
     set<Estadia*> est = huesped->getEstadias();
     set<Estadia*>::iterator it = est.begin();
@@ -86,7 +99,9 @@ void EstadiaControlador::finalizarEstadia(string mail){
             actual->setCheckOut(reloj->getFecha());
             existe = true;
         }
+        ++it;
     }
+    delete fabrica;
 }
 
 
@@ -104,7 +119,8 @@ set<DTEstadia*> EstadiaControlador::obtenerEstadiasFinalizadas(string email, str
 
 
 void EstadiaControlador::crearCalificacion(string email, string hostal_, string comentario, int valor, int codigo){
-    RelojControlador * reloj = RelojControlador::getInstancia();
+    Fabrica* fabrica = new Fabrica();
+    IReloj * reloj = fabrica->getIReloj();
     ColeccionesHandler * col = ColeccionesHandler::getInstancia();
     Hostal* hostal = col->getHostal(hostal_);
     Huesped* huesped = col->getHuesped(email);
@@ -124,6 +140,7 @@ void EstadiaControlador::crearCalificacion(string email, string hostal_, string 
     Notificacion* n = new Notificacion(false, nombre, valor, comentario);
     Notificador* notif = Notificador::getInstancia();
     notif->modificar(n);
+    delete fabrica;
 }
 
 set<DTEstadia*> EstadiaControlador::listarEstadias(string hostal){

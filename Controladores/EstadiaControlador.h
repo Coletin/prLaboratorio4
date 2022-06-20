@@ -3,6 +3,7 @@
 #include <set>
 #include "../Interfaces/IEstadia.h"
 
+
 using namespace std;
 
 class DTHostal;
@@ -28,4 +29,6 @@ class EstadiaControlador:public IEstadia{
         DTCalificacion* getCalificacion(int);
         DTRespuestaCalificacion* getRespuestaCalificacion(int);
         DTReserva* getReservaDT(int);
+        bool EstadiaCalificada(int);
+        bool existeHuesped(string);
 };

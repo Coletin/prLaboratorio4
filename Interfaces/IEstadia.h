@@ -23,4 +23,6 @@ class IEstadia{
         virtual DTCalificacion* getCalificacion(int)=0;
         virtual DTRespuestaCalificacion* getRespuestaCalificacion(int)=0;
         virtual DTReserva* getReservaDT(int) = 0;
+        virtual bool EstadiaCalificada(int) = 0;
+        virtual bool existeHuesped(string) = 0;
 };

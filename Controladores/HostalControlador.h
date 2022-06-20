@@ -41,4 +41,6 @@ class HostalControlador: public IHostal{
         bool existeHostal(string _nombre);
         bool habitacionEnHostal(int, string);
         set<DTHabitacion*> listarHabitacionesHostal(string);
+        set<DTEmpleado*> obtenerEmpleados();
+        set<DTReserva*> listarReservasHostal(string);
 };
