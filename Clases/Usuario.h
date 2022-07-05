@@ -37,6 +37,7 @@ class Huesped : public Usuario{
         Huesped(string _nombre, string _email, string _password,bool _esFinger);
         void setEsFinger(bool);
         bool getEsFinger();
+        bool tieneEstadiasActivas();
         DTHuesped* getDTHuesped();
         Estadia* getEstadia(int);
         set<Estadia*> getEstadias();

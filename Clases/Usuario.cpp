@@ -83,6 +83,19 @@ set<Estadia*> Huesped::getEstadias(){
     return this->estadia;
 }
 
+bool Huesped::tieneEstadiasActivas(){
+    set<Estadia*>::iterator it = estadia.begin();
+    bool encontre = false;
+    Estadia* actual;
+    while (it != estadia.end() && !encontre){
+        actual = *it;
+        encontre = actual->existeEstadiaActiva();
+        if(!encontre)
+            ++it;
+    }
+    return encontre;
+}
+
 
 //EMPLEADO
 

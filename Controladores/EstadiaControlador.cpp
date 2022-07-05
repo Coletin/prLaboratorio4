@@ -68,6 +68,13 @@ bool EstadiaControlador::existenEstadiasActivas(string email, string hostal){
     return existe;
 }
 
+bool EstadiaControlador::existenEstadiasActivas(string email){
+    ColeccionesHandler * col = ColeccionesHandler::getInstancia();
+    Huesped * h = col->getHuesped(email);
+    bool resu = h->tieneEstadiasActivas();
+    return resu;
+}
+
 bool EstadiaControlador::existeHuesped(string email){
     Fabrica* fabrica = new Fabrica();
     IUsuario* controladorUsuario = fabrica->getIUsuario();
